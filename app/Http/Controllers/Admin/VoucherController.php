@@ -15,10 +15,14 @@ class VoucherController extends Controller
     {
         $vouchers = Voucher::query()
             ->with('employee')
+            ->when($request->filled('type'), fn ($query) => $query->where('voucher_type', $request->type))
             ->when($request->filled('search'), fn ($query) => $query->where(function ($query) use ($request) {
                 $query->where('voucher_number', 'like', '%'.$request->search.'%')
                     ->orWhere('guest_name', 'like', '%'.$request->search.'%')
-                    ->orWhere('hotel_name', 'like', '%'.$request->search.'%');
+                    ->orWhere('hotel_name', 'like', '%'.$request->search.'%')
+                    ->orWhere('rental_company', 'like', '%'.$request->search.'%')
+                    ->orWhere('company_name', 'like', '%'.$request->search.'%')
+                    ->orWhere('confirmation_reference', 'like', '%'.$request->search.'%');
             }))
             ->when($request->filled('from'), fn ($query) => $query->whereDate('created_at', '>=', $request->from))
             ->when($request->filled('to'), fn ($query) => $query->whereDate('created_at', '<=', $request->to))
@@ -26,7 +30,10 @@ class VoucherController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        return view('admin.vouchers.index', compact('vouchers'));
+        return view('admin.vouchers.index', [
+            'vouchers' => $vouchers,
+            'types' => Voucher::TYPES,
+        ]);
     }
 
     public function show(Voucher $voucher): View

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class CompanySetting extends Model
 {
@@ -32,6 +33,13 @@ class CompanySetting extends Model
 
     public function logoUrl(): ?string
     {
-        return $this->logo_path ? asset('storage/'.$this->logo_path) : null;
+        if (! $this->logo_path) {
+            return null;
+        }
+        if (! Storage::disk('public')->exists($this->logo_path)) {
+            return null;
+        }
+
+        return asset('storage/'.$this->logo_path);
     }
 }

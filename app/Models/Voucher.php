@@ -92,6 +92,66 @@ class Voucher extends Model
         return $this->belongsTo(Employee::class);
     }
 
+    public const TYPES = [
+        'hotel' => 'Hotel',
+        'car-rental' => 'Car Rental',
+        'transfers' => 'Transfers',
+        'vip-meet-assist' => 'VIP Meet & Assist',
+    ];
+
+    public function typeLabel(): string
+    {
+        return self::TYPES[$this->voucher_type] ?? (string) $this->voucher_type;
+    }
+
+    public function publicShowRoute(): ?string
+    {
+        return match ($this->voucher_type) {
+            'hotel' => 'hotel-voucher.show',
+            'car-rental' => 'car-rental-voucher.show',
+            'transfers' => 'transfers-voucher.show',
+            'vip-meet-assist' => 'vip-meet-assist-voucher.show',
+            default => null,
+        };
+    }
+
+    public function publicPdfRoute(): ?string
+    {
+        return match ($this->voucher_type) {
+            'hotel' => 'hotel-voucher.pdf',
+            'car-rental' => 'car-rental-voucher.pdf',
+            'transfers' => 'transfers-voucher.pdf',
+            'vip-meet-assist' => 'vip-meet-assist-voucher.pdf',
+            default => null,
+        };
+    }
+
+    /** Compact one-line summary used by admin tables. Null-safe. */
+    public function summaryLine(): string
+    {
+        $line = match ($this->voucher_type) {
+            'hotel' => collect([
+                $this->hotel_name,
+                trim(($this->check_in_date?->format('d M') ?? '').($this->check_out_date ? ' → '.$this->check_out_date->format('d M Y') : '')),
+            ])->filter()->implode(' · '),
+            'car-rental' => collect([
+                $this->rental_company,
+                trim(($this->vehicle_type ?? '').($this->vehicle_model ? ' ('.$this->vehicle_model.')' : '')),
+            ])->filter()->implode(' · '),
+            'transfers' => collect([
+                $this->pickup_location,
+                $this->dropoff_location,
+            ])->filter()->implode(' → '),
+            'vip-meet-assist' => collect([
+                $this->service_type,
+                trim(trim((string) $this->airline).' '.trim((string) $this->flight_number)),
+            ])->filter()->implode(' · '),
+            default => '',
+        };
+
+        return $line !== '' ? $line : '—';
+    }
+
     public function hotelPhotoUrl(): ?string
     {
         return $this->hotel_photo_path ? asset('storage/'.$this->hotel_photo_path) : null;
