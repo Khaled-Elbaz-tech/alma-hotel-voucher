@@ -32,785 +32,629 @@
     $voucherDate = $preview ? now()->format('d M Y') : $voucher->created_at->format('d M Y');
     $carPhotoUrl = $hotelPhotoData ?? ($voucher ? ($voucher->hotelPhotoUrl() ?? 'https://images.unsplash.com/photo-1632476800512-2b2c8ea5f000?auto=format&fit=crop&w=1000&q=80') : 'https://images.unsplash.com/photo-1632476800512-2b2c8ea5f000?auto=format&fit=crop&w=1000&q=80');
     $heroImage = asset('images/vouchers/car-rental-hero.jpg');
-    @endphp
+@endphp
+
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Montserrat:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap');
+
     @page {
-      size: A4 landscape;
-      margin: 0;
+        size: A4 landscape;
+        margin: 0;
     }
+
+    /* ============ DESIGN TOKENS ============ */
     .voucher-card {
-      width: 297mm;
-      min-height: 210mm;
-      background: #fcfcf9;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      position: relative;
-      overflow: hidden;
-      margin: 0 auto;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
+        --vp: #0B3B3E;            /* primary */
+        --vpd: #062A2C;           /* primary deep */
+        --va: #C8A24B;            /* gold accent */
+        --va-soft: rgba(200, 162, 75, 0.13);
+        --va-line: rgba(200, 162, 75, 0.38);
+        --vline: #E8DECB;         /* hairline */
+        --vpanel: #FBF9F4;        /* panel bg */
+        --vpaper: #FFFFFF;
+        --vink: #211A13;          /* body ink */
+        --vmut: #6F6357;          /* muted */
+        --vgrad: linear-gradient(118deg, #062A2C 0%, #0B3B3E 55%, #0E4A4D 100%);
     }
-    /* HEADER */
-    .voucher-header {
-      background-color: #063B3E;
-      height: 38mm;
-      display: grid;
-      grid-template-columns: 1fr 1.8fr 1fr;
-      align-items: center;
-      padding: 0 25px;
-      border-bottom: 2px solid #C89B3C;
-      color: #ffffff;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
+    .voucher-card.theme-modern {
+        --vp: #A92D26;
+        --vpd: #7A1F1A;
+        --va: #D9A441;
+        --va-soft: rgba(217, 164, 65, 0.13);
+        --va-line: rgba(217, 164, 65, 0.40);
+        --vgrad: linear-gradient(118deg, #7A1F1A 0%, #A92D26 55%, #C0453A 100%);
     }
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 0;
+    .voucher-card.theme-premium {
+        --vp: #8B251E;
+        --vpd: #5F1812;
+        --va: #D4AF37;
+        --va-soft: rgba(212, 175, 55, 0.13);
+        --va-line: rgba(212, 175, 55, 0.42);
+        --vgrad: linear-gradient(118deg, #5F1812 0%, #8B251E 55%, #B5322B 100%);
     }
-    .logo-text-group {
-      display: flex;
-      flex-direction: column;
-    }
-    .logo-main {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      letter-spacing: 1px;
-      color: #ffffff;
-      line-height: 1;
-    }
-    .logo-sub {
-      font-size: 9px;
-      letter-spacing: 2px;
-      color: #C89B3C;
-      margin-top: 4px;
-      text-transform: uppercase;
-    }
-    .header-center {
-      text-align: center;
-      border-left: 1px solid rgba(200, 155, 60, 0.4);
-      border-right: 1px solid rgba(200, 155, 60, 0.4);
-      padding: 0 15px;
-    }
-    .voucher-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px !important;
-      letter-spacing: 3px;
-      color: #C89B3C;
-      font-weight: 700;
-    }
-    .voucher-subtitle {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 15px;
-      color: #ffffff;
-      margin-top: 4px;
-    }
-    .header-right {
-      text-align: right;
-      font-size: 9px;
-      letter-spacing: 1.5px;
-      color: #d1d5db;
-      line-height: 1.8;
-      text-transform: uppercase;
-    }
-    /* MAIN CONTENT */
-    .voucher-body {
-      display: grid;
-      grid-template-columns: 1.15fr 1fr;
-      gap: 16px;
-      padding: 16px 22px;
-      min-height: 135mm;
-      margin-bottom: 24px;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-    /* LEFT SECTION - DETAILS */
-    .section-box {
-      border: 1px solid #e2d9c8;
-      border-radius: 4px;
-      padding: 12px;
-      background-color: #faf8f5;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-      margin-bottom: 10px;
-    }
-    .section-title {
-      font-family: 'Cinzel', serif;
-      font-size: 15px;
-      letter-spacing: 2px;
-      color: #063B3E;
-      font-weight: 700;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-    }
-    .details-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .grid-card {
-      background: #ffffff;
-      border: 1px solid #e8e2d5;
-      border-radius: 4px;
-      padding: 8px 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-    .grid-card.full-width {
-      grid-column: span 2;
-    }
-    .card-icon {
-      width: 26px;
-      height: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #C89B3C;
-      flex-shrink: 0;
-    }
-    .card-icon svg {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
-    .card-content {
-      display: flex;
-      flex-direction: column;
-    }
-    .card-label {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 9px;
-      font-weight: 700;
-      color: #C89B3C;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-    .card-value {
-      font-family: 'Playfair Display', serif !important;
-      font-size: 17px !important;
-      font-weight: 700;
-      color: #111111;
-      margin-top: 2px;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-    .card-value.sub-text {
-      font-size: 10px;
-      color: #666;
-      font-weight: 400;
-    }
-    /* RIGHT SECTION - COMPANY SHOWCASE */
-    .company-showcase {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .company-header-flex {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-    .company-name {
-      font-family: 'Playfair Display', serif !important;
-      font-size: 23px;
-      font-weight: 700;
-      color: #063B3E;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-    .company-sub-location {
-      font-size: 10px;
-      letter-spacing: 1px;
-      color: #C89B3C;
-      font-weight: 700;
-      margin-top: 2px;
-    }
-    .company-contact-info {
-      font-size: 10px;
-      color: #555555;
-      margin-top: 6px;
-      line-height: 1.4;
-    }
-    .company-logo-img {
-      max-width: 90px;
-      max-height: 40px;
-      object-fit: contain;
-    }
-    .company-image-container {
-      width: 100%;
-      height: 170px;
-      border-radius: 4px;
-      overflow: hidden;
-      border: 1px solid #C89B3C;
-      position: relative;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-    .company-image-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .company-image-placeholder {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-align: center;
-      text-transform: uppercase;
-      background: rgba(6, 59, 62, 0.6);
-    }
-    /* FOOTER */
-    .voucher-footer {
-      background-color: #063B3E;
-      height: 32mm;
-      margin-top: auto;
-      border-top: 2px solid #C89B3C;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      align-items: center;
-      padding: 0 25px;
-      color: #ffffff;
-      font-size: 12px;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-    .footer-col {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .footer-col.center {
-      border-left: 1px solid rgba(200, 155, 60, 0.3);
-      padding-left: 20px;
-    }
-    .footer-col.right {
-      text-align: right;
-    }
-    .footer-heading {
-      font-size: 11px;
-      font-weight: 700;
-      color: #C89B3C;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 2px;
-    }
-    .footer-line {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #e5e7eb;
-      font-size: 12px;
-    }
-    .compliments-title {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 22px;
-      color: #C89B3C;
-    }
-    .compliments-sub {
-      font-size: 15px;
-      font-weight: 600;
-      color: #ffffff;
-      margin-top: 2px;
-    }
-    @page {
-      size: A4 landscape;
-      margin: 0;
-    }
-    @media print {
-      html, body { margin: 0; padding: 0; }
-      body * { visibility: hidden; }
-      #printVoucher, #printVoucher * { visibility: visible; }
-      #printVoucher {
-        position: absolute;
-        left: 0; top: 0;
+
+    /* ============ CARD SHELL ============ */
+    .voucher-card {
         width: 297mm;
-        height: 210mm;
-        page-break-after: avoid;
-        page-break-before: avoid;
-        page-break-inside: avoid;
-      }
+        min-height: 200mm;
+        margin: 0 auto;
+        background: var(--vpaper);
+        color: var(--vink);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        font-family: 'Inter', 'Georgia', serif;
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
-    /* THEME: MODERN */
-    .theme-modern {
-      --theme-primary: #A92D26;
-      --theme-dark: #8B251E;
-      --theme-accent: #C89B3C;
-      --theme-paper: #FFFFFF;
-      --theme-navy: #16373A;
+    .voucher-card *, .voucher-card *::before, .voucher-card *::after { box-sizing: border-box; }
+
+    /* ============ HEADER ============ */
+    .v-head {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1.55fr 1fr;
+        align-items: center;
+        gap: 12px;
+        min-height: 34mm;
+        padding: 10px 26px;
+        background: var(--vgrad);
+        border-bottom: 3px solid var(--va);
+        color: #fff;
+        overflow: hidden;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
-    .theme-modern.voucher-card { background: var(--theme-paper); }
-    .theme-modern .voucher-header {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      background: linear-gradient(135deg, #8B251E 0%, #A92D26 52%, #A92D26 100%);
-      border-bottom: 2px solid var(--theme-accent);
-      box-shadow: inset 0 -1px 0 rgba(255,255,255,0.10), 0 10px 24px rgba(169,45,38,0.10);
+    .v-head::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(circle at 8% 24%, rgba(255,255,255,0.10) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 18% 74%, rgba(255,255,255,0.07) 0 1px, transparent 2px),
+            radial-gradient(circle at 93% 20%, rgba(255,255,255,0.08) 0 2px, transparent 3px),
+            radial-gradient(circle at 78% 84%, var(--va-soft) 0 1.5px, transparent 2.5px),
+            linear-gradient(115deg, transparent 0 70%, rgba(255,255,255,0.06) 70% 70.6%, transparent 70.6%);
     }
-    .theme-modern .voucher-header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at 9% 22%, rgba(255,255,255,0.10) 0 1.5px, transparent 2.5px),
-        radial-gradient(circle at 17% 70%, rgba(255,255,255,0.07) 0 1px, transparent 2px),
-        radial-gradient(circle at 91% 18%, rgba(231,98,91,0.18) 0 2px, transparent 3px),
-        radial-gradient(circle at 80% 82%, rgba(200,155,60,0.12) 0 1px, transparent 2px),
-        linear-gradient(125deg, transparent 0 68%, rgba(255,255,255,0.07) 68% 68.5%, transparent 68.5%);
+    .v-head::after {
+        content: '';
+        position: absolute;
+        top: -78px;
+        right: -56px;
+        width: 150px;
+        height: 150px;
+        border: 1px solid var(--va-line);
+        border-radius: 50%;
+        box-shadow: 0 0 0 20px rgba(255,255,255,0.035), 0 0 0 38px var(--va-soft);
     }
-    .theme-modern .voucher-header::after {
-      content: '';
-      position: absolute;
-      z-index: 0;
-      top: -72px;
-      right: -50px;
-      width: 142px;
-      height: 142px;
-      border: 1px solid rgba(200, 155, 60, 0.36);
-      border-radius: 50%;
-      box-shadow: 0 0 0 18px rgba(255,255,255,0.04), 0 0 0 34px rgba(200,155,60,0.05), inset 0 0 26px rgba(231,98,91,0.12);
+    .v-head > * { position: relative; z-index: 1; }
+
+    .v-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .v-brand img { max-height: 40px; max-width: 150px; object-fit: contain; }
+    .v-brand-name {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-size: 25px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        line-height: 1.05;
+        white-space: nowrap;
     }
-    .theme-modern .voucher-header > * { position: relative; z-index: 1; }
-    .theme-modern .voucher-title { color: var(--theme-accent); }
-    .theme-modern .voucher-subtitle { color: rgba(255,255,255,0.94); }
-    .theme-modern .header-center { border-right: 1px solid rgba(200, 155, 60, 0.38); }
-    .theme-modern .header-right { color: rgba(255,255,255,0.86); }
-    .theme-modern .voucher-body { background: var(--theme-paper); }
-    .theme-modern .section-box { background-color: var(--theme-paper); border: 1px solid rgba(200,155,60,0.34); }
-    .theme-modern .section-title { color: var(--theme-navy); }
-    .theme-modern .card-icon { color: var(--theme-accent); background: rgba(200,155,60,0.10); }
-    .theme-modern .card-label { color: var(--theme-accent); }
-    .theme-modern .card-value { color: var(--theme-navy); }
-    .theme-modern .company-name { color: var(--theme-navy); }
-    .theme-modern .company-sub-location { color: var(--theme-accent); }
-    .theme-modern .company-image-container { border-color: rgba(200,155,60,0.56); }
-    .theme-modern .company-image-placeholder { color: var(--theme-navy); background: rgba(200,155,60,0.10); }
-    .theme-modern .voucher-footer {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      background: linear-gradient(135deg, #8B251E 0%, #A92D26 52%, #A92D26 100%);
-      border-top: 2px solid var(--theme-accent);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+    .v-brand-tag {
+        font-family: 'Cinzel', 'Georgia', serif;
+        font-size: 8.5px;
+        font-weight: 600;
+        letter-spacing: 2.6px;
+        text-transform: uppercase;
+        color: var(--va);
+        margin-top: 5px;
     }
-    .theme-modern .voucher-footer::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at 12% 70%, rgba(255,255,255,0.08) 0 1.5px, transparent 2.5px),
-        radial-gradient(circle at 88% 28%, rgba(231,98,91,0.16) 0 2px, transparent 3px),
-        linear-gradient(115deg, transparent 0 72%, rgba(255,255,255,0.06) 72% 72.5%, transparent 72.5%);
+
+    .v-title { text-align: center; }
+    .v-badge {
+        width: 44px;
+        height: 44px;
+        margin: 0 auto 7px;
+        border: 1.5px solid var(--va);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.06);
     }
-    .theme-modern .voucher-footer > * { position: relative; z-index: 1; }
-    .theme-modern .footer-heading { color: var(--theme-accent); }
-    .theme-modern .footer-line { color: rgba(255,255,255,0.92); }
-    .theme-modern .compliments-title { color: var(--theme-accent); }
-    .theme-modern .compliments-sub { color: rgba(255,255,255,0.92); }
-    /* THEME: PREMIUM */
-    .theme-premium {
-      --theme-primary: #B5322B;
-      --theme-dark: #8B251E;
-      --theme-accent: #D4AF37;
-      --theme-paper: #FFFFFF;
-      --theme-navy: #1C1917;
+    .v-badge svg { width: 22px; height: 22px; fill: var(--va); }
+    .v-title h2 {
+        font-family: 'Cinzel', 'Georgia', serif;
+        font-size: 15.5px;
+        font-weight: 700;
+        letter-spacing: 3.2px;
+        color: var(--va);
+        margin: 0;
+        text-transform: uppercase;
     }
-    .theme-premium.voucher-card { background: var(--theme-paper); }
-    .theme-premium .voucher-header {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      background: linear-gradient(135deg, #8B251E 0%, #B5322B 52%, #D95147 100%);
-      border-bottom: 2px solid var(--theme-accent);
-      box-shadow: inset 0 -1px 0 rgba(255,255,255,0.10), 0 10px 24px rgba(139,37,30,0.10);
+    .v-title p {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-style: italic;
+        font-size: 12.5px;
+        color: rgba(255,255,255,0.92);
+        margin: 4px 0 0;
     }
-    .theme-premium .voucher-header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at 9% 22%, rgba(255,255,255,0.10) 0 1.5px, transparent 2.5px),
-        radial-gradient(circle at 17% 70%, rgba(255,255,255,0.07) 0 1px, transparent 2px),
-        radial-gradient(circle at 91% 18%, rgba(217,81,71,0.18) 0 2px, transparent 3px),
-        radial-gradient(circle at 80% 82%, rgba(212,175,55,0.12) 0 1px, transparent 2px),
-        linear-gradient(125deg, transparent 0 68%, rgba(255,255,255,0.07) 68% 68.5%, transparent 68.5%);
+
+    .v-meta { text-align: right; }
+    .v-meta .lbl {
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--va);
     }
-    .theme-premium .voucher-header::after {
-      content: '';
-      position: absolute;
-      z-index: 0;
-      top: -72px;
-      right: -50px;
-      width: 142px;
-      height: 142px;
-      border: 1px solid rgba(212, 175, 55, 0.36);
-      border-radius: 50%;
-      box-shadow: 0 0 0 18px rgba(255,255,255,0.04), 0 0 0 34px rgba(212,175,55,0.05), inset 0 0 26px rgba(217,81,71,0.12);
+    .v-meta .num {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        margin: 2px 0 6px;
     }
-    .theme-premium .voucher-header > * { position: relative; z-index: 1; }
-    .theme-premium .voucher-title { color: var(--theme-accent); }
-    .theme-premium .voucher-subtitle { color: rgba(255,255,255,0.94); }
-    .theme-premium .header-center { border-right: 1px solid rgba(212, 175, 55, 0.38); }
-    .theme-premium .header-right { color: rgba(255,255,255,0.86); }
-    .theme-premium .voucher-body { background: var(--theme-paper); }
-    .theme-premium .section-box { background-color: var(--theme-paper); border: 1px solid rgba(212,175,55,0.34); }
-    .theme-premium .section-title { color: var(--theme-navy); }
-    .theme-premium .card-icon { color: var(--theme-accent); background: rgba(212,175,55,0.10); }
-    .theme-premium .card-label { color: var(--theme-accent); }
-    .theme-premium .card-value { color: var(--theme-navy); }
-    .theme-premium .company-name { color: var(--theme-navy); }
-    .theme-premium .company-sub-location { color: var(--theme-accent); }
-    .theme-premium .company-image-container { border-color: rgba(212,175,55,0.56); }
-    .theme-premium .company-image-placeholder { color: var(--theme-navy); background: rgba(212,175,55,0.10); }
-    .theme-premium .voucher-footer {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      background: linear-gradient(135deg, #8B251E 0%, #B5322B 52%, #D95147 100%);
-      border-top: 2px solid var(--theme-accent);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+    .v-meta .dt { font-size: 8.5px; letter-spacing: 1px; color: rgba(255,255,255,0.82); text-transform: uppercase; }
+    .v-barcode {
+        margin-top: 7px;
+        margin-left: auto;
+        width: 118px;
+        height: 16px;
+        background: repeating-linear-gradient(90deg, #fff 0 2px, transparent 2px 4px, #fff 4px 5px, transparent 5px 9px, #fff 9px 12px, transparent 12px 14px);
+        opacity: 0.9;
+        border-radius: 1px;
     }
-    .theme-premium .voucher-footer::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at 12% 70%, rgba(255,255,255,0.08) 0 1.5px, transparent 2.5px),
-        radial-gradient(circle at 88% 28%, rgba(217,81,71,0.16) 0 2px, transparent 3px),
-        linear-gradient(115deg, transparent 0 72%, rgba(255,255,255,0.06) 72% 72.5%, transparent 72.5%);
+
+    /* ============ BODY ============ */
+    .v-body {
+        display: flex;
+        gap: 16px;
+        padding: 14px 22px 16px;
+        flex: 1 1 auto;
+        align-items: stretch;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
-    .theme-premium .voucher-footer > * { position: relative; z-index: 1; }
-    .theme-premium .footer-heading { color: var(--theme-accent); }
-    .theme-premium .footer-line { color: rgba(255,255,255,0.92); }
-    .theme-premium .compliments-title { color: var(--theme-accent); }
-    .theme-premium .compliments-sub { color: rgba(255,255,255,0.92); }
+
+    .v-main { flex: 1.32; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+
+    .v-sec-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'Cinzel', 'Georgia', serif;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 2.2px;
+        text-transform: uppercase;
+        color: var(--vp);
+        margin: 0 0 8px;
+    }
+    .v-sec-title::after { content: ''; flex: 1; height: 1px; background: var(--va-line); }
+
+    .v-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .v-field {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        min-width: 0;
+        background: var(--vpanel);
+        border: 1px solid var(--vline);
+        border-radius: 8px;
+        padding: 8px 10px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .v-field.span2 { grid-column: span 2; }
+    .v-ico {
+        width: 30px;
+        height: 30px;
+        flex: 0 0 30px;
+        border-radius: 8px;
+        background: var(--va-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .v-ico svg { width: 17px; height: 17px; fill: var(--va); }
+    .v-tx { min-width: 0; flex: 1; }
+    .v-label {
+        display: block;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 1.1px;
+        text-transform: uppercase;
+        color: var(--vmut);
+        margin-bottom: 2px;
+    }
+    .v-val {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.4;
+        color: var(--vink);
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+    .v-val .v-sub { font-size: 9.5px; font-weight: 400; color: var(--vmut); }
+    .v-val.long { font-size: 11px; font-weight: 500; }
+
+    .v-note {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-top: auto;
+        background: var(--va-soft);
+        border: 1px dashed var(--va-line);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--vp);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .v-note svg { width: 16px; height: 16px; fill: var(--va); flex: 0 0 16px; }
+
+    /* ============ SIDE / SHOWCASE ============ */
+    .v-side { flex: 0.98; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+
+    .v-show {
+        border: 1px solid var(--vline);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--vpaper);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .v-photo { position: relative; height: 148px; background: #e9e4d8; overflow: hidden; }
+    .v-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .v-photo::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 55%, rgba(6,42,44,0.28) 100%);
+    }
+    .v-photo-empty {
+        height: 148px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: var(--vgrad);
+        color: rgba(255,255,255,0.85);
+    }
+    .v-photo-empty svg { width: 34px; height: 34px; fill: var(--va); opacity: 0.9; }
+    .v-photo-empty span { font-size: 8.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; }
+
+    .v-show-body { padding: 12px 14px 13px; }
+    .v-hero {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--vp);
+        line-height: 1.2;
+        margin: 0;
+        overflow-wrap: break-word;
+    }
+    .v-hero-sub {
+        font-size: 8.5px;
+        font-weight: 700;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: var(--va);
+        margin-top: 3px;
+    }
+    .v-rows { margin-top: 9px; display: flex; flex-direction: column; gap: 5px; }
+    .v-row { display: flex; align-items: flex-start; gap: 8px; font-size: 10px; color: var(--vmut); line-height: 1.45; }
+    .v-row svg { width: 13px; height: 13px; fill: var(--va); flex: 0 0 13px; margin-top: 1px; }
+    .v-row span { overflow-wrap: break-word; }
+
+    .v-info {
+        background: var(--vpanel);
+        border: 1px solid var(--vline);
+        border-radius: 10px;
+        padding: 11px 13px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .v-info-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .v-info-head svg { width: 15px; height: 15px; fill: var(--va); }
+    .v-info-head h4 {
+        font-family: 'Cinzel', 'Georgia', serif;
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--vp);
+        margin: 0;
+    }
+    .v-info p { font-size: 10px; line-height: 1.55; color: var(--vmut); margin: 0; overflow-wrap: break-word; }
+
+    /* ============ FOOTER ============ */
+    .v-foot {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: center;
+        gap: 12px;
+        margin-top: auto;
+        padding: 11px 26px;
+        background: var(--vgrad);
+        border-top: 3px solid var(--va);
+        color: #fff;
+        overflow: hidden;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .v-foot::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(circle at 10% 72%, rgba(255,255,255,0.07) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 90% 26%, var(--va-soft) 0 2px, transparent 3px),
+            linear-gradient(115deg, transparent 0 74%, rgba(255,255,255,0.05) 74% 74.5%, transparent 74.5%);
+    }
+    .v-foot > * { position: relative; z-index: 1; }
+    .v-fcol h5 {
+        font-size: 8.5px;
+        font-weight: 700;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--va);
+        margin: 0 0 7px;
+    }
+    .v-fcol.mid { border-left: 1px solid var(--va-line); border-right: 1px solid var(--va-line); padding: 0 20px; }
+    .v-fline { display: flex; align-items: center; gap: 8px; font-size: 10.5px; color: rgba(255,255,255,0.92); line-height: 1.7; }
+    .v-fline svg { width: 12px; height: 12px; fill: var(--va); flex: 0 0 12px; }
+    .v-fline span { overflow-wrap: break-word; }
+    .v-comp { text-align: right; }
+    .v-comp .t {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-style: italic;
+        font-size: 19px;
+        color: var(--va);
+    }
+    .v-comp .s { font-size: 10px; font-weight: 600; letter-spacing: 1px; color: rgba(255,255,255,0.9); margin-top: 3px; }
+
+    /* ============ PRINT ============ */
+    @media print {
+        html, body { margin: 0; padding: 0; }
+        body * { visibility: hidden; }
+        #printVoucher, #printVoucher * { visibility: visible; }
+        #printVoucher {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 297mm;
+            min-height: 200mm;
+            margin: 0;
+            page-break-inside: avoid;
+        }
+    }
+    .d-none { display: none !important; }
+
+    /* ============ JOURNEY TIMELINE (car rental) ============ */
+    .v-journey {
+        display: grid; grid-template-columns: 1fr 40px 1fr; gap: 6px 8px; align-items: center;
+        background: var(--vpanel); border: 1px solid var(--vline); border-radius: 10px;
+        padding: 10px 14px;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    .v-j-tag {
+        display: inline-block; font-size: 8px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+        color: var(--vp); background: var(--va-soft); border: 1px solid var(--va-line);
+        padding: 3px 9px; border-radius: 20px; margin-bottom: 6px;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    .v-j-date { font-size: 12.5px; font-weight: 700; color: var(--vink); }
+    .v-j-date .v-sub { font-size: 9.5px; font-weight: 400; color: var(--vmut); }
+    .v-j-loc { display: flex; align-items: flex-start; gap: 7px; margin-top: 6px; font-size: 11px; font-weight: 600; color: var(--vink); line-height: 1.4; }
+    .v-j-loc svg { width: 13px; height: 13px; fill: var(--va); flex: 0 0 13px; margin-top: 1px; }
+    .v-j-term { display: flex; align-items: center; gap: 7px; margin-top: 5px; font-size: 10px; color: var(--vmut); }
+    .v-j-term svg { width: 12px; height: 12px; fill: var(--va); flex: 0 0 12px; }
+    .v-j-arrow { display: flex; align-items: center; justify-content: center; }
+    .v-j-arrow svg { width: 24px; height: 24px; fill: var(--va); }
+    .v-j-dur {
+        grid-column: span 3; display: flex; align-items: center; gap: 10px;
+        border-top: 1px dashed var(--va-line); padding-top: 8px; margin-top: 2px;
+    }
+    .v-j-dur .v-val { font-size: 12px; }
+    .v-vgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 10px; }
+    .v-vgrid .v-val { font-size: 11.5px; }
+
 </style>
+
 <div class="voucher-card theme-{{ $preview ? 'classic' : (($theme = $voucher?->voucher_theme ?? $settings?->voucher_theme ?? 'classic') === 'alma_premium' ? 'premium' : $theme) }} {{ $preview ? 'voucher-preview' : 'voucher-final' }} {{ $photoDisabled ? 'voucher-photo-disabled' : '' }}" id="printVoucher">
-  <!-- HEADER -->
-  <div class="voucher-header">
-    <div class="brand-logo">
-      <div class="logo-text-group">
-        <span class="logo-main">{{ $settings->company_name }}</span>
-        <span class="logo-sub">{{ $settings->tagline }}</span>
-      </div>
-    </div>
-    <div class="header-center">
-      <div class="voucher-title">CAR RENTAL VOUCHER</div>
-      <div class="voucher-subtitle">Your Journey, Our Commitment</div>
-    </div>
-    <div class="header-right">
-      Alma Travel<br>
-      Car Rental Services<br>
-      Airport Transfers
-    </div>
-  </div>
-  <!-- BODY -->
-  <div class="voucher-body">
-    <div class="voucher-details">
-      <!-- Booking Details -->
-      <div class="section-box">
-        <div class="section-title">Booking Details</div>
-        <div class="details-grid">
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Guest Name</span>
-              <span class="card-value" id="previewGuest">{{ $value('guest_name', 'Guest name') }}</span>
-            </div>
-          </div>
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Booking Number</span>
-              <span class="card-value" id="previewBookingNumber">{{ $bookingNumber }}</span>
-            </div>
-          </div>
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 1 6.4-6.4 1 1 0 0 0-1.24-1.55 17.04 17.04 0 0 0-7.37 9.36c.22 5.25 4.5 9.4 9.77 9.47.4 0 .8-.03 1.19-.08A10.012 10.012 0 0 1 2 12C2 6.5 6.47 2 12.3 2z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Confirmation</span>
-              <span class="card-value" id="previewReference">{{ $value('confirmation_reference', '—') }}</span>
-            </div>
-          </div>
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">ID / Passport</span>
-              <span class="card-value" id="previewIdPassport">{{ $idPassport }}</span>
-            </div>
-          </div>
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 1 6.4-6.4 1 1 0 0 0-1.24-1.55 17.04 17.04 0 0 0-7.37 9.36c.22 5.25 4.5 9.4 9.77 9.47.4 0 .8-.03 1.19-.08A10.012 10.012 0 0 1 2 12C2 6.5 6.47 2 12.3 2z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Contact Number</span>
-              <span class="card-value" id="previewContactNumber">{{ $contactNumber }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Pickup Details -->
-      <div class="section-box">
-        <div class="section-title">Pickup Details</div>
-        <div class="details-grid">
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Date &amp; Time</span>
-              <span class="card-value" id="previewCheckIn">{{ $formattedCheckIn }} <span class="sub-text">(From {{ $pickupTime }})</span></span>
-            </div>
-          </div>
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 9 5 9s7 7 7 7 7-7 7-7-3.13-7-7-7zm0 2.92c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Pickup Location</span>
-              <span class="card-value" id="previewPickupLocation">{{ $pickupLocation }}</span>
-            </div>
-          </div>
-          @if ($pickupTerminal)
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M20 3H4c-1.1 0-2 .9-2 2v6h2V5h16v6h2V5c0-1.1-.9-2-2-2zm0 8.84c.56.45 1 1.11 1 1.9v7.26c0 1.66-1.34 3-3 3H8c-1.66 0-3-1.34-3-3V13.74c0-.79.44-1.45 1-1.9V9c0-1.1.89-2 2-2h12c1.1 0 2 .9 2 2v2.84z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Pickup Terminal</span>
-              <span class="card-value" id="previewPickupTerminal">{{ $pickupTerminal }}</span>
-            </div>
-          </div>
-          @else
-          <div class="grid-card d-none" id="previewPickupTerminalCard">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M20 3H4c-1.1 0-2 .9-2 2v6h2V5h16v6h2V5c0-1.1-.9-2-2-2zm0 8.84c.56.45 1 1.11 1 1.9v7.26c0 1.66-1.34 3-3 3H8c-1.66 0-3-1.34-3-3V13.74c0-.79.44-1.45 1-1.9V9c0-1.1.89-2 2-2h12c1.1 0 2 .9 2 2v2.84z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Pickup Terminal</span>
-              <span class="card-value" id="previewPickupTerminal"></span>
-            </div>
-          </div>
-          @endif
-        </div>
-      </div>
-
-      <!-- Dropoff Details -->
-      <div class="section-box">
-        <div class="section-title">Dropoff Details</div>
-        <div class="details-grid">
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Date &amp; Time</span>
-              <span class="card-value" id="previewCheckOut">{{ $formattedCheckOut }} <span class="sub-text">(Until {{ $dropoffTime }})</span></span>
-            </div>
-          </div>
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 9 5 9s7 7 7 7 7-7 7-7-3.13-7-7-7zm0 2.92c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Drop-off Location</span>
-              <span class="card-value" id="previewDropoffLocation">{{ $dropoffLocation }}</span>
-            </div>
-          </div>
-          @if ($dropoffTerminal)
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M20 3H4c-1.1 0-2 .9-2 2v6h2V5h16v6h2V5c0-1.1-.9-2-2-2zm0 8.84c.56.45 1 1.11 1 1.9v7.26c0 1.66-1.34 3-3 3H8c-1.66 0-3-1.34-3-3V13.74c0-.79.44-1.45 1-1.9V9c0-1.1.89-2 2-2h12c1.1 0 2 .9 2 2v2.84z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Drop-off Terminal</span>
-              <span class="card-value" id="previewDropoffTerminal">{{ $dropoffTerminal }}</span>
-            </div>
-          </div>
-          @else
-          <div class="grid-card d-none" id="previewDropoffTerminalCard">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M20 3H4c-1.1 0-2 .9-2 2v6h2V5h16v6h2V5c0-1.1-.9-2-2-2zm0 8.84c.56.45 1 1.11 1 1.9v7.26c0 1.66-1.34 3-3 3H8c-1.66 0-3-1.34-3-3V13.74c0-.79.44-1.45 1-1.9V9c0-1.1.89-2 2-2h12c1.1 0 2 .9 2 2v2.84z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Drop-off Terminal</span>
-              <span class="card-value" id="previewDropoffTerminal"></span>
-            </div>
-          </div>
-          @endif
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 1c-2.67 0-6 1.35-6 4v1H3c-.55 0-1 .45-1 1v9c0 1.56 3.09 2.91 6.94 3.77l-.94 2.88c-.12.36.15.73.52.59.28-.1.56-.21.84-.33-.31-.23-.62-.47-.93-.73C6.72 18.79 7.2 19 8 19V8h8v8c0 .45.12.87.32 1.26-.13.07-.27.14-.4.21.85.31 1.72.51 2.28.51.34 0 .66-.05 1-.14V9c0-.55-.45-1-1-1h-1V8c0-2.65-3.33-4-6-4zm1 5v2H8V8h1V5h2v2h1zm-6 7h2v5H7v-5zm10 5h-2v-5h2v5z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Rental Duration</span>
-              <span class="card-value" id="previewNightsPreview">{{ $days }} {{ $days == 1 ? 'Day' : 'Days' }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Vehicle Details -->
-      <div class="section-box">
-        <div class="section-title">Vehicle Details</div>
-        <div class="details-grid">
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M22.78 20H5.17l-1.17-1.17C3.42 18.45 3 17.75 3 17v-7.59c0-1.34.52-2.62 1.43-3.53L6.17 4c.91-.91 2.18-1.43 3.53-1.43h8.26c1.34 0 2.62.52 3.53 1.43l1.57 1.57c.91.91 1.43 2.19 1.43 3.53V17c0 1.66-1.34 3-3 3z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Vehicle Type</span>
-              <span class="card-value" id="previewVehicleType">{{ $vehicleType }}</span>
-            </div>
-          </div>
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M22.78 20H5.17l-1.17-1.17C3.42 18.45 3 17.75 3 17v-7.59c0-1.34.52-2.62 1.43-3.53L6.17 4c.91-.91 2.19-1.43 3.53-1.43h8.26c1.34 0 2.62.52 3.53 1.43l1.57 1.57c.91 .91 1.43 2.19 1.43 3.53V17c0 1.66-1.34 3-3 3z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Vehicle Model / Similar</span>
-              <span class="card-value" id="previewVehicleModel">{{ $vehicleModel }}</span>
-            </div>
-          </div>
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 1l-9 4v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-4zM8 8h2v2H8V8zm6 0h2v2h-2V8z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Insurance Type</span>
-              <span class="card-value" id="previewInsuranceType">{{ $insuranceType }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Rental Company -->
-      <div class="section-box">
-        <div class="section-title">Rental Company</div>
-        <div class="details-grid">
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M20 3H4c-1.1 0-2 .9-2 2v6h2V5h16v6h2V5c0-1.1-.9-2-2-2zm0 8.84c.56.45 1 1.11 1 1.9v7.26c0 1.66-1.34 3-3 3H8c-1.66 0-3-1.34-3-3V13.74c0-.79.44-1.45 1-1.9V9c0-1.1.89-2 2-2h12c1.1 0 2 .9 2 2v2.84z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Rental Company</span>
-              <span class="card-value" id="previewRentalCompany">{{ $companyName }}</span>
-            </div>
-          </div>
-          <div class="grid-card">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.55 3.89 3.57 4.23V22h2.86v-8.77C11.45 12.89 13 11.12 13 9V2h-2v7zm8-7h-2c-1.1 0-2 .9-2 2v8h2v10h2V2z"/></svg>
-            </div>
-            <div class="card-content">
-              <span class="card-label">Supplier Reference</span>
-              <span class="card-value" id="previewSupplierReference">{{ $supplierReference }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Important Notes -->
-      <div class="section-box">
-        <div class="section-title">Important Notes</div>
-        <div class="grid-card full-width">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-          </div>
-          <div class="card-content">
-            <span class="card-label">Notes</span>
-            <span class="card-value small" id="previewImportantNotes">{{ $importantNotes }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT: COMPANY SHOWCASE -->
-    <div class="company-showcase">
-      <div class="company-header-flex">
-        <div>
-          <div class="company-name" id="previewCompanyName">{{ $companyName }}</div>
-          <div class="company-contact-info">
-            📍 <span id="previewPickupLocation2">{{ $pickupLocation }}</span><br>
-            📍 <span id="previewDropoffLocation2">{{ $dropoffLocation }}</span><br>
-            📞 <span id="previewCompanyPhone">{{ $companyPhone }}</span><br>
-            @if ($companyEmail)
-            ✉️ <span id="previewCompanyEmail">{{ $companyEmail }}</span><br>
+    <!-- HEADER -->
+    <div class="v-head">
+        <div class="v-brand">
+            @if($logoSource)
+                <img src="{{ $logoSource }}" alt="{{ $settings->company_name }} logo">
             @endif
-          </div>
+            <div>
+                <div class="v-brand-name">{{ $settings->company_name }}</div>
+                @if($settings->tagline)<div class="v-brand-tag">{{ $settings->tagline }}</div>@endif
+            </div>
         </div>
-        @if ($logoSource)
-        <img src="{{ $logoSource }}" alt="Company Logo" class="company-logo-img">
-        @endif
-      </div>
-      <div class="company-image-container">
-        <img id="previewCarPhoto" src="{{ $hasCarPhoto ? $carPhotoUrl : $heroImage }}" alt="Vehicle Preview" data-hero-image="{{ $heroImage }}">
-        <div id="previewPhotoPlaceholder" class="company-image-placeholder d-none">No vehicle image included</div>
-      </div>
+        <div class="v-title">
+            <div class="v-badge"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
+            <h2>Car Rental Voucher</h2>
+            <p>Your Journey, Our Commitment</p>
+        </div>
+        <div class="v-meta">
+            <div class="lbl">Voucher No.</div>
+            <div class="num">{{ $voucherNumber }}</div>
+            <div class="dt">Issued · {{ $voucherDate }}</div>
+            <div class="v-barcode"></div>
+        </div>
     </div>
-  </div>
-  <!-- FOOTER -->
-  <div class="voucher-footer">
-    <div class="footer-col">
-      <div class="footer-heading">Alma Travel Contact Details</div>
-      <div class="footer-line">📞 {{ $settings->phone ?? '+966 920022050' }}</div>
-      <div class="footer-line">✉️ {{ $settings->email ?? 'info@almatravel.co' }}</div>
-      <div class="footer-line">🌐 {{ $settings->website ?? 'www.almatravel.co' }}</div>
-      <div class="footer-line">📍 {{ $settings->address ?? 'Riyadh, Saudi Arabia' }}</div>
+
+    <!-- BODY -->
+    <div class="v-body">
+
+        <!-- MAIN -->
+        <div class="v-main">
+<section>
+                <h3 class="v-sec-title">Booking Details</h3>
+                <div class="v-grid">
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Guest Name</span><span class="v-val" id="previewGuest">{{ $value('guest_name', 'Guest name') }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V9h10v2z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Booking Number</span><span class="v-val" id="previewBookingNumber">{{ $bookingNumber }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Confirmation</span><span class="v-val" id="previewReference">{{ $value('confirmation_reference', '—') }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">ID / Passport</span><span class="v-val" id="previewIdPassport">{{ $idPassport }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Contact Number</span><span class="v-val" id="previewContactNumber">{{ $contactNumber }}</span></div>
+                    </div>
+                </div>
+            </section>
+<section>
+                <h3 class="v-sec-title">Pickup &amp; Drop-off</h3>
+                <div class="v-journey">
+                    <div class="v-j-leg">
+                        <span class="v-j-tag">Pickup</span>
+                        <div class="v-j-date" id="previewCheckIn">{{ $formattedCheckIn }} <span class="v-sub">(From {{ $pickupTime }})</span></div>
+                        <div class="v-j-loc"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg><span id="previewPickupLocation">{{ $pickupLocation }}</span></div>
+                        @if ($pickupTerminal)
+                        <div class="v-j-term"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span id="previewPickupTerminal">{{ $pickupTerminal }}</span></div>
+                        @else
+                        <div class="v-j-term d-none" id="previewPickupTerminalCard"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span id="previewPickupTerminal"></span></div>
+                        @endif
+                    </div>
+                    <div class="v-j-arrow"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
+                    <div class="v-j-leg">
+                        <span class="v-j-tag">Drop-off</span>
+                        <div class="v-j-date" id="previewCheckOut">{{ $formattedCheckOut }} <span class="v-sub">(Until {{ $dropoffTime }})</span></div>
+                        <div class="v-j-loc"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg><span id="previewDropoffLocation">{{ $dropoffLocation }}</span></div>
+                        @if ($dropoffTerminal)
+                        <div class="v-j-term"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span id="previewDropoffTerminal">{{ $dropoffTerminal }}</span></div>
+                        @else
+                        <div class="v-j-term d-none" id="previewDropoffTerminalCard"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span id="previewDropoffTerminal"></span></div>
+                        @endif
+                    </div>
+                    <div class="v-j-dur">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>
+                        <div><span class="v-label">Rental Duration</span><span class="v-val" id="previewNightsPreview">{{ $days }} {{ $days == 1 ? 'Day' : 'Days' }}</span></div>
+                    </div>
+                </div>
+            </section>
+<section>
+                <h3 class="v-sec-title">Important Notes</h3>
+                <div class="v-grid">
+<div class="v-field span2">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Notes</span><span class="v-val long" id="previewImportantNotes">{{ $importantNotes }}</span></div>
+                    </div>
+                </div>
+            </section>
+<div class="v-note">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                <span>Please present a valid driving licence and this voucher at pickup.</span>
+            </div>
+        </div>
+
+        <!-- SIDE: COMPANY SHOWCASE -->
+        <aside class="v-side">
+            <div class="v-show">
+                @if($preview || $hasCarPhoto)
+                    <div class="v-photo">
+                        <img id="previewCarPhoto" src="{{ $preview ? $heroImage : $carPhotoUrl }}" alt="Vehicle photo" data-hero-image="{{ $heroImage }}">
+                        <div id="previewPhotoPlaceholder" class="v-photo-tag d-none">No photo included</div>
+                    </div>
+                @else
+                    <div class="v-photo-empty">
+                        <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                        <span>Vehicle photo not included</span>
+                    </div>
+                @endif
+                <div class="v-show-body">
+                    <h3 class="v-hero" id="previewCompanyName">{{ $companyName }}</h3>
+                    <span id="previewRentalCompany" class="d-none">{{ $companyName }}</span>
+                    <div class="v-hero-sub">Rental Partner</div>
+                    <div class="v-rows">
+                        <div class="v-row">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+                            <span id="previewPickupLocation2">{{ $pickupLocation }}</span>
+                        </div>
+                        <div class="v-row">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+                            <span id="previewDropoffLocation2">{{ $dropoffLocation }}</span>
+                        </div>
+                        <div class="v-row">
+                            <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                            <span id="previewCompanyPhone">{{ $companyPhone }}</span>
+                        </div>
+                        @if ($companyEmail)
+                        <div class="v-row">
+                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            <span id="previewCompanyEmail">{{ $companyEmail }}</span>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="v-info">
+                <div class="v-info-head">
+                    <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                    <h4>Vehicle Details</h4>
+                </div>
+                <div class="v-vgrid">
+                    <div><span class="v-label">Vehicle Type</span><span class="v-val" id="previewVehicleType">{{ $vehicleType }}</span></div>
+                    <div><span class="v-label">Model / Similar</span><span class="v-val" id="previewVehicleModel">{{ $vehicleModel }}</span></div>
+                    <div><span class="v-label">Insurance</span><span class="v-val" id="previewInsuranceType">{{ $insuranceType }}</span></div>
+                    <div><span class="v-label">Supplier Ref.</span><span class="v-val" id="previewSupplierReference">{{ $supplierReference }}</span></div>
+                </div>
+            </div>
+
+        </aside>
     </div>
-    <div class="footer-col center">
-      <div class="footer-heading">Booking Consultant Details</div>
-      @if($preview)
-      <div class="footer-line">👤 <span id="previewConsultantName">Alma Travel Team</span></div>
-      <div class="footer-line">✉️ <span id="previewConsultantEmail">Booking support</span></div>
-      <div class="footer-line">📞 <span id="previewConsultantPhone">{{ $settings->phone ?? '+966 920022050' }}</span></div>
-      @elseif($employee)
-      <div class="footer-line">👤 <span id="previewConsultantName">{{ $employee->name }}</span></div>
-      <div class="footer-line">✉️ <span id="previewConsultantEmail">{{ $employee->email }}</span></div>
-      <div class="footer-line">📞 <span id="previewConsultantPhone">{{ $employee->phone }}</span></div>
-      @else
-      <div class="footer-line">👤 <span id="previewConsultantName">Alma Travel Team</span></div>
-      <div class="footer-line">✉️ <span id="previewConsultantEmail">Booking support</span></div>
-      <div class="footer-line">📞 <span id="previewConsultantPhone">{{ $settings->phone ?? '+966 920022050' }}</span></div>
-      @endif
+
+    <!-- FOOTER -->
+    <div class="v-foot">
+        <div class="v-fcol">
+            <h5>{{ $settings->company_name }} Contact</h5>
+            <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>{{ $settings->phone ?? '+966 920022050' }}</span></div>
+            <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span>{{ $settings->email ?? 'info@almatravel.co' }}</span></div>
+            <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93C7.05 19.44 4 16.08 4 12c0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span>{{ $settings->website ?? 'www.almatravel.co' }}</span></div>
+            <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg><span>{{ $settings->address ?? 'Riyadh, Saudi Arabia' }}</span></div>
+        </div>
+        <div class="v-fcol mid">
+            <h5>Booking Consultant</h5>
+            @if($preview)
+                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg><span id="previewConsultantName">Alma Travel Team</span></div>
+                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="previewConsultantEmail">Booking support</span></div>
+                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span id="previewConsultantPhone">{{ $settings->phone ?? '+966 920022050' }}</span></div>
+            @elseif($employee)
+                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg><span id="previewConsultantName">{{ $employee->name }}</span></div>
+                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="previewConsultantEmail">{{ $employee->email }}</span></div>
+                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span id="previewConsultantPhone">{{ $employee->phone }}</span></div>
+            @else
+                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg><span id="previewConsultantName">Alma Travel Team</span></div>
+                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="previewConsultantEmail">Booking support</span></div>
+                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span id="previewConsultantPhone">{{ $settings->phone ?? '+966 920022050' }}</span></div>
+            @endif
+        </div>
+        <div class="v-fcol v-comp">
+            <div class="t">With Compliments</div>
+            <div class="s">{{ $settings->company_name }}</div>
+        </div>
     </div>
-    <div class="footer-col right">
-      <div class="compliments-title">With Compliments</div>
-      <div class="compliments-sub">Alma Travel</div>
-    </div>
-  </div>
+
 </div>
