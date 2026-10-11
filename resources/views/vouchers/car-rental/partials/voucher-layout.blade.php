@@ -55,6 +55,8 @@
         --vink: #211A13;          /* body ink */
         --vmut: #6F6357;          /* muted */
         --vgrad: linear-gradient(118deg, #062A2C 0%, #0B3B3E 55%, #0E4A4D 100%);
+        --vhead-bg: var(--vgrad);   /* header background */
+        --vbrand: #ffffff;             /* logo text color */
     }
     .voucher-card.theme-modern {
         --vp: #A92D26;
@@ -63,6 +65,8 @@
         --va-soft: rgba(217, 164, 65, 0.13);
         --va-line: rgba(217, 164, 65, 0.40);
         --vgrad: linear-gradient(118deg, #7A1F1A 0%, #A92D26 55%, #C0453A 100%);
+        --vhead-bg: linear-gradient(118deg, #F7F2E7 0%, #FFFFFF 55%, #EFE6D2 100%);
+        --vbrand: #161310;
     }
     .voucher-card.theme-premium {
         --vp: #8B251E;
@@ -71,6 +75,7 @@
         --va-soft: rgba(212, 175, 55, 0.13);
         --va-line: rgba(212, 175, 55, 0.42);
         --vgrad: linear-gradient(118deg, #5F1812 0%, #8B251E 55%, #B5322B 100%);
+        --vbrand: #ffffff;
     }
 
     /* ============ CARD SHELL ============ */
@@ -100,7 +105,7 @@
         gap: 12px;
         min-height: 34mm;
         padding: 10px 26px;
-        background: var(--vgrad);
+        background: var(--vhead-bg);
         border-bottom: 3px solid var(--va);
         color: #fff;
         overflow: hidden;
@@ -138,6 +143,7 @@
         font-size: 25px;
         font-weight: 600;
         letter-spacing: 0.5px;
+        color: var(--vbrand);
         line-height: 1.05;
         white-space: nowrap;
     }
@@ -204,6 +210,27 @@
         background: repeating-linear-gradient(90deg, #fff 0 2px, transparent 2px 4px, #fff 4px 5px, transparent 5px 9px, #fff 9px 12px, transparent 12px 14px);
         opacity: 0.9;
         border-radius: 1px;
+    }
+
+
+    /* ============ MODERN PREMIUM: light header, dark ink ============ */
+    .voucher-card.theme-modern .v-head { color: #1d1a14; }
+    .voucher-card.theme-modern .v-head::before {
+        background:
+            radial-gradient(circle at 8% 24%, rgba(29,26,20,0.08) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 18% 74%, rgba(29,26,20,0.06) 0 1px, transparent 2px),
+            radial-gradient(circle at 93% 20%, rgba(29,26,20,0.07) 0 2px, transparent 3px),
+            radial-gradient(circle at 78% 84%, var(--va-soft) 0 1.5px, transparent 2.5px),
+            linear-gradient(115deg, transparent 0 70%, rgba(29,26,20,0.05) 70% 70.6%, transparent 70.6%);
+    }
+    .voucher-card.theme-modern .v-badge { background: rgba(29,26,20,0.05); }
+    .voucher-card.theme-modern .v-title h2 { color: #7A1F1A; }
+    .voucher-card.theme-modern .v-title p { color: rgba(29,26,20,0.72); }
+    .voucher-card.theme-modern .v-meta .lbl { color: #8a6d1f; }
+    .voucher-card.theme-modern .v-meta .dt { color: rgba(29,26,20,0.66); }
+    .voucher-card.theme-modern .v-brand-tag { color: #8a6d1f; }
+    .voucher-card.theme-modern .v-barcode {
+        background: repeating-linear-gradient(90deg, #1d1a14 0 2px, transparent 2px 4px, #1d1a14 4px 5px, transparent 5px 9px, #1d1a14 9px 12px, transparent 12px 14px);
     }
 
     /* ============ BODY ============ */
