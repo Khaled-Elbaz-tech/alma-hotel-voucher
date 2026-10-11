@@ -13,8 +13,8 @@
     @else
         <div class="table-responsive">
             <table class="admin-table">
-                <thead><tr><th>Voucher</th><th>Guest</th><th>Hotel</th><th>Consultant</th><th>Created</th><th></th></tr></thead>
-                <tbody>@foreach ($recentVouchers as $voucher)<tr><td><strong>{{ $voucher->voucher_number }}</strong></td><td>{{ $voucher->guest_name }}</td><td>{{ $voucher->hotel_name }}</td><td>{{ $voucher->employee?->name ?? '—' }}</td><td>{{ $voucher->created_at->format('d M Y') }}</td><td><a class="text-link" href="{{ route('admin.vouchers.show', $voucher) }}">Open</a></td></tr>@endforeach</tbody>
+                <thead><tr><th>Voucher</th><th>Type</th><th>Guest</th><th>Details</th><th>Consultant</th><th>Created</th><th></th></tr></thead>
+                <tbody>@foreach ($recentVouchers as $voucher)<tr><td><strong>{{ $voucher->voucher_number }}</strong></td><td><span class="file-tag">{{ $voucher->typeLabel() }}</span></td><td>{{ $voucher->guest_name ?: '—' }}</td><td>{{ $voucher->summaryLine() }}</td><td>{{ $voucher->employee?->name ?? '—' }}</td><td>{{ $voucher->created_at?->format('d M Y') ?? '—' }}</td><td><a class="text-link" href="{{ route('admin.vouchers.show', $voucher) }}">Open</a></td></tr>@endforeach</tbody>
             </table>
         </div>
     @endif
