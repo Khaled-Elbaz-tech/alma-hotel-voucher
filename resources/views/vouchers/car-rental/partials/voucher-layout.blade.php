@@ -463,6 +463,7 @@
         border-top: 1px dashed var(--va-line); padding-top: 8px; margin-top: 2px;
     }
     .v-j-dur .v-val { font-size: 12px; }
+    .v-j-dur svg { width: 15px; height: 15px; fill: var(--va); flex: 0 0 15px; }
     .v-vgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 10px; }
     .v-vgrid .v-val { font-size: 11.5px; }
 
