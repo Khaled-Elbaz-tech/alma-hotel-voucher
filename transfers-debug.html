@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="tpd5IYGoYJde4vSleaRifwqy7tjI0F4ZRiJgKMEs">
+    <title>Transfers Voucher Generator | Alma Travel</title>
+    <script>document.documentElement.setAttribute('data-js','active');document.title='JS_TEST_PASSED';window.__jsWorks=true;</script>
+    <link rel="preload" as="style" href="http://127.0.0.1:8768/build/assets/app-D3BcamFL.css" /><link rel="preload" as="style" href="http://127.0.0.1:8768/build/assets/app-BL5QWnkG.css" /><link rel="modulepreload" as="script" href="http://127.0.0.1:8768/build/assets/app-ByaSITqH.js" /><link rel="stylesheet" href="http://127.0.0.1:8768/build/assets/app-D3BcamFL.css" /><link rel="stylesheet" href="http://127.0.0.1:8768/build/assets/app-BL5QWnkG.css" /><script type="module" src="http://127.0.0.1:8768/build/assets/app-ByaSITqH.js"></script></head>
+<body>
+    <header class="site-header">
+        <div class="container-xl d-flex align-items-center justify-content-between gap-3">
+            <a class="brand-lockup" href="http://127.0.0.1:8768">
+                <span class="brand-mark">AT</span>
+                <span><strong>ALMA TRAVEL</strong><small>Voucher Generator</small></span>
+            </a>
+            <nav class="voucher-nav">
+                <a class="nav-item " href="http://127.0.0.1:8768/hotel-voucher">Hotel Voucher</a>
+                <a class="nav-item " href="http://127.0.0.1:8768/car-rental">Car Rental Voucher</a>
+                <a class="nav-item active" href="http://127.0.0.1:8768/transfers">Transfers Voucher</a>
+                <a class="nav-item " href="http://127.0.0.1:8768/vip-meet-assist">VIP Meet &amp; Assist</a>
+            </nav>
+            <div class="header-actions">
+            </div>
+        </div>
+    </header>
+    <main><section class="generator-page">
+    <div class="container-xl">
+        <div class="page-intro row align-items-end mb-4">
+            <div class="col-lg-8">
+                <p class="eyebrow">Alma Travel / Consultant workspace</p>
+                <h1>Transfers confirmation<br><em>voucher generator</em></h1>
+                <p class="lead mb-0">Create a polished, brand-ready confirmation voucher with a live preview before you export or print.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <span class="status-pill"><i></i> Live preview ready</span>
+                <p class="small text-muted mb-0">All fields update instantly.<br>Required fields are marked with <span class="required-star">*</span></p>
+            </div>
+        </div>
+
+        <form id="voucher-form" class="generator-layout" method="POST" action="http://127.0.0.1:8768/transfers" enctype="multipart/form-data">
+            <input type="hidden" name="_token" value="tpd5IYGoYJde4vSleaRifwqy7tjI0F4ZRiJgKMEs" autocomplete="off">            <input type="hidden" name="voucher_theme" id="voucher_theme" value="classic">
+            <section class="form-panel" aria-label="Voucher details">
+                <div class="panel-heading">
+                    <div><p class="eyebrow mb-1">Step 01 / Booking details</p><h2>Enter the transfer information</h2></div>
+                    <span class="panel-number">01</span>
+                </div>
+
+                <div class="form-section">
+                    <h3><span>01</span> Guest &amp; provider</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="guest_name">Guest name <span class="required-star">*</span></label>
+                            <input class="form-control" id="guest_name" name="guest_name" value="" placeholder="e.g. Mr. Ahmed Alotaibi" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="confirmation_reference">Confirmation / PNR reference <span class="required-star">*</span></label>
+                            <input class="form-control" id="confirmation_reference" name="confirmation_reference" value="" placeholder="e.g. ALM8K2" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="provider_name">Provider name <span class="required-star">*</span></label>
+                            <input class="form-control" id="provider_name" name="provider_name" value="" placeholder="e.g. Careem, Uber, Blacklane" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="provider_address">Provider address</label>
+                            <textarea class="form-control" id="provider_address" name="provider_address" rows="2" placeholder="Street, area, city, country"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="provider_phone">Provider phone <span class="required-star">*</span></label>
+                            <input class="form-control" id="provider_phone" name="provider_phone" value="" placeholder="e.g. +966 12 345 6789" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="provider_email">Provider email</label>
+                            <input class="form-control" id="provider_email" name="provider_email" type="email" value="" placeholder="e.g. reservations@company.com">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3><span>02</span> Travel dates</h3>
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-4">
+                            <label class="form-label" for="pickup_date">Pickup date <span class="required-star">*</span></label>
+                            <input class="form-control" id="pickup_date" name="pickup_date" type="date" value="" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label" for="pickup_time">Pickup time</label>
+                            <input class="form-control" id="pickup_time" name="pickup_time" type="time" value="10:00">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="dropoff_date">Drop-off date</label>
+                            <input class="form-control" id="dropoff_date" name="dropoff_date" type="date" value="">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label" for="dropoff_time">Drop-off time</label>
+                            <input class="form-control" id="dropoff_time" name="dropoff_time" type="time" value="12:00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3><span>03</span> Locations</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="pickup_location">Pickup location <span class="required-star">*</span></label>
+                            <input class="form-control" id="pickup_location" name="pickup_location" value="" placeholder="e.g. Jeddah King Khaled International Airport" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="dropoff_location">Drop-off location <span class="required-star">*</span></label>
+                            <input class="form-control" id="dropoff_location" name="dropoff_location" value="" placeholder="e.g. Ritz-Carlton Hotel, Riyadh" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="flight_number">Flight number</label>
+                            <input class="form-control" id="flight_number" name="flight_number" value="" placeholder="e.g. SV123, EK456">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="vehicle_type">Vehicle type <span class="required-star">*</span></label>
+                            <select class="form-select" id="vehicle_type" name="vehicle_type" required>
+                                <option value="">Select vehicle type</option>
+                                                                <option value="Other" >Other</option>
+                            </select>
+                            <input class="form-control other-field mt-2 d-none" id="vehicle_type_other" name="vehicle_type_other" placeholder="Specify vehicle type">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="passengers">Passengers <span class="required-star">*</span></label>
+                            <input class="form-control" id="passengers" name="passengers" type="number" min="1" max="50" value="1" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="luggage_count">Luggage (pieces)</label>
+                            <input class="form-control" id="luggage_count" name="luggage_count" type="number" min="0" max="50" value="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="meet_greet">Meet &amp; Greet</label>
+                            <select class="form-select" id="meet_greet" name="meet_greet">
+                                <option value="0" selected>No</option>
+                                <option value="1" >Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3><span>04</span> Vehicle photo</h3>
+                    <div class="photo-control">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="include_photo" name="include_photo" value="1" >
+                            <label class="form-check-label" for="include_photo">Include vehicle photo</label>
+                        </div>
+                        <label class="file-drop" for="photo">
+                            <span class="file-drop-icon">+</span>
+                            <strong>Choose a vehicle image</strong>
+                            <small>PNG, JPG or WebP up to 5 MB</small>
+                        </label>
+                        <input class="d-none" id="photo" name="photo" type="file" accept="image/png,image/jpeg,image/webp">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3><span>05</span> Special requests</h3>
+                    <label class="form-label" for="special_requests">Special requirements</label>
+                    <textarea class="form-control" id="special_requests" name="special_requests" rows="2" placeholder="e.g. Child seat, wheelchair access, smoking car"></textarea>
+                </div>
+
+                <div class="form-section">
+                    <h3><span>06</span> Booking consultant</h3>
+                    <label class="form-label" for="employee_id">Select consultant</label>
+                    <select class="form-select consultant-select" id="employee_id" name="employee_id">
+                        <option value="">Select an active employee</option>
+                                                    <option value="1" data-name="Khaled Elgendi" data-title="Senior Customer Experience Consultant" data-phone="+966 50 000 0000" data-email="khaled@almatravel.com" >Khaled Elgendi — Senior Customer Experience Consultant</option>
+                                                    <option value="2" data-name="Haifa Ayub" data-title="Customer Experience Consultant" data-phone="+966 50 000 0001" data-email="haifa@almatravel.com" >Haifa Ayub — Customer Experience Consultant</option>
+                                            </select>
+                </div>
+
+                <div class="form-actions">
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label class="form-label" for="voucher_theme_select">Voucher Theme</label>
+                        <select class="form-select" id="voucher_theme_select" name="voucher_theme" onchange="document.getElementById('voucher_theme').value = this.value; dispatchPreview();">
+                            <option value="classic">Alma Executive Classic</option>
+                            <option value="modern">Alma Modern Premium</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-alma btn-lg generate-voucher-button" type="submit">Generate voucher <span aria-hidden="true">→</span></button>
+                    <small>Generating saves a voucher log for admin review.</small>
+                </div>
+            </section>
+
+            <aside class="preview-panel" aria-label="Live voucher preview">
+                <div class="preview-toolbar">
+                    <div><p class="eyebrow mb-1">Step 02 / Review</p><h2>Live preview</h2></div>
+                    <span class="live-dot"><i></i> Live</span>
+                </div>
+                <div class="preview-scroll">
+                    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Montserrat:wght@400;600&display=swap');
+
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    .voucher-card {
+      width: 297mm;
+      min-height: 210mm;
+      background: #fcfcf9;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    /* HEADER */
+    .voucher-header {
+      background-color: #063B3E;
+      height: 38mm;
+      display: grid;
+      grid-template-columns: 1fr 1.8fr 1fr;
+      align-items: center;
+      padding: 0 25px;
+      border-bottom: 2px solid #C89B3C;
+      color: #ffffff;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .logo-text-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      letter-spacing: 1px;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .logo-sub {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: #C89B3C;
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    .header-center {
+      text-align: center;
+      border-left: 1px solid rgba(200, 155, 60, 0.4);
+      border-right: 1px solid rgba(200, 155, 60, 0.4);
+      padding: 0 15px;
+    }
+
+    .voucher-title {
+      font-family: 'Georgia', serif !important;
+      font-size: 18px !important;
+      letter-spacing: 3px;
+      color: #C89B3C;
+      font-weight: 700;
+    }
+
+    .voucher-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: #ffffff;
+      margin-top: 4px;
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: #d1d5db;
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+
+    /* MAIN CONTENT */
+    .voucher-body {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 16px;
+      padding: 16px 22px;
+      min-height: 135mm;
+      margin-bottom: 24px;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    /* LEFT SECTION - BOOKING DETAILS */
+    .section-box {
+      border: 1px solid #e2d9c8;
+      border-radius: 4px;
+      padding: 12px;
+      background-color: #faf8f5;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: #063B3E;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .grid-card {
+      background: #ffffff;
+      border: 1px solid #e8e2d5;
+      border-radius: 4px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .grid-card.full-width {
+      grid-column: span 2;
+    }
+
+    .card-icon {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #C89B3C;
+      flex-shrink: 0;
+    }
+
+    .card-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      color: #C89B3C;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .card-value {
+      font-family: 'Georgia', serif !important;
+      font-size: 17px !important;
+      font-weight: 700;
+      color: #111111;
+      margin-top: 2px;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .card-value sub-text {
+      font-size: 10px;
+      color: #666;
+      font-weight: 400;
+    }
+
+    .card-value,
+    .detail-value,
+    .company-name,
+    .voucher-title {
+      font-family: 'Georgia', serif !important;
+      font-size: 17px !important;
+      font-weight: 700;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    /* RIGHT SECTION - COMPANY SHOWCASE */
+    .company-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .company-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .company-name {
+      font-family: 'Georgia', serif !important;
+      font-size: 23px;
+      font-weight: 700;
+      color: #063B3E;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .company-sub-location {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #C89B3C;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .company-contact-info {
+      font-size: 10px;
+      color: #555555;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .company-logo-img {
+      max-width: 90px;
+      max-height: 40px;
+      object-fit: contain;
+    }
+
+    .company-image-container {
+      width: 100%;
+      height: 165px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #C89B3C;
+      position: relative;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .company-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .company-image-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-align: center;
+      text-transform: uppercase;
+      background: rgba(6, 59, 62, 0.6);
+    }
+
+    .cancellation-box {
+      background-color: #faf8f5;
+      border: 1px solid #e2d9c8;
+      border-radius: 4px;
+      padding: 10px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .policy-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #063B3E;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+
+    .policy-text {
+      font-size: 10px;
+      color: #555555;
+      line-height: 1.4;
+    }
+
+    /* FOOTER */
+    .voucher-footer {
+      background-color: #063B3E;
+      height: 32mm;
+      margin-top: auto;
+      border-top: 2px solid #C89B3C;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      padding: 0 25px;
+      color: #ffffff;
+      font-size: 12px;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-col.center {
+      border-left: 1px solid rgba(200, 155, 60, 0.3);
+      padding-left: 20px;
+    }
+
+    .footer-col.right {
+      text-align: right;
+    }
+
+    .footer-heading {
+      font-size: 11px;
+      font-weight: 700;
+      color: #C89B3C;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .footer-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #e5e7eb;
+      font-size: 12px;
+    }
+
+    .compliments-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: #C89B3C;
+    }
+
+    .compliments-sub {
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-top: 2px;
+    }
+
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    @media print {
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body * {
+        visibility: hidden;
+      }
+
+      #printVoucher,
+      #printVoucher * {
+        visibility: visible;
+      }
+
+      #printVoucher {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 297mm;
+        height: 210mm;
+        page-break-after: avoid;
+        page-break-before: avoid;
+        page-break-inside: avoid;
+      }
+    }
+
+    .theme-modern {
+      --crimson-primary: #A92D26;
+      --crimson-dark: #8B251E;
+      --crimson-light: #A92D26;
+      --crimson-gold: #C89B3C;
+      --crimson-paper: #FFFFFF;
+      --crimson-navy: #16373A;
+      --crimson-gold-line: rgba(200, 155, 60, 0.34);
+      --crimson-gold-soft: rgba(200, 155, 60, 0.10);
+      --crimson-gradient: linear-gradient(135deg, #8B251E 0%, #A92D26 52%, #A92D26 100%);
+    }
+
+    .theme-modern.voucher-card {
+      background: var(--crimson-paper);
+    }
+
+    .theme-modern .voucher-header {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background: var(--crimson-gradient);
+      border-bottom: 2px solid var(--crimson-gold);
+      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.10), 0 10px 24px rgba(169, 45, 38, 0.10);
+    }
+
+    .theme-modern .voucher-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 9% 22%, rgba(255, 255, 255, 0.10) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 17% 70%, rgba(255, 255, 255, 0.07) 0 1px, transparent 2px),
+        radial-gradient(circle at 91% 18%, rgba(231, 98, 91, 0.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 82%, rgba(200, 155, 60, 0.12) 0 1px, transparent 2px),
+        linear-gradient(125deg, transparent 0 68%, rgba(255, 255, 255, 0.07) 68% 68.5%, transparent 68.5%);
+    }
+
+    .theme-modern .voucher-header::after {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      top: -72px;
+      right: -50px;
+      width: 142px;
+      height: 142px;
+      border: 1px solid rgba(200, 155, 60, 0.36);
+      border-radius: 50%;
+      box-shadow: 0 0 0 18px rgba(255, 255, 255, 0.04), 0 0 0 34px rgba(200, 155, 60, 0.05), inset 0 0 26px rgba(231, 98, 91, 0.12);
+    }
+
+    .theme-modern .voucher-header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .theme-modern .voucher-title { color: var(--crimson-gold); }
+    .theme-modern .voucher-subtitle { color: rgba(255, 255, 255, 0.94); }
+    .theme-modern .header-center { border-right: 1px solid rgba(200, 155, 60, 0.38); }
+    .theme-modern .header-right { color: rgba(255, 255, 255, 0.86); }
+
+    .theme-modern .voucher-body {
+      background: var(--crimson-paper);
+    }
+
+    .theme-modern .section-box {
+      background-color: var(--crimson-paper);
+      border: 1px solid var(--crimson-gold-line);
+    }
+
+    .theme-modern .section-title { color: var(--crimson-navy); }
+    .theme-modern .policy-title { color: var(--crimson-navy); }
+
+    .theme-modern .grid-card,
+    .theme-modern .cancellation-box {
+      background-color: #FFFFFF;
+      border: 1px solid var(--crimson-gold-line);
+    }
+
+    .theme-modern .card-icon {
+      color: var(--crimson-gold);
+      background: var(--crimson-gold-soft);
+    }
+
+    .theme-modern .card-label { color: var(--crimson-gold); }
+    .theme-modern .card-value {
+      color: var(--crimson-navy);
+      border-bottom: 0;
+      box-shadow: inset 0 -1px 0 rgba(200, 155, 60, 0.20);
+    }
+
+    .theme-modern .company-name { color: var(--crimson-navy); }
+    .theme-modern .company-sub-location { color: var(--crimson-gold); }
+    .theme-modern .company-image-container { border-color: rgba(200, 155, 60, 0.56); }
+    .theme-modern .company-image-placeholder {
+      color: var(--crimson-navy);
+      background: rgba(200, 155, 60, 0.10);
+    }
+
+    .theme-modern .voucher-footer {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background: var(--crimson-gradient);
+      border-top: 2px solid var(--crimson-gold);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .theme-modern .voucher-footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 12% 70%, rgba(255, 255, 255, 0.08) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 88% 28%, rgba(231, 98, 91, 0.16) 0 2px, transparent 3px),
+        linear-gradient(115deg, transparent 0 72%, rgba(255, 255, 255, 0.06) 72% 72.5%, transparent 72.5%);
+    }
+
+    .theme-modern .voucher-footer > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .theme-modern .footer-heading { color: var(--crimson-gold); }
+    .theme-modern .footer-line { color: rgba(255, 255, 255, 0.92); }
+    .theme-modern .compliments-title { color: var(--crimson-gold); }
+    .theme-modern .compliments-sub { color: rgba(255, 255, 255, 0.92); }
+
+    /* THEME: PREMIUM - Dark red with white body */
+    .theme-premium {
+      --premium-primary: #B5322B;
+      --premium-dark: #8B251E;
+      --premium-light: #D95147;
+      --premium-gold: #D4AF37;
+      --premium-paper: #FFFFFF;
+      --premium-navy: #1C1917;
+      --premium-gold-line: rgba(212, 175, 55, 0.34);
+      --premium-gold-soft: rgba(212, 175, 55, 0.10);
+      --premium-gradient: linear-gradient(135deg, #8B251E 0%, #B5322B 52%, #D95147 100%);
+    }
+
+    .theme-premium.voucher-card {
+      background: var(--premium-paper);
+    }
+
+    .theme-premium .voucher-header {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background: var(--premium-gradient);
+      border-bottom: 2px solid var(--premium-gold);
+      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.10), 0 10px 24px rgba(139, 37, 30, 0.10);
+    }
+
+    .theme-premium .voucher-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 9% 22%, rgba(255, 255, 255, 0.10) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 17% 70%, rgba(255, 255, 255, 0.07) 0 1px, transparent 2px),
+        radial-gradient(circle at 91% 18%, rgba(217, 81, 71, 0.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 82%, rgba(212, 175, 55, 0.12) 0 1px, transparent 2px),
+        linear-gradient(125deg, transparent 0 68%, rgba(255, 255, 255, 0.07) 68% 68.5%, transparent 68.5%);
+    }
+
+    .theme-premium .voucher-header::after {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      top: -72px;
+      right: -50px;
+      width: 142px;
+      height: 142px;
+      border: 1px solid rgba(212, 175, 55, 0.36);
+      border-radius: 50%;
+      box-shadow: 0 0 0 18px rgba(255, 255, 255, 0.04), 0 0 0 34px rgba(212, 175, 55, 0.05), inset 0 0 26px rgba(217, 81, 71, 0.12);
+    }
+
+    .theme-premium .voucher-header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .theme-premium .voucher-title { color: var(--premium-gold); }
+    .theme-premium .voucher-subtitle { color: rgba(255, 255, 255, 0.94); }
+    .theme-premium .header-center { border-right: 1px solid rgba(212, 175, 55, 0.38); }
+    .theme-premium .header-right { color: rgba(255, 255, 255, 0.86); }
+
+    .theme-premium .voucher-body {
+      background: var(--premium-paper);
+    }
+
+    .theme-premium .section-box {
+      background-color: var(--premium-paper);
+      border: 1px solid var(--premium-gold-line);
+    }
+
+    .theme-premium .section-title { color: var(--premium-navy); }
+    .theme-premium .policy-title { color: var(--premium-navy); }
+
+    .theme-premium .grid-card,
+    .theme-premium .cancellation-box {
+      background-color: #FFFFFF;
+      border: 1px solid var(--premium-gold-line);
+    }
+
+    .theme-premium .card-icon {
+      color: var(--premium-gold);
+      background: var(--premium-gold-soft);
+    }
+
+    .theme-premium .card-label { color: var(--premium-gold); }
+    .theme-premium .card-value {
+      color: var(--premium-navy);
+      border-bottom: 0;
+      box-shadow: inset 0 -1px 0 rgba(212, 175, 55, 0.20);
+    }
+
+    .theme-premium .company-name { color: var(--premium-navy); }
+    .theme-premium .company-sub-location { color: var(--premium-gold); }
+    .theme-premium .company-image-container { border-color: rgba(212, 175, 55, 0.56); }
+    .theme-premium .company-image-placeholder {
+      color: var(--premium-navy);
+      background: rgba(212, 175, 55, 0.10);
+    }
+
+    .theme-premium .voucher-footer {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background: var(--premium-gradient);
+      border-top: 2px solid var(--premium-gold);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .theme-premium .voucher-footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 12% 70%, rgba(255, 255, 255, 0.08) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 88% 28%, rgba(217, 81, 71, 0.16) 0 2px, transparent 3px),
+        linear-gradient(115deg, transparent 0 72%, rgba(255, 255, 255, 0.06) 72% 72.5%, transparent 72.5%);
+    }
+
+    .theme-premium .voucher-footer > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .theme-premium .footer-heading { color: var(--premium-gold); }
+    .theme-premium .footer-line { color: rgba(255, 255, 255, 0.92); }
+    .theme-premium .compliments-title { color: var(--premium-gold); }
+    .theme-premium .compliments-sub { color: rgba(255, 255, 255, 0.92); }
+
+    /* THEME: CLASSIC - preserve green cancellation icon (inline style removed for themeable color) */
+    .theme-classic .cancellation-box .card-icon { color: #063B3E; }
+  </style>
+
+<div class="voucher-card theme-classic voucher-preview voucher-photo-disabled" id="printVoucher">
+
+  <!-- HEADER -->
+  <div class="voucher-header">
+    <div class="brand-logo">
+      <div class="logo-text-group">
+        <span class="logo-main">Alma Travel</span>
+        <span class="logo-sub">Your Journey, OUR COMMITMENT</span>
+      </div>
+    </div>
+    <div class="header-center">
+      <div class="voucher-title">TRANSFERS VOUCHER</div>
+      <div class="voucher-subtitle">Your Journey, Our Commitment</div>
+    </div>
+    <div class="header-right">
+      Alma Travel<br>
+      Airport Transfers<br>
+      Chauffeur Services
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="voucher-body">
+
+    <!-- LEFT: BOOKING DETAILS -->
+    <div class="section-box">
+      <div class="section-title">Booking Details</div>
+      <div class="details-grid">
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Guest Name</span>
+            <span class="card-value" id="previewGuest">Guest name</span>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V9h10v2z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Confirmation Number</span>
+            <span class="card-value" id="previewReference">Reference</span>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Pickup Date</span>
+            <span class="card-value" id="previewCheckIn">Select date <span style="font-weight: normal; font-size: 9px; color: #666;">(From 10:00)</span></span>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Drop-off Date</span>
+            <span class="card-value" id="previewCheckOut">Select date <span style="font-weight: normal; font-size: 9px; color: #666;">(Until 12:00)</span></span>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12.3 2c.43 0 .85.05 1.28.14a9.92 9.92 0 0 0-4.8 9.36c.22 5.25 4.5 9.4 9.77 9.47.4 0 .8-.03 1.19-.08A10.012 10.012 0 0 1 2 12C2 6.5 6.47 2 12.3 2z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Transfer Distance</span>
+            <span class="card-value" id="previewNightsPreview">0 Days</span>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.55 3.89 3.57 4.23V22h2.86v-8.77C11.45 12.89 13 11.12 13 9V2h-2v7zm8-7h-2c-1.1 0-2 .9-2 2v8h2v10h2V2z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Vehicle Type</span>
+            <span class="card-value" id="previewVehicleType">Select option</span>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Passengers</span>
+            <span class="card-value" id="previewPassengers">1</span>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 7V3L8 9h3v8H8l4 6 4-6h-3z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Luggage</span>
+            <span class="card-value" id="previewLuggageCount">0</span>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 15.59l7.59-7.59L19 9l-7 7z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Meet &amp; Greet</span>
+            <span class="card-value" id="previewMeetGreet">No</span>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 11V7c0-1.1-.9-2-2-2h-1V4c0-1.1-.9-2-2-2h-2c-1.1 0-2 .9-2 2v1H8V4c0-1.1-.9-2-2-2H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h10.17l4 3.88c.42.4 1 .62 1.55.62.13 0 .26-.02.38-.05C20.28 20.53 22 18.95 22 17V8c0-.55-.45-1-1-1h-2v1h-2V7h-2v1H8V7h2V5h2v1h2v1h2c1.1 0 2-.9 2-2v-.17l4 3.88c.42.4 1 .62 1.55.62.13 0 .26-.02.38-.05z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Flight Number</span>
+            <span class="card-value" id="previewFlightNumber">—</span>
+          </div>
+        </div>
+
+        <div class="grid-card full-width">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="card-content">
+            <span class="card-label">Special Requests</span>
+            <span class="card-value" id="previewSpecialRequests" style="font-size: 9.5px;">Special requests</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: COMPANY SHOWCASE -->
+    <div class="company-showcase">
+      <div class="company-header-flex">
+        <div>
+          <div class="company-name" id="previewCompanyName">Provider name</div>
+          <div class="company-contact-info">
+            📍 <span id="previewPickupLocation">Pickup location</span><br>
+            📍 <span id="previewDropoffLocation">Drop-off location</span><br>
+            📞 <span id="previewCompanyPhone">Provider phone</span><br>
+                      </div>
+        </div>
+                <img src="http://127.0.0.1:8768/storage/company/Guhadzgzx6g6VOepAl5WdAmkMIyhXmTWFHfFh23G.png" alt="Company Logo" class="company-logo-img">
+              </div>
+
+      <div class="company-image-container">
+                <img id="previewCarPhoto" src="" alt="Vehicle Preview" class="d-none">
+        <div id="previewPhotoPlaceholder" class="company-image-placeholder">No vehicle image included</div>
+              </div>
+
+      <div class="cancellation-box">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        </div>
+        <div>
+          <div class="policy-title">Insurance Coverage</div>
+          <div class="policy-text" id="previewInsuranceType">N/A</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="voucher-footer">
+    <div class="footer-col">
+      <div class="footer-heading">Alma Travel Contact Details</div>
+      <div class="footer-line">📞 +966 920022050</div>
+      <div class="footer-line">✉️ info@almatravel.co</div>
+      <div class="footer-line">🌐 www.almatravel.co</div>
+      <div class="footer-line">📍 Badriya Towers, Prince Saud Al Faisal, Jeddah, Saudi Arabia</div>
+    </div>
+
+    <div class="footer-col center">
+      <div class="footer-heading">Booking Consultant Details</div>
+            <div class="footer-line">👤 <span id="previewConsultantName">Alma Travel Team</span></div>
+      <div class="footer-line">✉️ <span id="previewConsultantEmail">Booking support</span></div>
+      <div class="footer-line">📞 <span id="previewConsultantPhone">+966 920022050</span></div>
+          </div>
+
+    <div class="footer-col right">
+      <div class="compliments-title">With Compliments</div>
+      <div class="compliments-sub">Alma Travel</div>
+    </div>
+  </div>
+
+</div>
+                </div>
+                <div class="preview-hint"><span>i</span> The preview is the master template used for PDF export.</div>
+                <div class="preview-actions">
+                    <button class="btn btn-alma w-100" type="button" onclick="window.print()">Print Voucher</button>
+                </div>
+            </aside>
+        </form>
+    </div>
+</section>
+</main>
+    <footer class="site-footer">
+        <div class="container-xl d-flex flex-wrap justify-content-between gap-2">
+            <span>&copy; 2026 Alma Travel. Internal use only.</span>
+            <span>Badriya Towers, Prince Saud Al Faisal District, Jeddah</span>
+        </div>
+    </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        try {
+            console.log('DOMContentLoaded fired');
+            const form = document.getElementById('voucher-form');
+            const themeSelect = document.getElementById('voucher_theme_select');
+            const themeInput = document.getElementById('voucher_theme');
+            const voucherCard = document.getElementById('printVoucher');
+            if (themeSelect && themeInput) { themeSelect.value = themeInput.value; }
+            if (themeSelect && voucherCard) {
+                themeSelect.addEventListener('change', function () {
+                    themeInput.value = this.value;
+                    voucherCard.classList.remove('theme-classic', 'theme-modern');
+                    voucherCard.classList.add('theme-' + this.value);
+                    dispatchPreview();
+                });
+            }
+        const pickupDate = document.getElementById('pickup_date');
+        const dropoffDate = document.getElementById('dropoff_date');
+        const photoToggle = document.getElementById('include_photo');
+        const photoInput = document.getElementById('photo');
+        const employeeSelect = document.getElementById('employee_id');
+        const daysField = document.getElementById('previewNights');
+        let vehiclePhoto = '';
+
+        const formatDate = (value) => {
+            if (!value) return 'Select date';
+            const date = new Date(value + 'T00:00:00');
+            return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
+        };
+
+        const getOptionValue = (selectId, otherId) => {
+            const select = document.getElementById(selectId);
+            const other = document.getElementById(otherId);
+            return select.value === 'Other' && other.value.trim() ? other.value.trim() : select.value;
+        };
+
+        const updateOtherField = (selectId, inputId) => {
+            const select = document.getElementById(selectId);
+            const input = document.getElementById(inputId);
+            if (!select || !input) return;
+            input.classList.toggle('d-none', select.value !== 'Other');
+            input.required = select.value === 'Other';
+        };
+
+        const dispatchPreview = () => {
+            document.title = 'PREVIEW_RUNNING_' + Date.now();
+            document.body.setAttribute('data-preview-status', 'running');
+            console.log('dispatchPreview running');
+
+            const setValue = (id, value, useHtml = false) => {
+                try {
+                    const element = document.getElementById(id);
+                    if (!element) { console.warn('[preview] missing element: ' + id); return; }
+                    if (useHtml) {
+                        element.innerHTML = value;
+                    } else {
+                        element.textContent = value;
+                    }
+                } catch (err) {
+                    console.error('[setValue]', id, err);
+                }
+            };
+
+            let days = 0;
+            try {
+                const start = pickupDate.value ? new Date(pickupDate.value + 'T00:00:00') : null;
+                const end = dropoffDate.value ? new Date(dropoffDate.value + 'T00:00:00') : null;
+                days = start && end ? Math.max(0, Math.round((end - start) / 86400000)) : 0;
+            } catch (err) {
+                console.error('[days]', err);
+            }
+
+            try { daysField.textContent = days; } catch (err) { console.error('[daysField]', err); }
+            setValue('previewNights', days);
+
+            setValue('previewGuest', document.getElementById('guest_name')?.value || 'Guest name');
+            setValue('previewReference', document.getElementById('confirmation_reference')?.value || 'Reference');
+            setValue('previewCheckIn', formatDate(pickupDate?.value) + ' <span style="font-weight: normal; font-size: 9px; color: #666;">(From ' + (document.getElementById('pickup_time')?.value || '10:00') + ')</span>', true);
+            const dropoffDateVal = dropoffDate?.value;
+            setValue('previewCheckOut', dropoffDateVal ? formatDate(dropoffDateVal) + ' <span style="font-weight: normal; font-size: 9px; color: #666;">(Until ' + (document.getElementById('dropoff_time')?.value || '12:00') + ')</span>' : '—', true);
+            setValue('previewVehicleType', getOptionValue('vehicle_type', 'vehicle_type_other'));
+            setValue('previewPassengers', document.getElementById('passengers')?.value || '1');
+            setValue('previewLuggageCount', document.getElementById('luggage_count')?.value || '0');
+            const meetGreet = document.getElementById('meet_greet')?.value === '1';
+            setValue('previewMeetGreet', meetGreet ? 'Yes' : 'No');
+            setValue('previewFlightNumber', document.getElementById('flight_number')?.value || '—');
+            setValue('previewSpecialRequests', document.getElementById('special_requests')?.value || 'Special requests');
+            setValue('previewCompanyName', document.getElementById('provider_name')?.value || 'Provider name');
+            setValue('previewCompanyPhone', document.getElementById('provider_phone')?.value || '—');
+            const option = employeeSelect.selectedOptions[0] || {};
+            setValue('previewConsultantName', option.dataset?.name || 'Alma Travel Team');
+            setValue('previewConsultantEmail', option.dataset?.email || 'Booking support');
+            setValue('previewConsultantPhone', option.dataset?.phone || ("+966 920022050"));
+            const pickupLocation = document.getElementById('pickup_location')?.value || 'Pickup location';
+            const dropoffLocation = document.getElementById('dropoff_location')?.value || 'Drop-off location';
+            setValue('previewPickupLocation', pickupLocation);
+            setValue('previewDropoffLocation', dropoffLocation);
+            try {
+                const companyEmail = document.getElementById('provider_email')?.value || '';
+                const emailElement = document.getElementById('previewCompanyEmail');
+                if (emailElement) { emailElement.textContent = companyEmail || ''; }
+            } catch (err) { console.error('[companyEmail]', err); }
+
+            try {
+                const vehiclePhotoElement = document.getElementById('previewCarPhoto');
+                const photoPlaceholder = document.getElementById('previewPhotoPlaceholder');
+                const showPhoto = document.getElementById('include_photo')?.checked && !!vehiclePhoto;
+                if (vehiclePhotoElement) {
+                    vehiclePhotoElement.src = showPhoto ? vehiclePhoto : '';
+                    vehiclePhotoElement.classList.toggle('d-none', !showPhoto);
+                }
+                if (photoPlaceholder) photoPlaceholder.classList.toggle('d-none', showPhoto);
+            } catch (err) { console.error('[vehiclePhoto]', err); }
+        };
+
+        console.log('ATTACHING LISTENERS');
+        form.addEventListener('input', () => {
+            updateOtherField('vehicle_type', 'vehicle_type_other');
+            dispatchPreview();
+        });
+        form.addEventListener('change', dispatchPreview);
+        pickupDate.addEventListener('change', dispatchPreview);
+        dropoffDate.addEventListener('change', dispatchPreview);
+        console.log('LISTENERS ATTACHED');
+        window.addEventListener('voucherThemeChange', (event) => {
+            document.getElementById('voucher_theme').value = event.detail.themeName;
+        });
+        photoInput.addEventListener('change', () => {
+            const file = photoInput.files[0];
+            if (!file) {
+                vehiclePhoto = '';
+                dispatchPreview();
+                return;
+            }
+            const reader = new FileReader();
+            reader.addEventListener('load', () => {
+                vehiclePhoto = reader.result;
+                photoToggle.checked = true;
+                dispatchPreview();
+            });
+            reader.readAsDataURL(file);
+        });
+        console.log('CALLING dispatchPreview');
+        dispatchPreview();
+        } catch (err) {
+            console.error('DOMContentLoaded FATAL:', err);
+            document.body.insertAdjacentHTML('afterbegin', '<div id="js-error" style="position:fixed;top:0;left:0;right:0;background:#ff0000;color:#fff;padding:20px;z-index:99999;font-family:monospace;font-size:14px;border-bottom:3px solid #000"><strong>JavaScript Error:</strong><br>' + (err.message || 'Unknown') + '<br><strong>Stack:</strong><br><pre style="white-space:pre-wrap;max-height:200px;overflow:auto">' + (err.stack || 'No stack') + '</pre></div>');
+        }
+    });
+</script>
+</body>
+</html>

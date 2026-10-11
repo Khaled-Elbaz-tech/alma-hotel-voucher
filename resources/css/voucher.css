@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Montserrat:wght@400;600&display=swap');
+
+@font-face {
+    font-family: 'Georgia';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/voucher/georgia.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Georgia';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/fonts/voucher/georgia-bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Georgia';
+    font-style: italic;
+    font-weight: 400;
+    src: url('/fonts/voucher/georgia-italic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Georgia';
+    font-style: italic;
+    font-weight: 700;
+    src: url('/fonts/voucher/georgia-bold-italic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/voucher/playfair-display-400.woff2') format('woff2'), url('/fonts/voucher/playfair-display-400.woff2') format('truetype');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/fonts/voucher/playfair-display-700.woff2') format('woff2'), url('/fonts/voucher/playfair-display-700.woff2') format('truetype');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 800;
+    src: url('/fonts/voucher/playfair-display-800.woff2') format('woff2'), url('/fonts/voucher/playfair-display-800.woff2') format('truetype');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 900;
+    src: url('/fonts/voucher/playfair-display-900.woff2') format('woff2'), url('/fonts/voucher/playfair-display-900.woff2') format('truetype');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/voucher/inter-400.woff2') format('woff2'), url('/fonts/voucher/inter-400.woff2') format('truetype');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/fonts/voucher/inter-700.woff2') format('woff2'), url('/fonts/voucher/inter-700.woff2') format('truetype');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    src: url('/fonts/voucher/inter-800.woff2') format('woff2'), url('/fonts/voucher/inter-800.woff2') format('truetype');
+}
+@font-face {
+    font-family: 'Cinzel';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/voucher/cinzel-400.woff2') format('woff2'), url('/fonts/voucher/cinzel-400.woff2') format('truetype');
+}
+@font-face {
+    font-family: 'Cinzel';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/fonts/voucher/cinzel-700.woff2') format('woff2'), url('/fonts/voucher/cinzel-700.woff2') format('truetype');
+}
+
+@page {
+    size: A4 landscape;
+    margin: 0;
+}
+
+@media print {
+    body { background: #fff; }
+    .site-header, .site-footer, .result-nav, .result-heading, .result-sidecard { display: none !important; }
+    .result-page { padding: 0; }
+    .result-layout { display: block; padding: 0; }
+    .result-preview { display: block !important; overflow: visible; padding: 0; background: #fff; }
+    .voucher-final { max-width: none; box-shadow: none; }
+}
