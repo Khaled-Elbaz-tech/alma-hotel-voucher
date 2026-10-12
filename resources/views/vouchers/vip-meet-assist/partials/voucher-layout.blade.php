@@ -460,11 +460,13 @@
         #printVoucher, #printVoucher * { visibility: visible; }
         #printVoucher {
             position: absolute;
-            left: 0;
+            left: 50%;
             top: 0;
             width: 297mm;
             margin: 0;
             page-break-inside: avoid;
+            zoom: 0.95;
+            transform: translateX(-50%);
         }
         /* compact spacing so the voucher fits a single A4 landscape page */
         .v-head { min-height: 30mm; padding-top: 8px; padding-bottom: 8px; }
