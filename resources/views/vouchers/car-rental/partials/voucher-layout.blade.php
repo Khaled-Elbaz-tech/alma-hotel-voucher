@@ -21,6 +21,8 @@
     $insuranceType = $preview ? 'Select insurance' : ($voucher->insurance_type ?? '—');
     $supplierReference = $preview ? 'Supplier reference' : ($voucher->supplier_reference ?? '—');
     $importantNotes = $preview ? 'Add important notes here' : ($voucher->important_notes ?: '—');
+    $termsText = $preview ? \App\Models\Voucher::defaultTerms('car-rental') : ($voucher->terms_text ?: \App\Models\Voucher::defaultTerms('car-rental'));
+    $termsLines = collect(preg_split('/\r\n|\r|\n/', (string) $termsText))->map(fn ($l) => preg_replace('/^\s*\d+\.\s*/', '', trim($l)))->filter()->values();
     $pickupTerminal = $preview ? '' : ($voucher->pickup_terminal ?? '');
     $dropoffTerminal = $preview ? '' : ($voucher->dropoff_terminal ?? '');
     $bookingNumber = $preview ? '—' : ($voucher->booking_number ?? '—');
@@ -688,6 +690,18 @@
                     <div><span class="v-label">Insurance</span><span class="v-val" id="previewInsuranceType">{{ $insuranceType }}</span></div>
                     <div><span class="v-label">Supplier Ref.</span><span class="v-val" id="previewSupplierReference">{{ $supplierReference }}</span></div>
                 </div>
+            </div>
+
+            <div class="v-info">
+                <div class="v-info-head">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <h4>Rental Terms</h4>
+                </div>
+                <ol class="v-fixed-notes" id="previewTermsList">
+                    @foreach ($termsLines as $line)
+                    <li>{{ $line }}</li>
+                    @endforeach
+                </ol>
             </div>
 
         </aside>

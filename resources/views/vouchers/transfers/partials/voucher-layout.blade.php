@@ -44,6 +44,8 @@
     $passengers = $preview ? '1' : ($voucher->passengers ?? '—');
     $luggageCount = $preview ? '0' : ($voucher->luggage_count ?? 0);
     $specialRequests = $preview ? 'Special requests' : ($voucher->special_requests ?: '—');
+    $termsText = $preview ? \App\Models\Voucher::defaultTerms('transfers') : ($voucher->terms_text ?: \App\Models\Voucher::defaultTerms('transfers'));
+    $termsLines = collect(preg_split('/\r\n|\r|\n/', (string) $termsText))->map(fn ($l) => preg_replace('/^\s*\d+\.\s*/', '', trim($l)))->filter()->values();
     $employee = $preview ? null : $voucher->employee;
     $logoSource = $logoData ?? ($settings->logoUrl() ?? null);
     $hasPhoto = ! $preview && $voucher->include_hotel_photo && ($voucher->hotel_photo_path || $hotelPhotoData);
@@ -716,6 +718,18 @@
                         <span>Vehicle photo not included</span>
                     </div>
                 @endif
+            </div>
+
+            <div class="v-info">
+                <div class="v-info-head">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <h4>Terms &amp; Conditions</h4>
+                </div>
+                <ul class="v-fixed-notes" id="previewTermsList">
+                    @foreach ($termsLines as $line)
+                    <li>{{ $line }}</li>
+                    @endforeach
+                </ul>
             </div>
 
         </aside>
