@@ -203,9 +203,20 @@
                     </div>
                 </div>
 
+                <!-- Terms -->
+                <div class="form-section">
+                    <h3><span>09</span> Terms</h3>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label" for="terms_text">Rental terms <small class="text-muted">(pre-filled — edit or remove items as needed; shown in the voucher side panel)</small></label>
+                            <textarea class="form-control" id="terms_text" name="terms_text" rows="8">{{ old('terms_text', \App\Models\Voucher::defaultTerms('car-rental')) }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Booking Consultant -->
                 <div class="form-section">
-                    <h3><span>09</span> Booking consultant</h3>
+                    <h3><span>10</span> Booking consultant</h3>
                     <label class="form-label" for="employee_id">Select consultant</label>
                     <select class="form-select consultant-select" id="employee_id" name="employee_id">
                         <option value="">Select an active employee</option>
@@ -275,6 +286,7 @@
             const photoInput = document.getElementById('car_photo');
             const employeeSelect = document.getElementById('employee_id');
             let carPhoto = '';
+            const DEFAULT_TERMS = @json(\App\Models\Voucher::defaultTerms('car-rental'));
 
             const formatDate = (value) => {
                 if (!value) return 'Select date';
@@ -368,6 +380,20 @@
 
                 setValue('previewSupplierReference', document.getElementById('supplier_reference')?.value || '—');
                 setValue('previewImportantNotes', document.getElementById('important_notes')?.value || '');
+
+                // Terms side list (live from textarea, defaults when empty)
+                try {
+                    const termsList = document.getElementById('previewTermsList');
+                    const termsRaw = (document.getElementById('terms_text')?.value || '').trim() || DEFAULT_TERMS;
+                    if (termsList) {
+                        termsList.innerHTML = '';
+                        termsRaw.split('\n').map(l => l.replace(/^\s*\d+\.\s*/, '').trim()).filter(Boolean).forEach(line => {
+                            const li = document.createElement('li');
+                            li.textContent = line;
+                            termsList.appendChild(li);
+                        });
+                    }
+                } catch (err) { console.error('[terms preview]', err); }
 
                 // Car Photo
                 try {

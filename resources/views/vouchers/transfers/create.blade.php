@@ -199,7 +199,13 @@
                 </div>
 
                 <div class="form-section">
-                    <h3><span>08</span> Booking consultant</h3>
+                    <h3><span>08</span> Terms</h3>
+                    <label class="form-label" for="terms_text">Terms &amp; conditions <small class="text-muted">(pre-filled — edit or remove items as needed; shown in the voucher side panel)</small></label>
+                    <textarea class="form-control" id="terms_text" name="terms_text" rows="7">{{ old('terms_text', \App\Models\Voucher::defaultTerms('transfers')) }}</textarea>
+                </div>
+
+                <div class="form-section">
+                    <h3><span>09</span> Booking consultant</h3>
                     <label class="form-label" for="employee_id">Select consultant</label>
                     <select class="form-select consultant-select" id="employee_id" name="employee_id">
                         <option value="">Select an active employee</option>
@@ -271,6 +277,7 @@
         const tripTypeSelect = document.getElementById('trip_type');
         const returnSection = document.getElementById('return_section');
         let vehiclePhoto = '';
+        const DEFAULT_TERMS = @json(\App\Models\Voucher::defaultTerms('transfers'));
 
         const formatDate = (value) => {
             if (!value) return 'Select date';
@@ -360,6 +367,20 @@
             const retFlightBits = [document.getElementById('return_flight_number')?.value || '', formatDate(document.getElementById('return_flight_date')?.value), formatTime(document.getElementById('return_flight_time')?.value)].filter(b => b && b !== 'Select date' && b !== '—');
             setValue('previewReturnFlightDetails', retFlightBits.length ? retFlightBits.join(' · ') : '—');
             setValue('previewSpecialRequests', document.getElementById('special_requests')?.value || 'Special requests');
+
+            // Terms side list (live from textarea, defaults when empty)
+            try {
+                const termsList = document.getElementById('previewTermsList');
+                const termsRaw = (document.getElementById('terms_text')?.value || '').trim() || DEFAULT_TERMS;
+                if (termsList) {
+                    termsList.innerHTML = '';
+                    termsRaw.split('\n').map(l => l.replace(/^\s*\d+\.\s*/, '').trim()).filter(Boolean).forEach(line => {
+                        const li = document.createElement('li');
+                        li.textContent = line;
+                        termsList.appendChild(li);
+                    });
+                }
+            } catch (err) { console.error('[terms preview]', err); }
             const option = employeeSelect.selectedOptions[0] || {};
             setValue('previewConsultantName', option.dataset?.name || 'Alma Travel Team');
             setValue('previewConsultantEmail', option.dataset?.email || 'Booking support');
