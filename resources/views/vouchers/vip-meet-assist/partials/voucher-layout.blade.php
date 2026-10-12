@@ -510,6 +510,50 @@
         -webkit-print-color-adjust: exact; print-color-adjust: exact;
     }
 
+
+    /* ============ DOMPDF PDF DOWNLOAD — single A4 landscape page ============ */
+    /* DomPDF lacks flexbox/grid + gradients: rebuild with floats/tables, solid colors, compact. */
+    .voucher-pdf #printVoucher { position: static !important; max-height: none !important; overflow: visible !important; width: 100% !important; }
+    .voucher-pdf .voucher-card { width: 100% !important; min-height: 0 !important; }
+    .voucher-pdf .v-head { display: table !important; width: 100% !important; min-height: 0 !important; padding: 4px 20px !important; background: #0B3B3E !important; border-bottom: 2px solid #C8A24B !important; }
+    .voucher-pdf .voucher-card.theme-modern .v-head { background: #F7F2E7 !important; }
+    .voucher-pdf .voucher-card.theme-premium .v-head { background: #8B251E !important; }
+    .voucher-pdf .v-head > div { display: table-cell !important; vertical-align: middle !important; }
+    .voucher-pdf .v-brand-name { font-size: 14px !important; }
+    .voucher-pdf .v-brand-tag { font-size: 6px !important; margin-top: 2px !important; }
+    .voucher-pdf .v-title h2 { font-size: 12px !important; margin: 0 !important; }
+    .voucher-pdf .v-title p { font-size: 6px !important; margin: 0 !important; }
+    .voucher-pdf .v-badge { width: 24px !important; height: 24px !important; margin-bottom: 2px !important; }
+    .voucher-pdf .v-meta .lbl, .voucher-pdf .v-meta .dt { font-size: 6px !important; }
+    .voucher-pdf .v-meta .num { font-size: 8px !important; }
+    .voucher-pdf .v-barcode { height: 12px !important; }
+    .voucher-pdf .v-body { display: block !important; padding: 5px 14px 5px !important; }
+    .voucher-pdf .v-body::after { content: ''; display: table; clear: both; }
+    .voucher-pdf .v-main { display: block !important; float: left !important; width: 58% !important; }
+    .voucher-pdf .v-side { display: block !important; float: right !important; width: 40% !important; }
+    .voucher-pdf .v-sec { margin-bottom: 5px !important; }
+    .voucher-pdf .v-sec-title { font-size: 7px !important; margin-bottom: 2px !important; }
+    .voucher-pdf .v-grid { display: block !important; }
+    .voucher-pdf .v-grid::after { content: ''; display: table; clear: both; }
+    .voucher-pdf .v-grid > * { float: left !important; width: 48% !important; margin: 0 2% 4px 0 !important; }
+    .voucher-pdf .v-field { padding: 3px 5px !important; border-radius: 6px !important; }
+    .voucher-pdf .v-label { font-size: 6px !important; }
+    .voucher-pdf .v-val { font-size: 8px !important; }
+    .voucher-pdf .v-journey { display: block !important; padding: 5px 7px !important; margin-bottom: 5px !important; border-radius: 6px !important; }
+    .voucher-pdf .v-photo { height: 50px !important; }
+    .voucher-pdf .v-hero { font-size: 11px !important; padding: 4px 8px !important; }
+    .voucher-pdf .v-hero-sub { font-size: 7px !important; }
+    .voucher-pdf .v-info { padding: 5px 7px !important; margin-bottom: 5px !important; border-radius: 6px !important; }
+    .voucher-pdf .v-info-head { font-size: 7px !important; margin-bottom: 3px !important; }
+    .voucher-pdf .v-fixed-notes { font-size: 5.5px !important; line-height: 1.25 !important; }
+    .voucher-pdf .v-fixed-notes li { margin-bottom: 1px !important; }
+    .voucher-pdf .v-note { padding: 4px 7px !important; font-size: 7.5px !important; margin-bottom: 5px !important; }
+    .voucher-pdf .v-foot { display: table !important; width: 100% !important; clear: both !important; padding: 4px 14px !important; background: #0B3B3E !important; border-top: 2px solid #C8A24B !important; }
+    .voucher-pdf .voucher-card.theme-modern .v-foot, .voucher-pdf .voucher-card.theme-premium .v-foot { background: #8B251E !important; }
+    .voucher-pdf .v-fcol { display: table-cell !important; vertical-align: middle !important; }
+    .voucher-pdf .v-fcol h5 { font-size: 6.5px !important; margin: 0 0 2px !important; }
+    .voucher-pdf .v-fline { font-size: 6.5px !important; margin-bottom: 1px !important; }
+    .voucher-pdf .v-fline svg { width: 8px !important; height: 8px !important; }
 </style>
 
 <div class="voucher-card theme-{{ $preview ? 'classic' : (($theme = $voucher?->voucher_theme ?? $settings?->voucher_theme ?? 'classic') === 'alma_premium' ? 'premium' : $theme) }} {{ $preview ? 'voucher-preview' : 'voucher-final' }} {{ $photoDisabled ? 'voucher-photo-disabled' : '' }}" id="printVoucher">
