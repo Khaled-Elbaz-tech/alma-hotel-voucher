@@ -307,7 +307,7 @@
         word-break: break-word;
     }
     .v-val .v-sub { font-size: 9.5px; font-weight: 400; color: var(--vmut); }
-    .v-val.long { font-size: 11px; font-weight: 500; }
+    .v-val.long { font-size: 11px; font-weight: 500; white-space: pre-line; }
 
     .v-note {
         display: flex;
@@ -677,21 +677,6 @@
                     <div><span class="v-label">Insurance</span><span class="v-val" id="previewInsuranceType">{{ $insuranceType }}</span></div>
                     <div><span class="v-label">Supplier Ref.</span><span class="v-val" id="previewSupplierReference">{{ $supplierReference }}</span></div>
                 </div>
-            </div>
-
-            <div class="v-info">
-                <div class="v-info-head">
-                    <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                    <h4>Rental Terms</h4>
-                </div>
-                <ol class="v-fixed-notes">
-                    <li>Rental price excludes traffic violations &amp; vehicle damage — fully the guest's responsibility.</li>
-                    <li>In case of accident, the driver must share full documentation with authorities &amp; insurers.</li>
-                    <li>Windshield cracks/chips (non-criminal) are payable by the driver only.</li>
-                    <li>Tire punctures/bulges not covered (violations, criminal cases or reckless driving excluded).</li>
-                    <li>Natural disasters require a Civil Defense report.</li>
-                    <li>Front exterior fading/erosion (dust, sandstorms) not covered.</li>
-                </ol>
             </div>
 
         </aside>

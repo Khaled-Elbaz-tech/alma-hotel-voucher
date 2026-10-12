@@ -325,7 +325,7 @@
         word-break: break-word;
     }
     .v-val .v-sub { font-size: 9.5px; font-weight: 400; color: var(--vmut); }
-    .v-val.long { font-size: 11px; font-weight: 500; }
+    .v-val.long { font-size: 11px; font-weight: 500; white-space: pre-line; }
 
     .v-note {
         display: flex;
@@ -705,21 +705,6 @@
                         <span>Vehicle photo not included</span>
                     </div>
                 @endif
-            </div>
-
-            <div class="v-info">
-                <div class="v-info-head">
-                    <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                    <h4>Terms &amp; Conditions</h4>
-                </div>
-                <ul class="v-fixed-notes">
-                    <li>Cancellation and extra charges policy applies.</li>
-                    <li>No smoking/food inside the vehicle — violations incur cleaning/penalty charges.</li>
-                    <li>Extra en-route stops are charged separately.</li>
-                    <li>Waiting charges: 150 SAR per hour.</li>
-                    <li>100% charge within 24 hours or no-show; cancellation after confirmation = no-show.</li>
-                    <li>Grace: 30 min (domestic airport) / 15 min (other); extra waiting per 30 min.</li>
-                </ul>
             </div>
 
         </aside>
