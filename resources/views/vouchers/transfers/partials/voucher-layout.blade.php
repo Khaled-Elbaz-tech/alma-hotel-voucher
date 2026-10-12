@@ -23,8 +23,6 @@
     $isRoundTrip = $preview ? false : (($voucher->trip_type ?? 'one_way') === 'round_trip');
     $tripTypeLabel = $preview ? 'One Way' : ($isRoundTrip ? 'Round Trip' : 'One Way');
     $bookingDate = $preview ? 'Select date' : ($voucher->booking_date ? $voucher->booking_date->format('d M Y') : '—');
-    $bookerName = $preview ? '—' : ($voucher->booker_name ?? '—');
-    $bookerContact = $preview ? '—' : ($voucher->booker_contact ?? '—');
     $guestMobile = $preview ? '—' : ($voucher->guest_mobile ?? '—');
     $driverName = $preview ? '—' : ($voucher->driver_name ?? '—');
     $driverNumber = $preview ? '—' : ($voucher->driver_number ?? '—');
@@ -582,14 +580,6 @@
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
                         <div class="v-tx"><span class="v-label">Guest Mobile</span><span class="v-val" id="previewGuestMobile">{{ $guestMobile }}</span></div>
-                    </div>
-<div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Booker</span><span class="v-val" id="previewBookerName">{{ $bookerName }}</span></div>
-                    </div>
-<div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Booker Contact</span><span class="v-val" id="previewBookerContact">{{ $bookerContact }}</span></div>
                     </div>
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>

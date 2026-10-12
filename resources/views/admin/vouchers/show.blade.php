@@ -57,7 +57,6 @@
         <div class="record-grid">
             <div><span>Trip type</span><strong>{{ ($voucher->trip_type ?? 'one_way') === 'round_trip' ? 'Round Trip' : 'One Way' }}</strong></div>
             <div><span>Booking date</span><strong>{{ $voucher->booking_date?->format('d M Y') ?? '—' }}</strong></div>
-            <div><span>Booker</span><strong>{{ $voucher->booker_name ?: '—' }}{{ $voucher->booker_contact ? ' · '.$voucher->booker_contact : '' }}</strong></div>
             <div><span>Guest mobile</span><strong>{{ $voucher->guest_mobile ?: '—' }}</strong></div>
             <div><span>Flight</span><strong>{{ trim(trim((string) $voucher->flight_number).' '.($voucher->flight_date?->format('d M Y') ?? '').' '.trim((string) ($voucher->flight_time ?? ''))) ?: '—' }}</strong></div>
             <div><span>Driver</span><strong>{{ $voucher->driver_name ?: '—' }}{{ $voucher->driver_number ? ' · '.$voucher->driver_number : '' }}</strong></div>

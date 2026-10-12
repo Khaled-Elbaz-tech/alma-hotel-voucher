@@ -15,13 +15,9 @@ return new class extends Migration
             $table->date('flight_arrival_date')->nullable();
             $table->string('flight_airport', 160)->nullable();
 
-            // Transfers: trip type, booking/booker info, driver, expanded flight details, return leg
+            // Transfers: trip type, booking info, driver, expanded flight details, return leg
             $table->string('trip_type', 20)->nullable();
             $table->date('booking_date')->nullable();
-            $table->string('booker_name', 120)->nullable();
-            $table->string('booker_contact', 60)->nullable();
-            $table->string('booker_email', 160)->nullable();
-            $table->string('booker_address', 500)->nullable();
             $table->string('guest_mobile', 40)->nullable();
             $table->string('driver_name', 120)->nullable();
             $table->string('driver_number', 40)->nullable();
@@ -49,8 +45,7 @@ return new class extends Migration
         Schema::table('vouchers', function (Blueprint $table) {
             $table->dropColumn([
                 'rental_duration', 'branch_timing', 'flight_arrival_date', 'flight_airport',
-                'trip_type', 'booking_date', 'booker_name', 'booker_contact', 'booker_email',
-                'booker_address', 'guest_mobile', 'driver_name', 'driver_number',
+                'trip_type', 'booking_date', 'guest_mobile', 'driver_name', 'driver_number',
                 'flight_date', 'flight_time',
                 'return_pickup_date', 'return_pickup_time', 'return_pickup_location',
                 'return_dropoff_date', 'return_dropoff_time', 'return_dropoff_location',

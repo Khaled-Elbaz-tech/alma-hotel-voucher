@@ -50,22 +50,6 @@
                             <label class="form-label" for="guest_mobile">Guest mobile</label>
                             <input class="form-control" id="guest_mobile" name="guest_mobile" value="{{ old('guest_mobile') }}" placeholder="e.g. +966 50 123 4567">
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="booker_name">Booker name</label>
-                            <input class="form-control" id="booker_name" name="booker_name" value="{{ old('booker_name') }}" placeholder="e.g. M Rizwan">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="booker_contact">Booker contact</label>
-                            <input class="form-control" id="booker_contact" name="booker_contact" value="{{ old('booker_contact') }}" placeholder="e.g. +966 53 912 3375">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="booker_email">Booker e-mail</label>
-                            <input class="form-control" id="booker_email" name="booker_email" type="email" value="{{ old('booker_email') }}" placeholder="e.g. m.rizwan@almatravel.co">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" for="booker_address">Booker address</label>
-                            <input class="form-control" id="booker_address" name="booker_address" value="{{ old('booker_address') }}" placeholder="e.g. Prince Saud Al Faisal, Al Khalidiyah, Jeddah">
-                        </div>
                     </div>
                 </div>
 
@@ -356,8 +340,6 @@
             setTripLabel();
             setValue('previewBookingDate', formatDate(document.getElementById('booking_date')?.value));
             setValue('previewGuestMobile', document.getElementById('guest_mobile')?.value || '—');
-            setValue('previewBookerName', document.getElementById('booker_name')?.value || '—');
-            setValue('previewBookerContact', document.getElementById('booker_contact')?.value || '—');
             setValue('previewCheckIn', formatDate(pickupDate?.value) + ' · ' + formatTime(document.getElementById('pickup_time')?.value));
             const dropoffDateVal = dropoffDate?.value;
             setValue('previewCheckOut', dropoffDateVal ? formatDate(dropoffDateVal) + ' · ' + formatTime(document.getElementById('dropoff_time')?.value) : '—');
