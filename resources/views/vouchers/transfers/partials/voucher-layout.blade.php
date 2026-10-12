@@ -571,7 +571,7 @@
                     </div>
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Flight Details</span><span class="v-val" id="previewFlightDetails">{{ $flightDetailsText }}</span></div>
+                        <div class="v-tx"><span class="v-label">Flight Number</span><span class="v-val" id="previewFlightDetails">{{ $flightDetailsText }}</span></div>
                     </div>
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></div>
@@ -645,7 +645,7 @@
                     </div>
 <div class="v-field span2">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Return Flight Details</span><span class="v-val" id="previewReturnFlightDetails">{{ $returnFlightDetailsText }}</span></div>
+                        <div class="v-tx"><span class="v-label">Return Flight Number</span><span class="v-val" id="previewReturnFlightDetails">{{ $returnFlightDetailsText }}</span></div>
                     </div>
                 </div>
             </section>
