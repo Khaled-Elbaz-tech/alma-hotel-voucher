@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="form-section">
-                    <h3><span>02</span> Flight details</h3>
+                    <h3><span>02</span> Flight Number</h3>
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label" for="flight_number">Flight number</label>
@@ -349,7 +349,7 @@
             setValue('previewLuggageCount', document.getElementById('luggage_count')?.value || '0');
             setValue('previewDriverName', document.getElementById('driver_name')?.value || '—');
             setValue('previewDriverNumber', document.getElementById('driver_number')?.value || '—');
-            // Flight details (outbound) — composed nicely
+            // Flight number (outbound) — composed nicely
             const flightBits = [document.getElementById('flight_number')?.value || '', formatDate(document.getElementById('flight_date')?.value), formatTime(document.getElementById('flight_time')?.value)].filter(b => b && b !== 'Select date' && b !== '—');
             setValue('previewFlightDetails', flightBits.length ? flightBits.join(' · ') : '—');
             // Return leg

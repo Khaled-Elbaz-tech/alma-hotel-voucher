@@ -141,9 +141,9 @@
                     </div>
                 </div>
 
-                <!-- Flight Details -->
+                <!-- Flight Number -->
                 <div class="form-section">
-                    <h3><span>05</span> Flight details</h3>
+                    <h3><span>05</span> Flight Number</h3>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label" for="flight_number">Flight number</label>
@@ -360,7 +360,7 @@
                 setValue('previewInsuranceType', getOptionValue('insurance_type', 'insurance_type_other'));
                 setValue('previewBranchTiming', document.getElementById('branch_timing')?.value || '—');
 
-                // Flight Details
+                // Flight Number
                 setValue('previewFlightNumber', document.getElementById('flight_number')?.value || '—');
                 setValue('previewFlightAirport', document.getElementById('flight_airport')?.value || '—');
                 setValue('previewFlightArrivalDate', formatDate(document.getElementById('flight_arrival_date')?.value));
