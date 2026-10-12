@@ -19,7 +19,7 @@
     $logoSource = $logoData ?? ($settings->logoUrl() ?? null);
     $hasHotelPhoto = ! $preview && $voucher->include_hotel_photo && ($voucher->hotel_photo_path || $hotelPhotoData);
     $photoDisabled = ! $hasHotelPhoto;
-    $voucherNumber = $preview ? 'ALM-HV-20260917-0001' : $voucher->voucher_number;
+    $voucherNumber = $preview ? 'ALMA-HV-20260917-0001' : $voucher->voucher_number;
     $voucherDate = $preview ? now()->format('d M Y') : $voucher->created_at->format('d M Y');
     $hotelPhotoUrl = $hotelPhotoData ?? ($voucher ? ($voucher->hotelPhotoUrl() ?? 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80') : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80');
     $hotelLocationSub = $preview ? '' : ($voucher ? ($voucher->hotel_location_sub ?? '') : '');

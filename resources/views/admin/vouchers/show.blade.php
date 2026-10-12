@@ -41,10 +41,10 @@
         @endif
     @elseif ($voucher->voucher_type === 'car-rental')
         <div class="record-grid">
-            <div><span>Rental company</span><strong>{{ $voucher->rental_company ?: '—' }}</strong></div>
-            <div><span>Company phone</span><strong>{{ $voucher->company_phone ?: '—' }}</strong></div>
-            <div><span>Company email</span><strong>{{ $voucher->company_email ?: '—' }}</strong></div>
+            <div><span>Rental duration</span><strong>{{ $voucher->rental_duration ? $voucher->rental_duration.' '.($voucher->rental_duration == 1 ? 'Day' : 'Days') : '—' }}</strong></div>
+            <div><span>Branch timing</span><strong>{{ $voucher->branch_timing ?: '—' }}</strong></div>
             <div><span>Supplier reference</span><strong>{{ $voucher->supplier_reference ?: '—' }}</strong></div>
+            <div><span>Flight</span><strong>{{ trim(trim((string) $voucher->flight_number).' '.($voucher->flight_arrival_date?->format('d M Y') ?? '').' '.trim((string) ($voucher->flight_arrival_time ?? ''))) ?: '—' }}{{ $voucher->flight_airport ? ' · '.$voucher->flight_airport : '' }}</strong></div>
             <div><span>Vehicle</span><strong>{{ trim(($voucher->vehicle_type ?? '').($voucher->vehicle_model ? ' · '.$voucher->vehicle_model : '')) ?: '—' }}</strong></div>
             <div><span>Insurance</span><strong>{{ $voucher->insurance_type ?: '—' }}</strong></div>
             <div><span>Pickup</span><strong>{{ $voucher->check_in_date?->format('d M Y') ?? '—' }}{{ $voucher->check_in_time ? ' · '.$voucher->check_in_time : '' }}<br><span class="muted">{{ $voucher->pickup_location }}{{ $voucher->pickup_terminal ? ' · '.$voucher->pickup_terminal : '' }}</span></strong></div>
@@ -55,33 +55,36 @@
         @endif
     @elseif ($voucher->voucher_type === 'transfers')
         <div class="record-grid">
-            <div><span>Provider</span><strong>{{ $voucher->company_name ?: '—' }}</strong></div>
-            <div><span>Provider phone</span><strong>{{ $voucher->company_phone ?: '—' }}</strong></div>
-            <div><span>Date</span><strong>{{ $voucher->check_in_date?->format('d M Y') ?? '—' }}{{ $voucher->check_in_time ? ' · '.$voucher->check_in_time : '' }}</strong></div>
-            <div><span>Flight</span><strong>{{ trim(trim((string) $voucher->airline).' '.trim((string) $voucher->flight_number)) ?: '—' }}</strong></div>
-            <div><span>Pickup location</span><strong>{{ $voucher->pickup_location ?: '—' }}</strong></div>
-            <div><span>Drop-off location</span><strong>{{ $voucher->dropoff_location ?: '—' }}</strong></div>
+            <div><span>Trip type</span><strong>{{ ($voucher->trip_type ?? 'one_way') === 'round_trip' ? 'Round Trip' : 'One Way' }}</strong></div>
+            <div><span>Booking date</span><strong>{{ $voucher->booking_date?->format('d M Y') ?? '—' }}</strong></div>
+            <div><span>Booker</span><strong>{{ $voucher->booker_name ?: '—' }}{{ $voucher->booker_contact ? ' · '.$voucher->booker_contact : '' }}</strong></div>
+            <div><span>Guest mobile</span><strong>{{ $voucher->guest_mobile ?: '—' }}</strong></div>
+            <div><span>Flight</span><strong>{{ trim(trim((string) $voucher->flight_number).' '.($voucher->flight_date?->format('d M Y') ?? '').' '.trim((string) ($voucher->flight_time ?? ''))) ?: '—' }}</strong></div>
+            <div><span>Driver</span><strong>{{ $voucher->driver_name ?: '—' }}{{ $voucher->driver_number ? ' · '.$voucher->driver_number : '' }}</strong></div>
+            <div><span>Pickup</span><strong>{{ $voucher->check_in_date?->format('d M Y') ?? '—' }}{{ $voucher->check_in_time ? ' · '.$voucher->check_in_time : '' }}<br><span class="muted">{{ $voucher->pickup_location }}</span></strong></div>
+            <div><span>Drop-off</span><strong>{{ $voucher->dropoff_location ?: '—' }}</strong></div>
             <div><span>Vehicle</span><strong>{{ $voucher->vehicle_type ?: '—' }}</strong></div>
             <div><span>Passengers / Luggage</span><strong>{{ $voucher->passengers ?? '—' }} / {{ $voucher->luggage_count ?? '—' }}</strong></div>
+            @if (($voucher->trip_type ?? 'one_way') === 'round_trip')
+            <div><span>Return pickup</span><strong>{{ $voucher->return_pickup_date?->format('d M Y') ?? '—' }}{{ $voucher->return_pickup_time ? ' · '.$voucher->return_pickup_time : '' }}<br><span class="muted">{{ $voucher->return_pickup_location }}</span></strong></div>
+            <div><span>Return drop-off</span><strong>{{ $voucher->return_dropoff_date?->format('d M Y') ?? '—' }}{{ $voucher->return_dropoff_time ? ' · '.$voucher->return_dropoff_time : '' }}<br><span class="muted">{{ $voucher->return_dropoff_location }}</span></strong></div>
+            <div><span>Return flight</span><strong>{{ trim(trim((string) $voucher->return_flight_number).' '.($voucher->return_flight_date?->format('d M Y') ?? '').' '.trim((string) ($voucher->return_flight_time ?? ''))) ?: '—' }}</strong></div>
+            @endif
         </div>
-        @if ($voucher->meet_greet)
-            <div class="record-policy"><strong>Extras</strong><p>Meet &amp; greet included.</p></div>
-        @endif
         @if ($voucher->special_requests)
             <div class="record-policy"><strong>Special requests</strong><p>{{ $voucher->special_requests }}</p></div>
         @endif
     @elseif ($voucher->voucher_type === 'vip-meet-assist')
         @php
             $assists = collect([
+                'Meet & Assist' => $voucher->service_meet_assist,
+                'Private car' => $voucher->service_private_car,
                 'Fast track' => $voucher->fast_track,
-                'Porter service' => $voucher->porter_service,
-                'VIP lounge access' => $voucher->vip_lounge_access,
-                'Wheelchair' => $voucher->wheelchair,
-                'Private assistance' => $voucher->private_assistance,
-                'Family assistance' => $voucher->family_assistance,
-                'Elderly assistance' => $voucher->elderly_assistance,
-                'Child assistance' => $voucher->child_assistance,
-            ])->filter()->keys()->implode(', ');
+                'VIP lounge' => $voucher->vip_lounge_access,
+                'Immigration' => $voucher->service_immigration,
+            ]);
+            $assistsOn = $assists->filter()->keys()->implode(', ');
+            $assistsAll = $assists->map(fn ($on, $label) => $label.': '.($on ? 'Yes' : 'No'))->implode(' · ');
         @endphp
         <div class="record-grid">
             <div><span>Agent</span><strong>{{ $voucher->company_name ?: '—' }}</strong></div>
@@ -91,11 +94,9 @@
             <div><span>Arrival time</span><strong>{{ $voucher->flight_arrival_time ?: '—' }}</strong></div>
             <div><span>Meeting point</span><strong>{{ $voucher->meeting_point ?: '—' }}{{ $voucher->meeting_time ? ' · '.$voucher->meeting_time : '' }}</strong></div>
             <div><span>Terminal</span><strong>{{ $voucher->terminal ?: '—' }}</strong></div>
-            <div><span>Passengers</span><strong>{{ $voucher->passengers ?? '—' }}</strong></div>
+            <div><span>Number of Passengers</span><strong>{{ $voucher->passengers ?? '—' }}</strong></div>
         </div>
-        @if ($assists)
-            <div class="record-policy"><strong>Included assistance</strong><p>{{ $assists }}</p></div>
-        @endif
+        <div class="record-policy"><strong>Services</strong><p>{{ $assistsAll }}</p></div>
         @if ($voucher->special_requests)
             <div class="record-policy"><strong>Special requests</strong><p>{{ $voucher->special_requests }}</p></div>
         @endif

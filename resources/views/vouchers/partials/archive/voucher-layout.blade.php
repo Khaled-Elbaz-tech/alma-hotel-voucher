@@ -45,7 +45,7 @@
     $logoSource = $logoData ?: $settings->logoUrl();
     $hasHotelPhoto = ! $preview && $voucher->include_hotel_photo && ($voucher->hotel_photo_path || $hotelPhotoData);
     $photoDisabled = ! $hasHotelPhoto;
-    $voucherNumber = $preview ? 'ALM-HV-20260917-0001' : $voucher->voucher_number;
+    $voucherNumber = $preview ? 'ALMA-HV-20260917-0001' : $voucher->voucher_number;
     $voucherDate = $preview ? now()->format('d M Y') : $voucher->created_at->format('d M Y');
 @endphp
 
