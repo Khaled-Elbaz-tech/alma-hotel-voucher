@@ -53,6 +53,7 @@
         @if ($voucher->important_notes)
             <div class="record-policy"><strong>Important notes</strong><p>{{ $voucher->important_notes }}</p></div>
         @endif
+        <div class="record-policy"><strong>Rental terms</strong><p style="white-space: pre-line">{{ $voucher->terms_text ?: \App\Models\Voucher::defaultTerms('car-rental') }}</p></div>
     @elseif ($voucher->voucher_type === 'transfers')
         <div class="record-grid">
             <div><span>Trip type</span><strong>{{ ($voucher->trip_type ?? 'one_way') === 'round_trip' ? 'Round Trip' : 'One Way' }}</strong></div>
@@ -73,6 +74,7 @@
         @if ($voucher->special_requests)
             <div class="record-policy"><strong>Special requests</strong><p>{{ $voucher->special_requests }}</p></div>
         @endif
+        <div class="record-policy"><strong>Terms &amp; conditions</strong><p style="white-space: pre-line">{{ $voucher->terms_text ?: \App\Models\Voucher::defaultTerms('transfers') }}</p></div>
     @elseif ($voucher->voucher_type === 'vip-meet-assist')
         @php
             $assists = collect([
