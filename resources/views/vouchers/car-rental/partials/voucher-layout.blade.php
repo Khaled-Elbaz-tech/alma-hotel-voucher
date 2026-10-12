@@ -471,22 +471,28 @@
         #printVoucher, #printVoucher * { visibility: visible; }
         #printVoucher {
             position: absolute;
-            left: 50%;
+            left: 0;
             top: 0;
             width: 297mm;
             margin: 0;
             page-break-inside: avoid;
-            zoom: 0.88;
-            transform: translateX(-50%);
         }
-        /* compact spacing so the voucher fits a single A4 landscape page */
-        .v-head { min-height: 30mm; padding-top: 8px; padding-bottom: 8px; }
-        .v-body { padding-top: 10px; padding-bottom: 10px; }
-        .v-main, .v-side { gap: 8px; }
-        .v-sec-title { margin-bottom: 6px; }
-        .v-photo { height: 128px; }
-        .v-foot { padding-top: 8px; padding-bottom: 8px; }
+        /* compact fields so the voucher fits a single A4 landscape page (no zoom) */
+        .v-head { min-height: 28mm; padding-top: 6px; padding-bottom: 6px; }
+        .v-body { padding-top: 8px; padding-bottom: 8px; }
+        .v-main, .v-side { gap: 6px; }
+        .v-sec-title { margin-bottom: 4px; font-size: 9px; }
+        .v-field { padding: 5px 8px; }
+        .v-label { font-size: 7.5px; }
+        .v-val { font-size: 10px; }
+        .v-photo { height: 110px; }
+        .v-journey { padding: 8px 10px; }
+        .v-note { padding: 8px 10px; font-size: 10px; }
+        .v-info { padding: 8px 10px; }
+        .v-fixed-notes { font-size: 7px; }
         .v-fixed-notes li { margin-bottom: 1px; }
+        .v-foot { padding-top: 6px; padding-bottom: 6px; }
+        .v-fline { font-size: 9px; }
     }
     .d-none { display: none !important; }
 
