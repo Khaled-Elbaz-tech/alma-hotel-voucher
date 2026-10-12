@@ -37,6 +37,9 @@ return new class extends Migration
             $table->boolean('service_meet_assist')->default(false);
             $table->boolean('service_private_car')->default(false);
             $table->boolean('service_immigration')->default(false);
+
+            // Editable terms (per-voucher copy of the fixed default terms)
+            $table->text('terms_text')->nullable();
         });
     }
 
@@ -51,6 +54,7 @@ return new class extends Migration
                 'return_dropoff_date', 'return_dropoff_time', 'return_dropoff_location',
                 'return_flight_number', 'return_flight_date', 'return_flight_time',
                 'service_meet_assist', 'service_private_car', 'service_immigration',
+                'terms_text',
             ]);
         });
     }

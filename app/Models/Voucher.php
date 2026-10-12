@@ -76,6 +76,7 @@ class Voucher extends Model
         'guest_mobile',
         'driver_name',
         'driver_number',
+        'terms_text',
         'flight_date',
         'flight_time',
         'return_pickup_date',
@@ -159,9 +160,22 @@ class Voucher extends Model
     }
 
     /** Compact one-line summary used by admin tables. Null-safe. */
-    public function summaryLine(): string
+    /**
+     * Default (fixed) terms text per voucher type, pre-filled in the form's
+     * Terms section. Staff can edit it per booking; empty values fall back
+     * to these defaults when rendering the voucher.
+     */
+    public static function defaultTerms(string $voucherType): string
     {
-        $line = match ($this->voucher_type) {
+        return match ($voucherType) {
+            'car-rental' => "1. The car rental price does not include traffic violations or any other vehicle damage during the rental period and are fully the responsibility of the guest.\n2. If any accident occurs, the driver must share the complete documentation with the official authorities and insurance companies.\n3. Windshield cracks or chips (must not be related to criminal cases) are payable by the driver only.\n4. Tire punctures and bulges are not covered (in case of traffic violations, criminal cases or reckless driving).\n5. Natural disasters (a Civil Defense report is required).\n6. Fading or erosion of the vehicle's front exterior (dust, sandstorms or similar damage) is not covered.",
+            'transfers' => "1. Cancellation and extra charges policy applies.\n2. Smoking and food are strictly prohibited inside the vehicle — violations incur cleaning/penalty charges.\n3. Extra en-route stops not in the confirmed itinerary are charged separately.\n4. Waiting charges: 150 SAR per hour.\n5. 100% charge within 24 hours or no-show; cancellation after confirmation counts as no-show.\n6. Grace period: 30 min (domestic airport) / 15 min (other locations); extra waiting billed per 30 minutes.",
+            default => '',
+        };
+    }
+
+    public function summaryLine(): string
+    {        $line = match ($this->voucher_type) {
             'hotel' => collect([
                 $this->hotel_name,
                 trim(($this->check_in_date?->format('d M') ?? '').($this->check_out_date ? ' → '.$this->check_out_date->format('d M Y') : '')),
