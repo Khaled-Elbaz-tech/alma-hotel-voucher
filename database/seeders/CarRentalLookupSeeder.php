@@ -10,7 +10,7 @@ class CarRentalLookupSeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'CarVehicleCategory' => ['Economy', 'Compact', 'Intermediate', 'Standard', 'Full Size', 'Premium', 'Luxury', 'SUV', 'Minivan', 'Convertible', 'Other'],
+            'VehicleType' => ['Economy', 'Compact', 'Intermediate', 'Standard', 'Full Size', 'Premium', 'Luxury', 'SUV', 'Minivan', 'Convertible', 'Other'],
             'CarTransmission' => ['Automatic', 'Manual'],
             'CarInclusion' => ['Unlimited Mileage', 'Fuel Policy', 'Insurance / Coverage', 'Roadside Assistance', 'Additional Driver', 'Child Seat', 'GPS / Navigation', 'Wi-Fi', 'Other'],
         ];

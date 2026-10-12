@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             EmployeeSeeder::class,
             LookupSeeder::class,
+            CarRentalLookupSeeder::class,
+            VipLookupSeeder::class,
         ]);
     }
 }

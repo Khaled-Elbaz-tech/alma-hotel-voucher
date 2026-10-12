@@ -24,7 +24,7 @@ class LookupController extends Controller
             'name' => ['required', 'string', 'max:80'],
             'sort_order' => ['required', 'integer', 'min:0', 'max:999'],
         ]);
-        $validated['slug'] = strtolower(preg_replace('/[^A-Za-z0-9]+/', '-', $validated['name']));
+        $validated['slug'] = strtolower(preg_replace('/[^A-Za-z0-9]+/', '', $validated['name']));
 
         LookupCategory::create($validated);
 
@@ -37,7 +37,7 @@ class LookupController extends Controller
             'name' => ['required', 'string', 'max:80'],
             'sort_order' => ['required', 'integer', 'min:0', 'max:999'],
         ]);
-        $validated['slug'] = strtolower(preg_replace('/[^A-Za-z0-9]+/', '-', $validated['name']));
+        $validated['slug'] = strtolower(preg_replace('/[^A-Za-z0-9]+/', '', $validated['name']));
 
         $category->update($validated);
 
