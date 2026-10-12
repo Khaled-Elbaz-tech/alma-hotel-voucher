@@ -277,7 +277,7 @@
             setValue('previewReference', document.getElementById('confirmation_reference')?.value || 'Reference');
             setValue('previewServiceDate', formatDate(serviceDate?.value) || 'Select date');
             setValue('previewServiceTime', document.getElementById('service_time')?.value || '10:00');
-            setValue('previewServiceName', document.getElementById('agent_name')?.value || 'Agent name');
+            setValue('previewCompanyName', document.getElementById('agent_name')?.value || 'Agent name');
             setValue('previewServiceType', getOptionValue('service_type', 'service_type_other'));
             setValue('previewPassengers', document.getElementById('passengers')?.value || '1');
             setValue('previewMeetingPoint', document.getElementById('meeting_point')?.value || 'Meeting point');
