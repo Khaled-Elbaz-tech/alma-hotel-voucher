@@ -487,13 +487,11 @@
         #printVoucher, #printVoucher * { visibility: visible; }
         #printVoucher {
             position: absolute;
-            left: 50%;
+            left: 0;
             top: 0;
             width: 297mm;
             margin: 0;
             page-break-inside: avoid;
-            zoom: 0.72;
-            transform: translateX(-50%);
         }
         /* compact spacing so the voucher fits a single A4 landscape page */
         .v-head { min-height: 30mm; padding-top: 8px; padding-bottom: 8px; }
@@ -809,3 +807,31 @@
     </div>
 
 </div>
+
+<script>
+/* Fit voucher to a single A4 landscape page when printing (all pages). */
+(function() {
+    var card = document.getElementById('printVoucher');
+    if (!card) return;
+    function fitToPage() {
+        card.style.zoom = '1';
+        card.style.left = '';
+        card.style.transform = '';
+        var h = card.scrollHeight;
+        var maxH = 788;
+        if (h > maxH) {
+            card.style.zoom = (maxH / h).toFixed(4);
+            card.style.left = '50%';
+            card.style.transform = 'translateX(-50%)';
+        }
+    }
+    function resetFit() {
+        card.style.zoom = '';
+        card.style.left = '';
+        card.style.transform = '';
+    }
+    window.addEventListener('beforeprint', fitToPage);
+    window.addEventListener('afterprint', resetFit);
+})();
+</script>
+
