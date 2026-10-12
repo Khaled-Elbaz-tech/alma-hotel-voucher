@@ -207,7 +207,7 @@ class VoucherController extends Controller
         $date = now()->format('Ymd');
 
         do {
-            $number = 'ALM-HV-'.$date.'-'.random_int(1000, 9999);
+            $number = 'ALMA-HV-'.$date.'-'.random_int(1000, 9999);
         } while (Voucher::where('voucher_number', $number)->exists());
 
         return $number;

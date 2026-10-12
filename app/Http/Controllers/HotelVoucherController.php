@@ -9,7 +9,7 @@ use App\Models\Voucher;
 class HotelVoucherController extends BaseVoucherController
 {
     protected string $voucherType = 'hotel';
-    protected string $voucherPrefix = 'ALM-HV';
+    protected string $voucherPrefix = 'ALMA-HV';
     protected string $createView = 'vouchers.hotel.create';
     protected string $showView = 'vouchers.hotel.show';
     protected string $pdfView = 'vouchers.hotel.pdf';

@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 abstract class BaseVoucherController extends Controller
 {
     protected string $voucherType = 'hotel';
-    protected string $voucherPrefix = 'ALM-HV';
+    protected string $voucherPrefix = 'ALMA-HV';
     protected string $createView = 'vouchers.create';
     protected string $showView = 'vouchers.show';
     protected string $pdfView = 'vouchers.pdf';

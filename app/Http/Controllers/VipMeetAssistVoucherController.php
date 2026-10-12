@@ -9,7 +9,7 @@ use App\Models\Voucher;
 class VipMeetAssistVoucherController extends BaseVoucherController
 {
     protected string $voucherType = 'vip-meet-assist';
-    protected string $voucherPrefix = 'ALM-VIP';
+    protected string $voucherPrefix = 'ALMA-VIP';
     protected string $createView = 'vouchers.vip-meet-assist.create';
     protected string $showView = 'vouchers.vip-meet-assist.show';
     protected string $pdfView = 'vouchers.vip-meet-assist.pdf';
@@ -32,9 +32,11 @@ class VipMeetAssistVoucherController extends BaseVoucherController
         'service_type' => ['required', 'string', 'max:120'],
         'service_type_other' => ['nullable', 'string', 'max:120', 'required_if:service_type,Other'],
         'passengers' => ['required', 'integer', 'min:1', 'max:20'],
+        'service_meet_assist' => ['nullable', 'boolean'],
+        'service_private_car' => ['nullable', 'boolean'],
         'vip_lounge_access' => ['nullable', 'boolean'],
         'fast_track' => ['nullable', 'boolean'],
-        'porter_service' => ['nullable', 'boolean'],
+        'service_immigration' => ['nullable', 'boolean'],
         'special_requests' => ['nullable', 'string', 'max:1000'],
         'include_photo' => ['nullable', 'boolean'],
         'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
@@ -74,9 +76,11 @@ class VipMeetAssistVoucherController extends BaseVoucherController
             'flight_arrival_time' => $validated['flight_arrival_time'],
             'service_type' => $this->resolveOption($validated['service_type'], $validated['service_type_other'] ?? null),
             'passengers' => $validated['passengers'],
+            'service_meet_assist' => (bool) ($validated['service_meet_assist'] ?? false),
+            'service_private_car' => (bool) ($validated['service_private_car'] ?? false),
             'vip_lounge_access' => (bool) ($validated['vip_lounge_access'] ?? false),
             'fast_track' => (bool) ($validated['fast_track'] ?? false),
-            'porter_service' => (bool) ($validated['porter_service'] ?? false),
+            'service_immigration' => (bool) ($validated['service_immigration'] ?? false),
             'special_requests' => $validated['special_requests'] ?? null,
             'include_hotel_photo' => (bool) ($validated['include_photo'] ?? false),
             'hotel_photo_path' => $photoPath,

@@ -9,7 +9,7 @@ use App\Models\Voucher;
 class CarRentalVoucherController extends BaseVoucherController
 {
     protected string $voucherType = 'car-rental';
-    protected string $voucherPrefix = 'ALM-CR';
+    protected string $voucherPrefix = 'ALMA-CR';
     protected string $createView = 'vouchers.car-rental.create';
     protected string $showView = 'vouchers.car-rental.show';
     protected string $pdfView = 'vouchers.car-rental.pdf';
@@ -22,9 +22,6 @@ class CarRentalVoucherController extends BaseVoucherController
         'booking_number' => ['nullable', 'string', 'max:100'],
         'contact_number' => ['nullable', 'string', 'max:40'],
         'id_passport_number' => ['nullable', 'string', 'max:100'],
-        'company_address' => ['required', 'string', 'max:500'],
-        'company_phone' => ['required', 'string', 'max:60'],
-        'company_email' => ['nullable', 'email', 'max:160'],
         'confirmation_reference' => ['required', 'string', 'max:100'],
         'pickup_date' => ['required', 'date', 'before:dropoff_date'],
         'dropoff_date' => ['required', 'date', 'after:pickup_date'],
@@ -39,7 +36,12 @@ class CarRentalVoucherController extends BaseVoucherController
         'vehicle_model' => ['nullable', 'string', 'max:120'],
         'insurance_type' => ['nullable', 'string', 'max:120'],
         'insurance_type_other' => ['nullable', 'string', 'max:120', 'required_if:insurance_type,Other'],
-        'rental_company' => ['required', 'string', 'max:160'],
+        'rental_duration' => ['nullable', 'integer', 'min:1', 'max:365'],
+        'branch_timing' => ['nullable', 'string', 'max:120'],
+        'flight_number' => ['nullable', 'string', 'max:40'],
+        'flight_arrival_date' => ['nullable', 'date'],
+        'flight_arrival_time' => ['nullable', 'string', 'max:8'],
+        'flight_airport' => ['nullable', 'string', 'max:160'],
         'supplier_reference' => ['nullable', 'string', 'max:100'],
         'important_notes' => ['nullable', 'string', 'max:1000'],
         'include_car_photo' => ['nullable', 'boolean'],
@@ -67,10 +69,6 @@ class CarRentalVoucherController extends BaseVoucherController
             'booking_number' => $validated['booking_number'] ?? null,
             'contact_number' => $validated['contact_number'] ?? null,
             'id_passport_number' => $validated['id_passport_number'] ?? null,
-            'company_name' => $validated['rental_company'],
-            'company_address' => $validated['company_address'],
-            'company_phone' => $validated['company_phone'],
-            'company_email' => $validated['company_email'] ?? null,
             'confirmation_reference' => $validated['confirmation_reference'],
             'check_in_date' => $checkIn,
             'check_out_date' => $checkOut,
@@ -84,7 +82,12 @@ class CarRentalVoucherController extends BaseVoucherController
             'vehicle_type' => $this->resolveOption($validated['vehicle_type'], $validated['vehicle_type_other'] ?? null),
             'vehicle_model' => $validated['vehicle_model'] ?? null,
             'insurance_type' => $this->resolveOption($validated['insurance_type'], $validated['insurance_type_other'] ?? null),
-            'rental_company' => $validated['rental_company'],
+            'rental_duration' => $validated['rental_duration'] ?? null,
+            'branch_timing' => $validated['branch_timing'] ?? null,
+            'flight_number' => $validated['flight_number'] ?? null,
+            'flight_arrival_date' => $validated['flight_arrival_date'] ?? null,
+            'flight_arrival_time' => $validated['flight_arrival_time'] ?? null,
+            'flight_airport' => $validated['flight_airport'] ?? null,
             'supplier_reference' => $validated['supplier_reference'] ?? null,
             'important_notes' => $validated['important_notes'] ?? null,
             'include_hotel_photo' => (bool) ($validated['include_car_photo'] ?? false),
