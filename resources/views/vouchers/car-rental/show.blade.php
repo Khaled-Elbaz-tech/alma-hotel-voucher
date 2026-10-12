@@ -14,7 +14,7 @@
                 <p class="lead mb-0">The confirmation is ready to download, share, or print.</p>
             </div>
             <div class="col-lg-4 result-actions">
-                <button class="btn btn-alma btn-lg" id="printVoucher" type="button">Print voucher</button>
+                <button class="btn btn-alma btn-lg" id="printVoucherBtn" type="button">Print voucher</button>
             </div>
         </div>
         <div class="result-layout">
@@ -29,7 +29,7 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('printVoucher').addEventListener('click', () => window.print());
+        document.getElementById('printVoucherBtn').addEventListener('click', () => window.print());
     });
 </script>
 @endsection
