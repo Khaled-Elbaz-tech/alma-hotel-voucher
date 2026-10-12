@@ -471,12 +471,16 @@
         #printVoucher, #printVoucher * { visibility: visible; }
         #printVoucher {
             position: absolute;
-            left: 50%;
+            left: 0;
             top: 0;
             width: 297mm;
             margin: 0;
             page-break-inside: avoid;
-            zoom: 0.74;
+        }
+        /* Applied via JS before print: shrink to fit one page. Screen-safe: only in @media print. */
+        #printVoucher.print-fit {
+            zoom: var(--print-zoom, 0.74);
+            left: 50%;
             transform: translateX(-50%);
         }
         /* compact spacing so the voucher fits a single A4 landscape page */
@@ -784,29 +788,20 @@
 </div>
 
 <script>
-/* Fit voucher to a single A4 landscape page when printing (all pages). */
+/* Fit voucher to a single A4 landscape page when printing. Screen-safe: the
+   print-fit class only has styles inside @media print, so nothing leaks. */
 (function() {
     var card = document.getElementById('printVoucher');
     if (!card) return;
-    function fitToPage() {
-        card.style.zoom = '1';
-        card.style.left = '';
-        card.style.transform = '';
+    window.addEventListener('beforeprint', function() {
+        card.classList.remove('print-fit');
         var h = card.scrollHeight;
         var maxH = 788;
         if (h > maxH) {
-            card.style.zoom = (maxH / h).toFixed(4);
-            card.style.left = '50%';
-            card.style.transform = 'translateX(-50%)';
+            card.style.setProperty('--print-zoom', (maxH / h).toFixed(4));
+            card.classList.add('print-fit');
         }
-    }
-    function resetFit() {
-        card.style.zoom = '';
-        card.style.left = '';
-        card.style.transform = '';
-    }
-    window.addEventListener('beforeprint', fitToPage);
-    window.addEventListener('afterprint', resetFit);
+    });
 })();
 </script>
 
