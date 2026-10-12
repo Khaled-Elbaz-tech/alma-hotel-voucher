@@ -493,20 +493,26 @@
             margin: 0;
             page-break-inside: avoid;
         }
-        /* Round trip has a return leg: shrink to fit one page */
-        #printVoucher.is-roundtrip {
-            zoom: 0.88;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        /* compact spacing so the voucher fits a single A4 landscape page */
-        .v-head { min-height: 30mm; padding-top: 8px; padding-bottom: 8px; }
-        .v-body { padding-top: 10px; padding-bottom: 10px; }
-        .v-main, .v-side { gap: 8px; }
-        .v-sec-title { margin-bottom: 6px; }
-        .v-photo { height: 128px; }
-        .v-foot { padding-top: 8px; padding-bottom: 8px; }
+        /* compact fields so the voucher fits a single A4 landscape page (no zoom) */
+        .v-head { min-height: 24mm; padding-top: 4px; padding-bottom: 4px; }
+        .v-body { padding-top: 6px; padding-bottom: 6px; }
+        .v-main, .v-side { gap: 5px; }
+        .v-sec { margin-bottom: 5px; }
+        .v-sec-title { margin-bottom: 3px; font-size: 8px; }
+        .v-field { padding: 4px 6px; }
+        .v-label { font-size: 7px; }
+        .v-val { font-size: 9px; }
+        .v-photo { height: 80px; }
+        .v-hero { font-size: 12px; }
+        .v-route { margin-top: 6px; }
+        .v-route-pt { gap: 6px; }
+        .v-note { padding: 6px 8px; font-size: 9px; }
+        .v-info { padding: 6px 8px; }
+        .v-fixed-notes { font-size: 6.5px; }
         .v-fixed-notes li { margin-bottom: 1px; }
+        .v-foot { padding-top: 4px; padding-bottom: 4px; }
+        .v-fcol h5 { font-size: 8px; margin-bottom: 2px; }
+        .v-fline { font-size: 8px; margin-bottom: 1px; }
     }
     .d-none { display: none !important; }
 
@@ -582,7 +588,7 @@
     .voucher-pdf .v-fline svg { width: 8px !important; height: 8px !important; }
 </style>
 
-<div class="voucher-card theme-{{ $preview ? 'classic' : (($theme = $voucher?->voucher_theme ?? $settings?->voucher_theme ?? 'classic') === 'alma_premium' ? 'premium' : $theme) }} {{ $preview ? 'voucher-preview' : 'voucher-final' }} {{ $photoDisabled ? 'voucher-photo-disabled' : '' }} {{ (($voucher?->trip_type ?? "") === "round_trip") ? "is-roundtrip" : "" }}" id="printVoucher">
+<div class="voucher-card theme-{{ $preview ? 'classic' : (($theme = $voucher?->voucher_theme ?? $settings?->voucher_theme ?? 'classic') === 'alma_premium' ? 'premium' : $theme) }} {{ $preview ? 'voucher-preview' : 'voucher-final' }} {{ $photoDisabled ? 'voucher-photo-disabled' : '' }}" id="printVoucher">
 
     <!-- HEADER -->
     <div class="v-head">
