@@ -463,10 +463,21 @@
             left: 0;
             top: 0;
             width: 297mm;
-            min-height: 200mm;
+            height: 209mm;
+            max-height: 209mm;
+            min-height: 0;
+            overflow: hidden;
             margin: 0;
             page-break-inside: avoid;
         }
+        /* compact spacing so the voucher fits a single A4 landscape page */
+        .v-head { min-height: 30mm; padding-top: 8px; padding-bottom: 8px; }
+        .v-body { padding-top: 10px; padding-bottom: 10px; }
+        .v-main, .v-side { gap: 8px; }
+        .v-sec-title { margin-bottom: 6px; }
+        .v-photo { height: 128px; }
+        .v-foot { padding-top: 8px; padding-bottom: 8px; }
+        .v-fixed-notes li { margin-bottom: 1px; }
     }
     .d-none { display: none !important; }
 
