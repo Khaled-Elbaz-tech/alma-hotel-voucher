@@ -25,8 +25,19 @@
                 </div>
 
                 <div class="form-section">
-                    <h3><span>01</span> Guest &amp; provider</h3>
+                    <h3><span>01</span> Trip &amp; booking</h3>
                     <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="trip_type">Trip type <span class="required-star">*</span></label>
+                            <select class="form-select" id="trip_type" name="trip_type" required>
+                                <option value="one_way" {{ old('trip_type', 'one_way') === 'one_way' ? 'selected' : '' }}>One Way</option>
+                                <option value="round_trip" {{ old('trip_type') === 'round_trip' ? 'selected' : '' }}>Round Trip</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="booking_date">Booking date</label>
+                            <input class="form-control" id="booking_date" name="booking_date" type="date" value="{{ old('booking_date') }}">
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label" for="guest_name">Guest name <span class="required-star">*</span></label>
                             <input class="form-control" id="guest_name" name="guest_name" value="{{ old('guest_name') }}" placeholder="e.g. Mr. Ahmed Alotaibi" required>
@@ -35,27 +46,49 @@
                             <label class="form-label" for="confirmation_reference">Confirmation / PNR reference <span class="required-star">*</span></label>
                             <input class="form-control" id="confirmation_reference" name="confirmation_reference" value="{{ old('confirmation_reference') }}" placeholder="e.g. ALM8K2" required>
                         </div>
-                        <div class="col-12">
-                            <label class="form-label" for="provider_name">Provider name <span class="required-star">*</span></label>
-                            <input class="form-control" id="provider_name" name="provider_name" value="{{ old('provider_name') }}" placeholder="e.g. Careem, Uber, Blacklane" required>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" for="provider_address">Provider address</label>
-                            <textarea class="form-control" id="provider_address" name="provider_address" rows="2" placeholder="Street, area, city, country">{{ old('provider_address') }}</textarea>
+                        <div class="col-md-6">
+                            <label class="form-label" for="guest_mobile">Guest mobile</label>
+                            <input class="form-control" id="guest_mobile" name="guest_mobile" value="{{ old('guest_mobile') }}" placeholder="e.g. +966 50 123 4567">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="provider_phone">Provider phone <span class="required-star">*</span></label>
-                            <input class="form-control" id="provider_phone" name="provider_phone" value="{{ old('provider_phone') }}" placeholder="e.g. +966 12 345 6789" required>
+                            <label class="form-label" for="booker_name">Booker name</label>
+                            <input class="form-control" id="booker_name" name="booker_name" value="{{ old('booker_name') }}" placeholder="e.g. M Rizwan">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="provider_email">Provider email</label>
-                            <input class="form-control" id="provider_email" name="provider_email" type="email" value="{{ old('provider_email') }}" placeholder="e.g. reservations@company.com">
+                            <label class="form-label" for="booker_contact">Booker contact</label>
+                            <input class="form-control" id="booker_contact" name="booker_contact" value="{{ old('booker_contact') }}" placeholder="e.g. +966 53 912 3375">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="booker_email">Booker e-mail</label>
+                            <input class="form-control" id="booker_email" name="booker_email" type="email" value="{{ old('booker_email') }}" placeholder="e.g. m.rizwan@almatravel.co">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="booker_address">Booker address</label>
+                            <input class="form-control" id="booker_address" name="booker_address" value="{{ old('booker_address') }}" placeholder="e.g. Prince Saud Al Faisal, Al Khalidiyah, Jeddah">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-section">
-                    <h3><span>02</span> Travel dates</h3>
+                    <h3><span>02</span> Flight details</h3>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label" for="flight_number">Flight number</label>
+                            <input class="form-control" id="flight_number" name="flight_number" value="{{ old('flight_number') }}" placeholder="e.g. SV123, EK456">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="flight_date">Flight date</label>
+                            <input class="form-control" id="flight_date" name="flight_date" type="date" value="{{ old('flight_date') }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="flight_time">Flight time</label>
+                            <input class="form-control" id="flight_time" name="flight_time" type="time" value="{{ old('flight_time') }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3><span>03</span> Journey details</h3>
                     <div class="row g-3 align-items-end">
                         <div class="col-md-4">
                             <label class="form-label" for="pickup_date">Pickup date <span class="required-star">*</span></label>
@@ -73,24 +106,62 @@
                             <label class="form-label" for="dropoff_time">Drop-off time</label>
                             <input class="form-control" id="dropoff_time" name="dropoff_time" type="time" value="{{ old('dropoff_time', '12:00') }}">
                         </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3><span>03</span> Locations</h3>
-                    <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label" for="pickup_location">Pickup location <span class="required-star">*</span></label>
-                            <input class="form-control" id="pickup_location" name="pickup_location" value="{{ old('pickup_location') }}" placeholder="e.g. Jeddah King Khaled International Airport" required>
+                            <input class="form-control" id="pickup_location" name="pickup_location" value="{{ old('pickup_location') }}" placeholder="e.g. Jeddah King Abdulaziz International Airport" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="dropoff_location">Drop-off location <span class="required-star">*</span></label>
                             <input class="form-control" id="dropoff_location" name="dropoff_location" value="{{ old('dropoff_location') }}" placeholder="e.g. Ritz-Carlton Hotel, Riyadh" required>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="flight_number">Flight number</label>
-                            <input class="form-control" id="flight_number" name="flight_number" value="{{ old('flight_number') }}" placeholder="e.g. SV123, EK456">
+                    </div>
+                </div>
+
+                <div class="form-section d-none" id="return_section">
+                    <h3><span>04</span> Return journey <small class="text-muted">(round trip)</small></h3>
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-4">
+                            <label class="form-label" for="return_pickup_date">Return pickup date</label>
+                            <input class="form-control" id="return_pickup_date" name="return_pickup_date" type="date" value="{{ old('return_pickup_date') }}">
                         </div>
+                        <div class="col-md-2">
+                            <label class="form-label" for="return_pickup_time">Pickup time</label>
+                            <input class="form-control" id="return_pickup_time" name="return_pickup_time" type="time" value="{{ old('return_pickup_time') }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="return_dropoff_date">Return drop-off date</label>
+                            <input class="form-control" id="return_dropoff_date" name="return_dropoff_date" type="date" value="{{ old('return_dropoff_date') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label" for="return_dropoff_time">Drop-off time</label>
+                            <input class="form-control" id="return_dropoff_time" name="return_dropoff_time" type="time" value="{{ old('return_dropoff_time') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="return_pickup_location">Return pickup location</label>
+                            <input class="form-control" id="return_pickup_location" name="return_pickup_location" value="{{ old('return_pickup_location') }}" placeholder="e.g. Hotel lobby">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="return_dropoff_location">Return drop-off location</label>
+                            <input class="form-control" id="return_dropoff_location" name="return_dropoff_location" value="{{ old('return_dropoff_location') }}" placeholder="e.g. Jeddah Airport">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="return_flight_number">Return flight number</label>
+                            <input class="form-control" id="return_flight_number" name="return_flight_number" value="{{ old('return_flight_number') }}" placeholder="e.g. SV124">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="return_flight_date">Return flight date</label>
+                            <input class="form-control" id="return_flight_date" name="return_flight_date" type="date" value="{{ old('return_flight_date') }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="return_flight_time">Return flight time</label>
+                            <input class="form-control" id="return_flight_time" name="return_flight_time" type="time" value="{{ old('return_flight_time') }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3><span>05</span> Vehicle &amp; guests</h3>
+                    <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label" for="vehicle_type">Vehicle type <span class="required-star">*</span></label>
                             <select class="form-select" id="vehicle_type" name="vehicle_type" required>
@@ -102,26 +173,27 @@
                             </select>
                             <input class="form-control other-field mt-2 d-none" id="vehicle_type_other" name="vehicle_type_other" placeholder="Specify vehicle type">
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="passengers">Passengers <span class="required-star">*</span></label>
+                        <div class="col-md-3">
+                            <label class="form-label" for="passengers">Number of Passengers <span class="required-star">*</span></label>
                             <input class="form-control" id="passengers" name="passengers" type="number" min="1" max="50" value="{{ old('passengers', '1') }}" required>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label" for="luggage_count">Luggage (pieces)</label>
                             <input class="form-control" id="luggage_count" name="luggage_count" type="number" min="0" max="50" value="{{ old('luggage_count', '0') }}">
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="meet_greet">Meet &amp; Greet</label>
-                            <select class="form-select" id="meet_greet" name="meet_greet">
-                                <option value="0" {{ old('meet_greet', '0') === '0' || old('meet_greet') === '' ? 'selected' : '' }}>No</option>
-                                <option value="1" {{ old('meet_greet') === '1' ? 'selected' : '' }}>Yes</option>
-                            </select>
+                        <div class="col-md-6">
+                            <label class="form-label" for="driver_name">Driver name</label>
+                            <input class="form-control" id="driver_name" name="driver_name" value="{{ old('driver_name') }}" placeholder="e.g. Mr. Jahangir">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="driver_number">Driver number</label>
+                            <input class="form-control" id="driver_number" name="driver_number" value="{{ old('driver_number') }}" placeholder="e.g. 056 454 7615">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-section">
-                    <h3><span>04</span> Vehicle photo</h3>
+                    <h3><span>06</span> Vehicle photo</h3>
                     <div class="photo-control">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="include_photo" name="include_photo" value="1" {{ old('include_photo') ? 'checked' : '' }}>
@@ -137,13 +209,13 @@
                 </div>
 
                 <div class="form-section">
-                    <h3><span>05</span> Special requests</h3>
+                    <h3><span>07</span> Special requests</h3>
                     <label class="form-label" for="special_requests">Special requirements</label>
                     <textarea class="form-control" id="special_requests" name="special_requests" rows="2" placeholder="e.g. Child seat, wheelchair access, smoking car">{{ old('special_requests') }}</textarea>
                 </div>
 
                 <div class="form-section">
-                    <h3><span>06</span> Booking consultant</h3>
+                    <h3><span>08</span> Booking consultant</h3>
                     <label class="form-label" for="employee_id">Select consultant</label>
                     <select class="form-select consultant-select" id="employee_id" name="employee_id">
                         <option value="">Select an active employee</option>
@@ -212,13 +284,38 @@
         const photoToggle = document.getElementById('include_photo');
         const photoInput = document.getElementById('photo');
         const employeeSelect = document.getElementById('employee_id');
-        const daysField = document.getElementById('previewNights');
+        const tripTypeSelect = document.getElementById('trip_type');
+        const returnSection = document.getElementById('return_section');
         let vehiclePhoto = '';
 
         const formatDate = (value) => {
             if (!value) return 'Select date';
             const date = new Date(value + 'T00:00:00');
             return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
+        };
+
+        const formatTime = (value) => {
+            if (!value) return '—';
+            const parts = value.split(':');
+            if (parts.length < 2) return value;
+            let h = parseInt(parts[0], 10);
+            const m = parts[1];
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12 || 12;
+            return h + ':' + m + ' ' + ampm;
+        };
+
+        const updateTripType = () => {
+            const isRound = tripTypeSelect && tripTypeSelect.value === 'round_trip';
+            if (returnSection) returnSection.classList.toggle('d-none', !isRound);
+            const returnBlock = document.getElementById('previewReturnBlock');
+            if (returnBlock) returnBlock.classList.toggle('d-none', !isRound);
+            setTripLabel();
+        };
+
+        const setTripLabel = () => {
+            const el = document.getElementById('previewTripType');
+            if (el && tripTypeSelect) el.textContent = tripTypeSelect.value === 'round_trip' ? 'Round Trip' : 'One Way';
         };
 
         const getOptionValue = (selectId, otherId) => {
@@ -254,32 +351,33 @@
                 }
             };
 
-            let days = 0;
-            try {
-                const start = pickupDate.value ? new Date(pickupDate.value + 'T00:00:00') : null;
-                const end = dropoffDate.value ? new Date(dropoffDate.value + 'T00:00:00') : null;
-                days = start && end ? Math.max(0, Math.round((end - start) / 86400000)) : 0;
-            } catch (err) {
-                console.error('[days]', err);
-            }
-
-            try { daysField.textContent = days; } catch (err) { console.error('[daysField]', err); }
-            setValue('previewNights', days);
-
             setValue('previewGuest', document.getElementById('guest_name')?.value || 'Guest name');
             setValue('previewReference', document.getElementById('confirmation_reference')?.value || 'Reference');
-            setValue('previewCheckIn', formatDate(pickupDate?.value) + ' <span style="font-weight: normal; font-size: 9px; color: #666;">(From ' + (document.getElementById('pickup_time')?.value || '10:00') + ')</span>', true);
+            setTripLabel();
+            setValue('previewBookingDate', formatDate(document.getElementById('booking_date')?.value));
+            setValue('previewGuestMobile', document.getElementById('guest_mobile')?.value || '—');
+            setValue('previewBookerName', document.getElementById('booker_name')?.value || '—');
+            setValue('previewBookerContact', document.getElementById('booker_contact')?.value || '—');
+            setValue('previewCheckIn', formatDate(pickupDate?.value) + ' · ' + formatTime(document.getElementById('pickup_time')?.value));
             const dropoffDateVal = dropoffDate?.value;
-            setValue('previewCheckOut', dropoffDateVal ? formatDate(dropoffDateVal) + ' <span style="font-weight: normal; font-size: 9px; color: #666;">(Until ' + (document.getElementById('dropoff_time')?.value || '12:00') + ')</span>' : '—', true);
+            setValue('previewCheckOut', dropoffDateVal ? formatDate(dropoffDateVal) + ' · ' + formatTime(document.getElementById('dropoff_time')?.value) : '—');
             setValue('previewVehicleType', getOptionValue('vehicle_type', 'vehicle_type_other'));
+            setValue('previewSideVehicleType', getOptionValue('vehicle_type', 'vehicle_type_other') || 'Vehicle type');
             setValue('previewPassengers', document.getElementById('passengers')?.value || '1');
             setValue('previewLuggageCount', document.getElementById('luggage_count')?.value || '0');
-            const meetGreet = document.getElementById('meet_greet')?.value === '1';
-            setValue('previewMeetGreet', meetGreet ? 'Yes' : 'No');
-            setValue('previewFlightNumber', document.getElementById('flight_number')?.value || '—');
+            setValue('previewDriverName', document.getElementById('driver_name')?.value || '—');
+            setValue('previewDriverNumber', document.getElementById('driver_number')?.value || '—');
+            // Flight details (outbound) — composed nicely
+            const flightBits = [document.getElementById('flight_number')?.value || '', formatDate(document.getElementById('flight_date')?.value), formatTime(document.getElementById('flight_time')?.value)].filter(b => b && b !== 'Select date' && b !== '—');
+            setValue('previewFlightDetails', flightBits.length ? flightBits.join(' · ') : '—');
+            // Return leg
+            setValue('previewReturnPickup', formatDate(document.getElementById('return_pickup_date')?.value) + ' · ' + formatTime(document.getElementById('return_pickup_time')?.value));
+            setValue('previewReturnDropoff', formatDate(document.getElementById('return_dropoff_date')?.value) + ' · ' + formatTime(document.getElementById('return_dropoff_time')?.value));
+            setValue('previewReturnPickupLocation', document.getElementById('return_pickup_location')?.value || '—');
+            setValue('previewReturnDropoffLocation', document.getElementById('return_dropoff_location')?.value || '—');
+            const retFlightBits = [document.getElementById('return_flight_number')?.value || '', formatDate(document.getElementById('return_flight_date')?.value), formatTime(document.getElementById('return_flight_time')?.value)].filter(b => b && b !== 'Select date' && b !== '—');
+            setValue('previewReturnFlightDetails', retFlightBits.length ? retFlightBits.join(' · ') : '—');
             setValue('previewSpecialRequests', document.getElementById('special_requests')?.value || 'Special requests');
-            setValue('previewCompanyName', document.getElementById('provider_name')?.value || 'Provider name');
-            setValue('previewCompanyPhone', document.getElementById('provider_phone')?.value || '—');
             const option = employeeSelect.selectedOptions[0] || {};
             setValue('previewConsultantName', option.dataset?.name || 'Alma Travel Team');
             setValue('previewConsultantEmail', option.dataset?.email || 'Booking support');
@@ -288,11 +386,6 @@
             const dropoffLocation = document.getElementById('dropoff_location')?.value || 'Drop-off location';
             setValue('previewPickupLocation', pickupLocation);
             setValue('previewDropoffLocation', dropoffLocation);
-            try {
-                const companyEmail = document.getElementById('provider_email')?.value || '';
-                const emailElement = document.getElementById('previewCompanyEmail');
-                if (emailElement) { emailElement.textContent = companyEmail || ''; }
-            } catch (err) { console.error('[companyEmail]', err); }
 
             try {
                 const vehiclePhotoElement = document.getElementById('previewCarPhoto');
@@ -312,9 +405,11 @@
             updateOtherField('vehicle_type', 'vehicle_type_other');
             dispatchPreview();
         });
-        form.addEventListener('change', dispatchPreview);
+        form.addEventListener('change', () => { updateTripType(); dispatchPreview(); });
         pickupDate.addEventListener('change', dispatchPreview);
         dropoffDate.addEventListener('change', dispatchPreview);
+        if (tripTypeSelect) tripTypeSelect.addEventListener('change', () => { updateTripType(); dispatchPreview(); });
+        updateTripType();
         console.log('LISTENERS ATTACHED');
         window.addEventListener('voucherThemeChange', (event) => {
             document.getElementById('voucher_theme').value = event.detail.themeName;

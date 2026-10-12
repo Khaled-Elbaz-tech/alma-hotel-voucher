@@ -4,29 +4,53 @@
     $hotelPhotoData = $hotelPhotoData ?? null;
 
     $value = fn (string $key, string $fallback = '') => $preview ? $fallback : data_get($voucher, $key, $fallback);
-    $formattedCheckIn = $preview ? 'Select date' : $voucher->check_in_date->format('d M Y');
-    $formattedCheckOut = $preview ? 'Select date' : $voucher->check_out_date->format('d M Y');
-    $pickupTime = $preview ? '10:00' : ($voucher->check_in_time ?? '10:00');
-    $dropoffTime = $preview ? '12:00' : ($voucher->check_out_time ?? '12:00');
-    $days = $preview ? 0 : $voucher->nights_count;
-    $companyName = $preview ? 'Provider name' : ($voucher->company_name ?? '—');
-    $companyAddress = $preview ? 'Provider address' : ($voucher->company_address ?? '—');
-    $companyPhone = $preview ? 'Provider phone' : ($voucher->company_phone ?? '—');
-    $companyEmail = $preview ? 'email@provider.com' : ($voucher->company_email ?? '—');
+    $fmtTime = function ($t) {
+        if (! $t) return '—';
+        try {
+            return \Carbon\Carbon::createFromFormat('H:i', substr($t, 0, 5))->format('h:i A');
+        } catch (\Exception $e) {
+            return $t;
+        }
+    };
+    $fmtDate = function ($d, $fallback = 'Select date') {
+        if (! $d) return $fallback;
+        try {
+            return \Carbon\Carbon::parse($d)->format('d M Y');
+        } catch (\Exception $e) {
+            return $fallback;
+        }
+    };
+    $isRoundTrip = $preview ? false : (($voucher->trip_type ?? 'one_way') === 'round_trip');
+    $tripTypeLabel = $preview ? 'One Way' : ($isRoundTrip ? 'Round Trip' : 'One Way');
+    $bookingDate = $preview ? 'Select date' : ($voucher->booking_date ? $voucher->booking_date->format('d M Y') : '—');
+    $bookerName = $preview ? '—' : ($voucher->booker_name ?? '—');
+    $bookerContact = $preview ? '—' : ($voucher->booker_contact ?? '—');
+    $guestMobile = $preview ? '—' : ($voucher->guest_mobile ?? '—');
+    $driverName = $preview ? '—' : ($voucher->driver_name ?? '—');
+    $driverNumber = $preview ? '—' : ($voucher->driver_number ?? '—');
+    $flightNumber = $preview ? '—' : ($voucher->flight_number ?: '—');
+    $flightDate = $preview ? 'Select date' : ($voucher->flight_date ? $voucher->flight_date->format('d M Y') : '—');
+    $flightTime = $preview ? '—' : $fmtTime($voucher->flight_time ?? null);
+    $flightDetailsText = $preview ? '—' : trim($flightNumber.' · '.$flightDate.' · '.$flightTime, ' ·');
+    $pickupDateTime = ($preview ? 'Select date' : $fmtDate($voucher->check_in_date)) . ' · ' . ($preview ? '—' : $fmtTime($voucher->check_in_time ?? null));
+    $dropoffDateTime = ($preview ? 'Select date' : $fmtDate($voucher->check_out_date)) . ' · ' . ($preview ? '—' : $fmtTime($voucher->check_out_time ?? null));
+    $returnPickupDateTime = $preview ? 'Select date · —' : ($voucher->return_pickup_date ? $fmtDate($voucher->return_pickup_date).' · '.$fmtTime($voucher->return_pickup_time ?? null) : '—');
+    $returnDropoffDateTime = $preview ? 'Select date · —' : ($voucher->return_dropoff_date ? $fmtDate($voucher->return_dropoff_date).' · '.$fmtTime($voucher->return_dropoff_time ?? null) : '—');
+    $returnFlightNumber = $preview ? '—' : ($voucher->return_flight_number ?: '—');
+    $returnFlightDate = $preview ? 'Select date' : ($voucher->return_flight_date ? $voucher->return_flight_date->format('d M Y') : '—');
+    $returnFlightTime = $preview ? '—' : $fmtTime($voucher->return_flight_time ?? null);
+    $returnFlightDetailsText = $preview ? '—' : trim($returnFlightNumber.' · '.$returnFlightDate.' · '.$returnFlightTime, ' ·');
     $pickupLocation = $preview ? 'Pickup location' : ($voucher->pickup_location ?? '—');
     $dropoffLocation = $preview ? 'Drop-off location' : ($voucher->dropoff_location ?? '—');
     $vehicleType = $preview ? 'Select vehicle type' : ($voucher->vehicle_type ?? '—');
     $passengers = $preview ? '1' : ($voucher->passengers ?? '—');
     $luggageCount = $preview ? '0' : ($voucher->luggage_count ?? 0);
-    $meetGreet = $preview ? false : (bool) $voucher->meet_greet;
-    $flightNumber = $preview ? '—' : ($voucher->flight_number ?: '—');
     $specialRequests = $preview ? 'Special requests' : ($voucher->special_requests ?: '—');
-    $insuranceType = $preview ? 'Select coverage' : ($voucher->insurance_type ?? '—');
     $employee = $preview ? null : $voucher->employee;
     $logoSource = $logoData ?? ($settings->logoUrl() ?? null);
     $hasPhoto = ! $preview && $voucher->include_hotel_photo && ($voucher->hotel_photo_path || $hotelPhotoData);
     $photoDisabled = ! $hasPhoto;
-    $voucherNumber = $preview ? 'ALM-TR-20260917-0001' : $voucher->voucher_number;
+    $voucherNumber = $preview ? 'ALMA-TR-20260917-0001' : $voucher->voucher_number;
     $voucherDate = $preview ? now()->format('d M Y') : $voucher->created_at->format('d M Y');
     $carPhotoUrl = $hotelPhotoData ?? ($voucher ? ($voucher->hotelPhotoUrl() ?? 'https://images.unsplash.com/photo-1580376249366-0705b5e7c4a0?auto=format&fit=crop&w=1000&q=80') : 'https://images.unsplash.com/photo-1580376249366-0705b5e7c4a0?auto=format&fit=crop&w=1000&q=80');
     $heroImage = asset('images/vouchers/transfers-hero.jpg');
@@ -322,6 +346,17 @@
     }
     .v-note svg { width: 16px; height: 16px; fill: var(--va); flex: 0 0 16px; }
 
+    /* ============ FIXED TERMS (compact) ============ */
+    .v-fixed-notes {
+        margin: 2px 0 0;
+        padding-left: 15px;
+        font-size: 8px;
+        line-height: 1.55;
+        color: var(--vmut);
+    }
+    .v-fixed-notes li { margin-bottom: 2px; break-inside: avoid; }
+    @media print { .v-fixed-notes { font-size: 7.5px; } }
+
     /* ============ SIDE / SHOWCASE ============ */
     .v-side { flex: 0.98; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
 
@@ -525,6 +560,10 @@
                 <h3 class="v-sec-title">Booking Details</h3>
                 <div class="v-grid">
 <div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Trip Type</span><span class="v-val" id="previewTripType">{{ $tripTypeLabel }}</span></div>
+                    </div>
+<div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg></div>
                         <div class="v-tx"><span class="v-label">Guest Name</span><span class="v-val" id="previewGuest">{{ $value('guest_name', 'Guest name') }}</span></div>
                     </div>
@@ -533,42 +572,112 @@
                         <div class="v-tx"><span class="v-label">Confirmation Number</span><span class="v-val" id="previewReference">{{ $value('confirmation_reference', 'Reference') }}</span></div>
                     </div>
 <div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Pickup Date</span><span class="v-val" id="previewCheckIn">{{ $formattedCheckIn }} <span class="v-sub">(From {{ $pickupTime }})</span></span></div>
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Flight Details</span><span class="v-val" id="previewFlightDetails">{{ $flightDetailsText }}</span></div>
                     </div>
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Drop-off Date</span><span class="v-val" id="previewCheckOut">{{ $formattedCheckOut }} <span class="v-sub">(Until {{ $dropoffTime }})</span></span></div>
+                        <div class="v-tx"><span class="v-label">Booking Date</span><span class="v-val" id="previewBookingDate">{{ $bookingDate }}</span></div>
                     </div>
 <div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Trip Duration</span><span class="v-val" id="previewNightsPreview">{{ $days }} {{ $days == 1 ? 'Day' : 'Days' }}</span></div>
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Guest Mobile</span><span class="v-val" id="previewGuestMobile">{{ $guestMobile }}</span></div>
                     </div>
 <div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Vehicle Type</span><span class="v-val" id="previewVehicleType">{{ $value('vehicle_type', 'Select option') }}</span></div>
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Booker</span><span class="v-val" id="previewBookerName">{{ $bookerName }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Booker Contact</span><span class="v-val" id="previewBookerContact">{{ $bookerContact }}</span></div>
                     </div>
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Passengers</span><span class="v-val" id="previewPassengers">{{ $value('passengers', '1') }}</span></div>
+                        <div class="v-tx"><span class="v-label">Number of Passengers</span><span class="v-val" id="previewPassengers">{{ $value('passengers', '1') }}</span></div>
                     </div>
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M17 4h-1V3c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v1H7c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-7-1h4v1h-4V3zm7 15H7V6h10v12z"/></svg></div>
                         <div class="v-tx"><span class="v-label">Luggage</span><span class="v-val" id="previewLuggageCount">{{ $value('luggage_count', '0') }}</span></div>
                     </div>
 <div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Meet & Greet</span><span class="v-val" id="previewMeetGreet">{{ $value('meet_greet') ? 'Yes' : 'No' }}</span></div>
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Vehicle Type</span><span class="v-val" id="previewVehicleType">{{ $value('vehicle_type', 'Select option') }}</span></div>
                     </div>
 <div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Flight Number</span><span class="v-val" id="previewFlightNumber">{{ $value('flight_number', '—') }}</span></div>
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Driver Name</span><span class="v-val" id="previewDriverName">{{ $driverName }}</span></div>
                     </div>
-<div class="v-field span2">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Special Requests</span><span class="v-val long" id="previewSpecialRequests">{{ $specialRequests }}</span></div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Driver Number</span><span class="v-val" id="previewDriverNumber">{{ $driverNumber }}</span></div>
                     </div>
                 </div>
+            </section>
+<section>
+                <h3 class="v-sec-title">Journey Details</h3>
+                <div class="v-grid">
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Pickup</span><span class="v-val" id="previewPickupLocation">{{ $pickupLocation }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Pickup Date &amp; Time</span><span class="v-val" id="previewCheckIn">{{ $pickupDateTime }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Drop-off</span><span class="v-val" id="previewDropoffLocation">{{ $dropoffLocation }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Drop-off Date &amp; Time</span><span class="v-val" id="previewCheckOut">{{ $dropoffDateTime }}</span></div>
+                    </div>
+                </div>
+            </section>
+<section id="previewReturnBlock" class="{{ $preview ? 'd-none' : ($isRoundTrip ? '' : 'd-none') }}">
+                <h3 class="v-sec-title">Return Journey</h3>
+                <div class="v-grid">
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Return Pickup</span><span class="v-val" id="previewReturnPickupLocation">{{ $preview ? '—' : ($voucher->return_pickup_location ?? '—') }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Pickup Date &amp; Time</span><span class="v-val" id="previewReturnPickup">{{ $returnPickupDateTime }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Return Drop-off</span><span class="v-val" id="previewReturnDropoffLocation">{{ $preview ? '—' : ($voucher->return_dropoff_location ?? '—') }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Drop-off Date &amp; Time</span><span class="v-val" id="previewReturnDropoff">{{ $returnDropoffDateTime }}</span></div>
+                    </div>
+<div class="v-field span2">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Return Flight Details</span><span class="v-val" id="previewReturnFlightDetails">{{ $returnFlightDetailsText }}</span></div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h3 class="v-sec-title">Special Requests</h3>
+                <div class="v-grid">
+<div class="v-field span2">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Requests</span><span class="v-val long" id="previewSpecialRequests">{{ $specialRequests }}</span></div>
+                    </div>
+                </div>
+            </section>
+<section>
+                <h3 class="v-sec-title">Terms &amp; Conditions</h3>
+                <ul class="v-fixed-notes">
+                    <li>Cancellation and extra charges policy applies.</li>
+                    <li>Smoking and food are strictly prohibited inside the vehicle — violations incur cleaning/penalty charges.</li>
+                    <li>Extra en-route stops not in the confirmed itinerary are charged separately.</li>
+                    <li>Waiting charges: 150 SAR per hour.</li>
+                    <li>100% charge within 24 hours or no-show; cancellation after confirmation counts as no-show.</li>
+                    <li>Grace period: 30 min (domestic airport) / 15 min (other locations); extra waiting billed per 30 minutes.</li>
+                </ul>
             </section>
             <div class="v-note">
                 <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
@@ -580,8 +689,8 @@
         <aside class="v-side">
 <div class="v-show">
                 <div class="v-show-body">
-                    <h3 class="v-hero" id="previewCompanyName">{{ $companyName }}</h3>
-                    <div class="v-hero-sub">Transfer Provider</div>
+                    <h3 class="v-hero" id="previewDriverName">{{ $driverName }}</h3>
+                    <div class="v-hero-sub">Driver Details</div>
                     <div class="v-route">
                         <div class="v-route-pt">
                             <div class="v-route-dot"></div>
@@ -596,14 +705,12 @@
                     <div class="v-rows">
                         <div class="v-row">
                             <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                            <span id="previewCompanyPhone">{{ $companyPhone }}</span>
+                            <span id="previewDriverNumber">{{ $driverNumber }}</span>
                         </div>
-                        @if ($value('company_email'))
                         <div class="v-row">
-                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                            <span id="previewCompanyEmail">{{ $value('company_email', '') }}</span>
+                            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                            <span id="previewSideVehicleType">{{ $vehicleType }}</span>
                         </div>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -621,13 +728,6 @@
                 @endif
             </div>
 
-            <div class="v-info">
-                <div class="v-info-head">
-                    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-4z"/></svg>
-                    <h4>Insurance Coverage</h4>
-                </div>
-                <p id="previewInsuranceType">{{ $value('insurance_type', 'N/A') }}</p>
-            </div>
         </aside>
     </div>
 
