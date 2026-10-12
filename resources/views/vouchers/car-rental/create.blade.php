@@ -198,10 +198,7 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label" for="important_notes">Important notes</label>
-                            @php
-                                $defaultCarTerms = "1. The car rental price does not include traffic violations or any other vehicle damage during the rental period and are fully the responsibility of the guest.\n2. If any accident occurs, the driver must share the complete documentation with the official authorities and insurance companies.\n3. Windshield cracks or chips (must not be related to criminal cases) are payable by the driver only.\n4. Tire punctures and bulges are not covered (in case of traffic violations, criminal cases or reckless driving).\n5. Natural disasters (a Civil Defense report is required).\n6. Fading or erosion of the vehicle's front exterior (dust, sandstorms or similar damage) is not covered.";
-                            @endphp
-                            <textarea class="form-control" id="important_notes" name="important_notes" rows="8" placeholder="e.g. Free cancellation up to 24 hours before pickup. CDW coverage included. Driver must be 25+ years old.">{{ old('important_notes', $defaultCarTerms) }}</textarea>
+                            <textarea class="form-control" id="important_notes" name="important_notes" rows="3" placeholder="e.g. Free cancellation up to 24 hours before pickup. CDW coverage included. Driver must be 25+ years old.">{{ old('important_notes') }}</textarea>
                         </div>
                     </div>
                 </div>

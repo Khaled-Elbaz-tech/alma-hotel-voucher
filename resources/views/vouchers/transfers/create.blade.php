@@ -195,10 +195,7 @@
                 <div class="form-section">
                     <h3><span>07</span> Special requests</h3>
                     <label class="form-label" for="special_requests">Special requirements</label>
-                    @php
-                        $defaultTransferTerms = "1. Cancellation and extra charges policy applies.\n2. Smoking and food are strictly prohibited inside the vehicle — violations incur cleaning/penalty charges.\n3. Extra en-route stops not in the confirmed itinerary are charged separately.\n4. Waiting charges: 150 SAR per hour.\n5. 100% charge within 24 hours or no-show; cancellation after confirmation counts as no-show.\n6. Grace period: 30 min (domestic airport) / 15 min (other locations); extra waiting billed per 30 minutes.";
-                    @endphp
-                    <textarea class="form-control" id="special_requests" name="special_requests" rows="7" placeholder="e.g. Child seat, wheelchair access, smoking car">{{ old('special_requests', $defaultTransferTerms) }}</textarea>
+                    <textarea class="form-control" id="special_requests" name="special_requests" rows="2" placeholder="e.g. Child seat, wheelchair access, smoking car">{{ old('special_requests') }}</textarea>
                 </div>
 
                 <div class="form-section">
