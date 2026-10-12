@@ -630,6 +630,17 @@
                     </div>
                 </div>
             </section>
+            <section>
+                <h3 class="v-sec-title">Rental Terms</h3>
+                <ol class="v-fixed-notes">
+                    <li>The car rental price does not include traffic violations or any other vehicle damage during the rental period and are fully the responsibility of the guest.</li>
+                    <li>If any accident occurs, the driver must share the complete documentation with the official authorities and insurance companies.</li>
+                    <li>Windshield cracks or chips (must not be related to criminal cases) are payable by the driver only.</li>
+                    <li>Tire punctures and bulges are not covered (in case of traffic violations, criminal cases or reckless driving).</li>
+                    <li>Natural disasters (a Civil Defense report is required).</li>
+                    <li>Fading or erosion of the vehicle's front exterior (dust, sandstorms or similar damage) is not covered.</li>
+                </ol>
+            </section>
 <div class="v-note">
                 <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                 <span>Please present a valid driving licence and this voucher at pickup.</span>
