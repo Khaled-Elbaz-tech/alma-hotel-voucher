@@ -7,11 +7,13 @@
     $formattedCheckOut = $preview ? 'Select date' : $voucher->check_out_date->format('d M Y');
     $pickupTime = $preview ? '10:00' : ($voucher->pickup_time ?? $voucher->check_in_time ?? '10:00');
     $dropoffTime = $preview ? '12:00' : ($voucher->dropoff_time ?? $voucher->check_out_time ?? '12:00');
-    $days = $preview ? 0 : $voucher->nights_count;
-    $companyName = $preview ? 'Rental company' : ($voucher->rental_company ?? '—');
-    $companyAddress = $preview ? 'Company address' : ($voucher->company_address ?? '—');
-    $companyPhone = $preview ? 'Company phone' : ($voucher->company_phone ?? '—');
-    $companyEmail = $preview ? '' : ($voucher->company_email ?? '');
+    $rentalDuration = $preview ? null : $voucher->rental_duration;
+    $durationText = $preview ? 'e.g. 4 Days' : ($rentalDuration ? $rentalDuration.' '.($rentalDuration == 1 ? 'Day' : 'Days') : '—');
+    $branchTiming = $preview ? '—' : ($voucher->branch_timing ?? '—');
+    $flightNumber = $preview ? '—' : ($voucher->flight_number ?? '—');
+    $flightAirport = $preview ? '—' : ($voucher->flight_airport ?? '—');
+    $flightArrivalDate = $preview ? 'Select date' : ($voucher->flight_arrival_date ? $voucher->flight_arrival_date->format('d M Y') : '—');
+    $flightArrivalTime = $preview ? '—' : ($voucher->flight_arrival_time ?? '—');
     $pickupLocation = $preview ? 'Pickup location' : ($voucher->pickup_location ?? '—');
     $dropoffLocation = $preview ? 'Drop-off location' : ($voucher->dropoff_location ?? '—');
     $vehicleType = $preview ? 'Select type' : ($voucher->vehicle_type ?? '—');
@@ -28,7 +30,7 @@
     $logoSource = $logoData ?? ($settings->logoUrl() ?? null);
     $hasCarPhoto = ! $preview && $voucher->include_hotel_photo && ($voucher->hotel_photo_path || $hotelPhotoData);
     $photoDisabled = ! $hasCarPhoto;
-    $voucherNumber = $preview ? 'ALM-CR-20260917-0001' : $voucher->voucher_number;
+    $voucherNumber = $preview ? 'ALMA-CR-20260917-0001' : $voucher->voucher_number;
     $voucherDate = $preview ? now()->format('d M Y') : $voucher->created_at->format('d M Y');
     $carPhotoUrl = $hotelPhotoData ?? ($voucher ? ($voucher->hotelPhotoUrl() ?? 'https://images.unsplash.com/photo-1632476800512-2b2c8ea5f000?auto=format&fit=crop&w=1000&q=80') : 'https://images.unsplash.com/photo-1632476800512-2b2c8ea5f000?auto=format&fit=crop&w=1000&q=80');
     $heroImage = asset('images/vouchers/car-rental-hero.jpg');
@@ -324,6 +326,18 @@
     }
     .v-note svg { width: 16px; height: 16px; fill: var(--va); flex: 0 0 16px; }
 
+    /* ============ FIXED RENTAL TERMS (compact) ============ */
+    .v-fixed-notes {
+        margin: 2px 0 0;
+        padding-left: 15px;
+        font-size: 8px;
+        line-height: 1.55;
+        color: var(--vmut);
+        column-gap: 18px;
+    }
+    .v-fixed-notes li { margin-bottom: 2px; break-inside: avoid; }
+    @media print { .v-fixed-notes { font-size: 7.5px; } }
+
     /* ============ SIDE / SHOWCASE ============ */
     .v-side { flex: 0.98; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
 
@@ -550,6 +564,31 @@
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
                         <div class="v-tx"><span class="v-label">Contact Number</span><span class="v-val" id="previewContactNumber">{{ $contactNumber }}</span></div>
                     </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Branch Timing</span><span class="v-val" id="previewBranchTiming">{{ $branchTiming }}</span></div>
+                    </div>
+                </div>
+            </section>
+<section>
+                <h3 class="v-sec-title">Flight Details</h3>
+                <div class="v-grid">
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Flight Number</span><span class="v-val" id="previewFlightNumber">{{ $flightNumber }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Arrival Airport</span><span class="v-val" id="previewFlightAirport">{{ $flightAirport }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V9h10v2z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Arrival Date</span><span class="v-val" id="previewFlightArrivalDate">{{ $flightArrivalDate }}</span></div>
+                    </div>
+<div class="v-field">
+                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>
+                        <div class="v-tx"><span class="v-label">Arrival Time</span><span class="v-val" id="previewFlightArrivalTime">{{ $flightArrivalTime }}</span></div>
+                    </div>
                 </div>
             </section>
 <section>
@@ -578,7 +617,7 @@
                     </div>
                     <div class="v-j-dur">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>
-                        <div><span class="v-label">Rental Duration</span><span class="v-val" id="previewNightsPreview">{{ $days }} {{ $days == 1 ? 'Day' : 'Days' }}</span></div>
+                        <div><span class="v-label">Rental Duration</span><span class="v-val" id="previewRentalDuration">{{ $durationText }}</span></div>
                     </div>
                 </div>
             </section>
@@ -590,6 +629,17 @@
                         <div class="v-tx"><span class="v-label">Notes</span><span class="v-val long" id="previewImportantNotes">{{ $importantNotes }}</span></div>
                     </div>
                 </div>
+            </section>
+<section>
+                <h3 class="v-sec-title">Rental Terms</h3>
+                <ol class="v-fixed-notes">
+                    <li>The car rental price does not include traffic violations or any other vehicle damage during the rental period and are fully the responsibility of the guest.</li>
+                    <li>If any accident occurs, the driver must share the complete documentation with the official authorities and insurance companies.</li>
+                    <li>Windshield cracks or chips (must not be related to criminal cases) are payable by the driver only.</li>
+                    <li>Tire punctures and bulges are not covered (in case of traffic violations, criminal cases or reckless driving).</li>
+                    <li>Natural disasters (a Civil Defense report is required).</li>
+                    <li>Fading or erosion of the vehicle's front exterior (dust, sandstorms or similar damage) is not covered.</li>
+                </ol>
             </section>
 <div class="v-note">
                 <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
@@ -612,9 +662,8 @@
                     </div>
                 @endif
                 <div class="v-show-body">
-                    <h3 class="v-hero" id="previewCompanyName">{{ $companyName }}</h3>
-                    <span id="previewRentalCompany" class="d-none">{{ $companyName }}</span>
-                    <div class="v-hero-sub">Rental Partner</div>
+                    <h3 class="v-hero" id="previewHeroVehicleType">{{ $vehicleType }}</h3>
+                    <div class="v-hero-sub">Rented Vehicle</div>
                     <div class="v-rows">
                         <div class="v-row">
                             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
@@ -624,16 +673,6 @@
                             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
                             <span id="previewDropoffLocation2">{{ $dropoffLocation }}</span>
                         </div>
-                        <div class="v-row">
-                            <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                            <span id="previewCompanyPhone">{{ $companyPhone }}</span>
-                        </div>
-                        @if ($companyEmail)
-                        <div class="v-row">
-                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                            <span id="previewCompanyEmail">{{ $companyEmail }}</span>
-                        </div>
-                        @endif
                     </div>
                 </div>
             </div>

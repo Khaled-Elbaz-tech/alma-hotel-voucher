@@ -48,22 +48,6 @@
                             <label class="form-label" for="id_passport_number">ID / Passport number</label>
                             <input class="form-control" id="id_passport_number" name="id_passport_number" value="{{ old('id_passport_number') }}" placeholder="e.g. 1234567890">
                         </div>
-                        <div class="col-12">
-                            <label class="form-label" for="rental_company">Rental company <span class="required-star">*</span></label>
-                            <input class="form-control" id="rental_company" name="rental_company" value="{{ old('rental_company') }}" placeholder="e.g. Hertz Rent A Car" required>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" for="company_address">Company address <span class="required-star">*</span></label>
-                            <textarea class="form-control" id="company_address" name="company_address" rows="2" placeholder="Street, area, city, country" required></textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="company_phone">Company phone <span class="required-star">*</span></label>
-                            <input class="form-control" id="company_phone" name="company_phone" value="{{ old('company_phone') }}" placeholder="e.g. +966 12 345 6789" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="company_email">Company email</label>
-                            <input class="form-control" id="company_email" name="company_email" type="email" value="{{ old('company_email') }}" placeholder="e.g. reservations@company.com">
-                        </div>
                     </div>
                 </div>
 
@@ -140,17 +124,49 @@
                                 <option value="LDW" {{ old('insurance_type') === 'LDW' ? 'selected' : '' }}>LDW</option>
                                 <option value="SCD" {{ old('insurance_type') === 'SCD' ? 'selected' : '' }}>SCD</option>
                                 <option value="Super CDW" {{ old('insurance_type') === 'Super CDW' ? 'selected' : '' }}>Super CDW</option>
+                                <option value="Full Insurance" {{ old('insurance_type') === 'Full Insurance' ? 'selected' : '' }}>Full Insurance</option>
                                 <option value="No Insurance" {{ old('insurance_type') === 'No Insurance' ? 'selected' : '' }}>No Insurance</option>
                                 <option value="Other" {{ old('insurance_type') === 'Other' ? 'selected' : '' }}>Other</option>
                             </select>
                             <input class="form-control other-field mt-2 d-none" id="insurance_type_other" name="insurance_type_other" placeholder="Specify insurance type">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="rental_duration">Rental duration (days)</label>
+                            <input class="form-control" id="rental_duration" name="rental_duration" type="number" min="1" max="365" value="{{ old('rental_duration') }}" placeholder="e.g. 4">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="branch_timing">Branch timing</label>
+                            <input class="form-control" id="branch_timing" name="branch_timing" value="{{ old('branch_timing') }}" placeholder="e.g. 24 Hrs.">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flight Details -->
+                <div class="form-section">
+                    <h3><span>05</span> Flight details</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="flight_number">Flight number</label>
+                            <input class="form-control" id="flight_number" name="flight_number" value="{{ old('flight_number') }}" placeholder="e.g. SV 1024">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="flight_airport">Arrival airport / terminal</label>
+                            <input class="form-control" id="flight_airport" name="flight_airport" value="{{ old('flight_airport') }}" placeholder="e.g. Jeddah Airport (KAIA) Terminal 1">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="flight_arrival_date">Arrival date</label>
+                            <input class="form-control" id="flight_arrival_date" name="flight_arrival_date" type="date" value="{{ old('flight_arrival_date') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="flight_arrival_time">Arrival time</label>
+                            <input class="form-control" id="flight_arrival_time" name="flight_arrival_time" type="time" value="{{ old('flight_arrival_time') }}">
                         </div>
                     </div>
                 </div>
 
                 <!-- Supplier Reference -->
                 <div class="form-section">
-                    <h3><span>05</span> Supplier reference</h3>
+                    <h3><span>06</span> Supplier reference</h3>
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label" for="supplier_reference">Supplier reference</label>
@@ -161,7 +177,7 @@
 
                 <!-- Vehicle Photo -->
                 <div class="form-section">
-                    <h3><span>06</span> Vehicle photo</h3>
+                    <h3><span>07</span> Vehicle photo</h3>
                     <div class="photo-control">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="include_car_photo" name="include_car_photo" value="1" {{ old('include_car_photo') ? 'checked' : '' }}>
@@ -178,7 +194,7 @@
 
                 <!-- Important Notes -->
                 <div class="form-section">
-                    <h3><span>07</span> Important notes</h3>
+                    <h3><span>08</span> Important notes</h3>
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label" for="important_notes">Important notes</label>
@@ -189,7 +205,7 @@
 
                 <!-- Booking Consultant -->
                 <div class="form-section">
-                    <h3><span>08</span> Booking consultant</h3>
+                    <h3><span>09</span> Booking consultant</h3>
                     <label class="form-label" for="employee_id">Select consultant</label>
                     <select class="form-select consultant-select" id="employee_id" name="employee_id">
                         <option value="">Select an active employee</option>
@@ -300,14 +316,13 @@
 
                 let days = 0;
                 try {
-                    const start = pickupDate.value ? new Date(pickupDate.value + 'T00:00:00') : null;
-                    const end = dropoffDate.value ? new Date(dropoffDate.value + 'T00:00:00') : null;
-                    days = start && end ? Math.max(0, Math.round((end - start) / 86400000)) : 0;
+                    const durInput = document.getElementById('rental_duration');
+                    days = durInput && durInput.value ? parseInt(durInput.value, 10) : 0;
                 } catch (err) {
                     console.error('[days]', err);
                 }
 
-                try { setValue('previewNightsPreview', days); } catch (err) { console.error('[daysField]', err); }
+                try { setValue('previewRentalDuration', days > 0 ? days + ' ' + (days === 1 ? 'Day' : 'Days') : 'e.g. 4 Days'); } catch (err) { console.error('[daysField]', err); }
 
                 // Booking Details
                 setValue('previewGuest', document.getElementById('guest_name')?.value || 'Guest name');
@@ -340,21 +355,16 @@
 
                 // Vehicle Details
                 setValue('previewVehicleType', getOptionValue('vehicle_type', 'vehicle_type_other'));
+                setValue('previewHeroVehicleType', getOptionValue('vehicle_type', 'vehicle_type_other') || 'Vehicle type');
                 setValue('previewVehicleModel', document.getElementById('vehicle_model')?.value || '');
                 setValue('previewInsuranceType', getOptionValue('insurance_type', 'insurance_type_other'));
+                setValue('previewBranchTiming', document.getElementById('branch_timing')?.value || '—');
 
-                // Rental Company
-                setValue('previewRentalCompany', document.getElementById('rental_company')?.value || 'Rental company');
-                setValue('previewCompanyName', document.getElementById('rental_company')?.value || 'Rental company');
-                setValue('previewCompanyPhone', document.getElementById('company_phone')?.value || '—');
-
-                try {
-                    const companyEmail = document.getElementById('company_email')?.value || '';
-                    const emailElement = document.getElementById('previewCompanyEmail');
-                    if (emailElement) {
-                        emailElement.textContent = companyEmail || '';
-                    }
-                } catch (err) { console.error('[companyEmail]', err); }
+                // Flight Details
+                setValue('previewFlightNumber', document.getElementById('flight_number')?.value || '—');
+                setValue('previewFlightAirport', document.getElementById('flight_airport')?.value || '—');
+                setValue('previewFlightArrivalDate', formatDate(document.getElementById('flight_arrival_date')?.value));
+                setValue('previewFlightArrivalTime', document.getElementById('flight_arrival_time')?.value || '—');
 
                 setValue('previewSupplierReference', document.getElementById('supplier_reference')?.value || '—');
                 setValue('previewImportantNotes', document.getElementById('important_notes')?.value || '');
@@ -384,7 +394,6 @@
                             guestName: document.getElementById('guest_name')?.value || 'Guest name',
                             bookingNumber: document.getElementById('booking_number')?.value || '—',
                             confirmationReference: document.getElementById('confirmation_reference')?.value || '—',
-                            rentalCompany: document.getElementById('rental_company')?.value || 'Rental company',
                             pickupLocation: document.getElementById('pickup_location')?.value || 'Pickup location',
                             dropoffLocation: document.getElementById('dropoff_location')?.value || 'Drop-off location',
                             carPhoto: !!carPhoto,
