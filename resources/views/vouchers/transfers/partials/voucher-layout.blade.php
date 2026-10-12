@@ -493,26 +493,33 @@
             margin: 0;
             page-break-inside: avoid;
         }
-        /* compact fields so the voucher fits a single A4 landscape page (no zoom) */
-        .v-head { min-height: 24mm; padding-top: 4px; padding-bottom: 4px; }
-        .v-body { padding-top: 6px; padding-bottom: 6px; }
-        .v-main, .v-side { gap: 5px; }
-        .v-sec { margin-bottom: 5px; }
-        .v-sec-title { margin-bottom: 3px; font-size: 8px; }
-        .v-field { padding: 4px 6px; }
-        .v-label { font-size: 7px; }
-        .v-val { font-size: 9px; }
-        .v-photo { height: 80px; }
-        .v-hero { font-size: 12px; }
-        .v-route { margin-top: 6px; }
-        .v-route-pt { gap: 6px; }
-        .v-note { padding: 6px 8px; font-size: 9px; }
-        .v-info { padding: 6px 8px; }
-        .v-fixed-notes { font-size: 6.5px; }
+        /* ultra-compact print: fit even round-trip on one A4 page, no zoom */
+        .v-head { min-height: 18mm; padding-top: 2px; padding-bottom: 2px; }
+        .v-brand-name { font-size: 14px; }
+        .v-brand-tag { font-size: 6px; }
+        .v-title h2 { font-size: 12px; }
+        .v-title p { font-size: 6px; }
+        .v-badge { width: 24px; height: 24px; }
+        .v-body { padding-top: 3px; padding-bottom: 3px; }
+        .v-main, .v-side { gap: 3px; }
+        .v-sec { margin-bottom: 3px; }
+        .v-sec-title { margin-bottom: 2px; font-size: 6.5px; }
+        .v-field { padding: 2px 4px; }
+        .v-label { font-size: 5.5px; }
+        .v-val { font-size: 7.5px; line-height: 1.3; }
+        .v-photo { height: 40px; }
+        .v-hero { font-size: 10px; padding: 3px 6px; }
+        .v-hero-sub { font-size: 6.5px; }
+        .v-route { margin-top: 3px; }
+        .v-route-pt { gap: 3px; }
+        .v-note { padding: 3px 5px; font-size: 7.5px; }
+        .v-info { padding: 3px 5px; }
+        .v-info-head { font-size: 6.5px; margin-bottom: 2px; }
+        .v-fixed-notes { font-size: 5.5px; line-height: 1.2; }
         .v-fixed-notes li { margin-bottom: 1px; }
-        .v-foot { padding-top: 4px; padding-bottom: 4px; }
-        .v-fcol h5 { font-size: 8px; margin-bottom: 2px; }
-        .v-fline { font-size: 8px; margin-bottom: 1px; }
+        .v-foot { padding-top: 2px; padding-bottom: 2px; }
+        .v-fcol h5 { font-size: 6.5px; margin-bottom: 1px; }
+        .v-fline { font-size: 6.5px; margin-bottom: 0; }
     }
     .d-none { display: none !important; }
 
