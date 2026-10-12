@@ -105,13 +105,19 @@
                             <input class="form-control other-field mt-2 d-none" id="service_type_other" name="service_type_other" placeholder="Specify service type">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="passengers">Passengers <span class="required-star">*</span></label>
+                            <label class="form-label" for="passengers">Number of Passengers <span class="required-star">*</span></label>
                             <input class="form-control" id="passengers" name="passengers" type="number" min="1" max="20" value="{{ old('passengers', '1') }}" required>
                         </div>
                         <div class="col-md-4">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="vip_lounge_access" name="vip_lounge_access" value="1" {{ old('vip_lounge_access') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="vip_lounge_access">VIP Lounge Access</label>
+                                <input class="form-check-input" type="checkbox" id="service_meet_assist" name="service_meet_assist" value="1" {{ old('service_meet_assist') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="service_meet_assist">Meet &amp; Assist</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="service_private_car" name="service_private_car" value="1" {{ old('service_private_car') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="service_private_car">Private car</label>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -122,8 +128,14 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="porter_service" name="porter_service" value="1" {{ old('porter_service') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="porter_service">Porter Service</label>
+                                <input class="form-check-input" type="checkbox" id="vip_lounge_access" name="vip_lounge_access" value="1" {{ old('vip_lounge_access') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="vip_lounge_access">VIP Lounge</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="service_immigration" name="service_immigration" value="1" {{ old('service_immigration') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="service_immigration">Immigration</label>
                             </div>
                         </div>
                     </div>
@@ -272,9 +284,11 @@
             setValue('previewTerminal', document.getElementById('terminal')?.value || '—');
             setValue('previewFlightNumber', document.getElementById('flight_number')?.value || '—');
             setValue('previewFlightArrivalTime', document.getElementById('flight_arrival_time')?.value || '—');
-            setValue('previewVipLounge', document.getElementById('vip_lounge_access')?.checked ? 'Yes' : 'No');
+            setValue('previewSvcMeetAssist', document.getElementById('service_meet_assist')?.checked ? 'Yes' : 'No');
+            setValue('previewSvcPrivateCar', document.getElementById('service_private_car')?.checked ? 'Yes' : 'No');
             setValue('previewFastTrack', document.getElementById('fast_track')?.checked ? 'Yes' : 'No');
-            setValue('previewPorter', document.getElementById('porter_service')?.checked ? 'Yes' : 'No');
+            setValue('previewVipLounge', document.getElementById('vip_lounge_access')?.checked ? 'Yes' : 'No');
+            setValue('previewSvcImmigration', document.getElementById('service_immigration')?.checked ? 'Yes' : 'No');
             setValue('previewSpecialRequests', document.getElementById('special_requests')?.value || 'Special requests');
             const option = employeeSelect.selectedOptions[0] || {};
             setValue('previewConsultantName', option.dataset?.name || 'Alma Travel Team');

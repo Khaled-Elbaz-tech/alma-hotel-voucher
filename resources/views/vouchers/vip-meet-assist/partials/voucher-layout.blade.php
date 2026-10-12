@@ -16,26 +16,28 @@
     $flightArrivalTime = $preview ? '—' : ($voucher->flight_arrival_time ?? '—');
     $serviceType = $preview ? 'Select service type' : ($voucher->vehicle_type ?? '—');
     $passengers = $preview ? '1' : ($voucher->passengers ?? '—');
+    $meetAssist = $preview ? false : (bool) $voucher->service_meet_assist;
+    $privateCar = $preview ? false : (bool) $voucher->service_private_car;
     $vipLounge = $preview ? false : (bool) $voucher->vip_lounge_access;
     $fastTrack = $preview ? false : (bool) $voucher->fast_track;
-    $porterService = $preview ? false : (bool) $voucher->porter_service;
+    $immigration = $preview ? false : (bool) $voucher->service_immigration;
     $specialRequests = $preview ? 'Special requests' : ($voucher->special_requests ?: '—');
     $employee = $preview ? null : $voucher->employee;
     $logoSource = $logoData ?? ($settings->logoUrl() ?? null);
     $hasPhoto = ! $preview && $voucher->include_hotel_photo && ($voucher->hotel_photo_path || $hotelPhotoData);
     $photoDisabled = ! $hasPhoto;
-    $voucherNumber = $preview ? 'ALM-VIP-20260917-0001' : $voucher->voucher_number;
+    $voucherNumber = $preview ? 'ALMA-VIP-20260917-0001' : $voucher->voucher_number;
     $voucherDate = $preview ? now()->format('d M Y') : $voucher->created_at->format('d M Y');
     $servicePhotoUrl = $hotelPhotoData ?? ($voucher ? ($voucher->hotelPhotoUrl() ?? 'https://images.unsplash.com/photo-1565728353228-9c1d43d3e3d3?auto=format&fit=crop&w=1000&q=80') : 'https://images.unsplash.com/photo-1565728353228-9c1d43d3e3d3?auto=format&fit=crop&w=1000&q=80');
     $heroImage = asset('images/vouchers/vip-meet-assist-hero.jpg');
 
     $amenities = [
-        ['label' => 'VIP Lounge Access', 'on' => $vipLounge, 'id' => 'previewVipLounge'],
+        ['label' => 'Meet & Assist', 'on' => $meetAssist, 'id' => 'previewSvcMeetAssist'],
+        ['label' => 'Private car', 'on' => $privateCar, 'id' => 'previewSvcPrivateCar'],
         ['label' => 'Fast Track', 'on' => $fastTrack, 'id' => 'previewFastTrack'],
-        ['label' => 'Porter Service', 'on' => $porterService, 'id' => 'previewPorter'],
+        ['label' => 'VIP Lounge', 'on' => $vipLounge, 'id' => 'previewVipLounge'],
+        ['label' => 'Immigration', 'on' => $immigration, 'id' => 'previewSvcImmigration'],
     ];
-    $amenitiesList = collect($amenities)->filter(fn ($a) => $a['on'])->pluck('label');
-    $amenitiesText = $preview ? 'VIP Lounge Access, Fast Track, Porter Service' : ($amenitiesList->isNotEmpty() ? $amenitiesList->join(', ') : 'N/A');
 @endphp
 
 <style>
@@ -476,6 +478,19 @@
     .v-amen-row.on svg { fill: var(--va); }
     .v-amen-row.off { color: var(--vmut); opacity: 0.55; }
     .v-amen-row.off svg { fill: var(--vmut); }
+    .v-amen-yn {
+        margin-inline-start: auto;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 2px 9px;
+        border-radius: 20px;
+        border: 1px solid var(--va-line);
+        background: var(--va-soft);
+        color: var(--vp);
+    }
+    .v-amen-row.off .v-amen-yn { border-color: var(--vline); background: transparent; color: var(--vmut); }
 
 
     .v-photo-tag {
@@ -560,7 +575,7 @@
                     </div>
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Passengers</span><span class="v-val" id="previewPassengers">{{ $value('passengers', '1') }}</span></div>
+                        <div class="v-tx"><span class="v-label">Number of Passengers</span><span class="v-val" id="previewPassengers">{{ $value('passengers', '1') }}</span></div>
                     </div>
 <div class="v-field span2">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
@@ -619,7 +634,8 @@
                     @foreach ($amenities as $amenity)
                     <div class="v-amen-row {{ $amenity['on'] ? 'on' : 'off' }}">
                         <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                        <span id="{{ $amenity['id'] }}">{{ $amenity['label'] }}</span>
+                        <span>{{ $amenity['label'] }}</span>
+                        <span class="v-amen-yn" id="{{ $amenity['id'] }}">{{ $amenity['on'] ? 'Yes' : 'No' }}</span>
                     </div>
                     @endforeach
                 </div>
