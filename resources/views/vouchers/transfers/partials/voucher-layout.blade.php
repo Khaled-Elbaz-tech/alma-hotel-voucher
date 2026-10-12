@@ -487,12 +487,16 @@
         #printVoucher, #printVoucher * { visibility: visible; }
         #printVoucher {
             position: absolute;
-            left: 50%;
+            left: 0;
             top: 0;
             width: 297mm;
             margin: 0;
             page-break-inside: avoid;
-            zoom: 0.90;
+        }
+        /* Round trip has a return leg: shrink to fit one page */
+        #printVoucher.is-roundtrip {
+            zoom: 0.88;
+            left: 50%;
             transform: translateX(-50%);
         }
         /* compact spacing so the voucher fits a single A4 landscape page */
@@ -578,7 +582,7 @@
     .voucher-pdf .v-fline svg { width: 8px !important; height: 8px !important; }
 </style>
 
-<div class="voucher-card theme-{{ $preview ? 'classic' : (($theme = $voucher?->voucher_theme ?? $settings?->voucher_theme ?? 'classic') === 'alma_premium' ? 'premium' : $theme) }} {{ $preview ? 'voucher-preview' : 'voucher-final' }} {{ $photoDisabled ? 'voucher-photo-disabled' : '' }}" id="printVoucher">
+<div class="voucher-card theme-{{ $preview ? 'classic' : (($theme = $voucher?->voucher_theme ?? $settings?->voucher_theme ?? 'classic') === 'alma_premium' ? 'premium' : $theme) }} {{ $preview ? 'voucher-preview' : 'voucher-final' }} {{ $photoDisabled ? 'voucher-photo-disabled' : '' }} {{ (($voucher?->trip_type ?? "") === "round_trip") ? "is-roundtrip" : "" }}" id="printVoucher">
 
     <!-- HEADER -->
     <div class="v-head">
