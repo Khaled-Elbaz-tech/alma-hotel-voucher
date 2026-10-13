@@ -15,6 +15,7 @@
             </div>
             <div class="col-lg-4 result-actions">
                 <button class="btn btn-alma btn-lg" id="printVoucherBtn" type="button">Print voucher</button>
+                <a class="btn btn-outline-alma btn-lg" href="{{ route('car-rental-voucher.duplicate', $voucher) }}">Duplicate</a>
             </div>
         </div>
         <div class="result-layout">
