@@ -155,16 +155,23 @@ abstract class BaseVoucherController extends Controller
 
         // Send email with the browser-generated PDF
         try {
-            $user = $voucher->user ?? $request->user();
-            if ($user && $user->email) {
-                Mail::to($user->email)->send(new VoucherGeneratedMail($voucher, $path));
-                return response()->json(['path' => $path, 'emailed' => true]);
+            $user = $voucher->user;
+            if (! $user) {
+                $user = $request->user();
             }
+            if (! $user) {
+                return response()->json(['path' => $path, 'emailed' => false, 'error' => 'No authenticated user found']);
+            }
+            if (! $user->email) {
+                return response()->json(['path' => $path, 'emailed' => false, 'error' => 'User has no email address']);
+            }
+            Mail::to($user->email)->send(new VoucherGeneratedMail($voucher, $path));
+            return response()->json(['path' => $path, 'emailed' => true, 'to' => $user->email]);
         } catch (\Exception $e) {
-            return response()->json(['path' => $path, 'emailed' => false, 'error' => $e->getMessage()]);
+            \Log::error('Voucher email failed: '.$e->getMessage(), ['exception' => $e]);
+            $msg = $e->getMessage() ?: get_class($e);
+            return response()->json(['path' => $path, 'emailed' => false, 'error' => $msg]);
         }
-
-        return response()->json(['path' => $path, 'emailed' => false]);
     }
 
     public function destroy(Voucher $voucher): RedirectResponse
