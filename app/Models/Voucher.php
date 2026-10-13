@@ -68,7 +68,6 @@ class Voucher extends Model
         'child_assistance',
         'vip_service_notes',
         'rental_duration',
-        'branch_timing',
         'flight_arrival_date',
         'flight_airport',
         'trip_type',
