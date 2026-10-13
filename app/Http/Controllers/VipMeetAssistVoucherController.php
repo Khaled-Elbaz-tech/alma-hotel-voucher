@@ -56,6 +56,7 @@ class VipMeetAssistVoucherController extends BaseVoucherController
     protected function prepareVoucherData(array $validated, string $voucherNumber, ?string $photoPath, Carbon $checkIn, Carbon $checkOut): array
     {
         return [
+            'hotel_name' => '',
             'voucher_number' => $voucherNumber,
             'voucher_type' => 'vip-meet-assist',
             'voucher_theme' => $validated['voucher_theme'],
