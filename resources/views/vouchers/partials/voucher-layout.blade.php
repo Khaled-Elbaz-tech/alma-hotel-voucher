@@ -714,7 +714,7 @@
     </div>
     <div class="header-center">
       <div class="voucher-title">CONFIRMATION VOUCHER</div>
-      <div class="voucher-subtitle">Your Journey, Our Commitment</div>
+      <div class="voucher-subtitle">We Always Care</div>
     </div>
     <div class="header-right">
       Alma Travel<br>
