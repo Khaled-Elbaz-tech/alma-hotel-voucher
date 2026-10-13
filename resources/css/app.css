@@ -348,7 +348,7 @@ button, input, select, textarea { font: inherit; }
 }
 
 /* Recent vouchers bar */
-.recent-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; padding: 8px 12px; background: rgba(255,255,255,.04); border-radius: 8px; }
+.recent-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; padding: 8px 12px; background: rgba(255,255,255,.04); border-radius: 8px; grid-column: 1 / -1; }
 .recent-bar .badge { font-size: 11px; padding: 4px 8px; }
 .bg-alma { background: var(--alma-gold, #c9a227) !important; color: #1a1a1a !important; }
 .btn-outline-alma { border: 1px solid var(--alma-gold, #c9a227); color: var(--alma-gold, #c9a227); }
