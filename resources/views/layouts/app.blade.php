@@ -12,7 +12,7 @@
     <header class="site-header">
         <div class="container-xl d-flex align-items-center justify-content-between gap-3">
             <a class="brand-lockup" href="{{ route('home') }}">
-                <span class="brand-mark">AT</span>
+                <img src="{{ asset('images/alma-logo.png') }}" alt="Alma Travel" class="brand-logo-img">
                 <span><strong>ALMA TRAVEL</strong><small>Voucher Generator</small></span>
             </a>
             <nav class="voucher-nav">
