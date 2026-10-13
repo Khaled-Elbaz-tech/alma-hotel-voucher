@@ -456,6 +456,8 @@
     /* ============ PRINT ============ */
     @media print {
         html, body { margin: 0; padding: 0; }
+        /* Hide form panels completely (no space taken) - fixes multi-page blank output */
+        .form-panel, .preview-hint, .preview-actions, .voucher-nav, .gen-header { display: none !important; }
         body * { visibility: hidden; }
         #printVoucher, #printVoucher * { visibility: visible; }
         #printVoucher {
