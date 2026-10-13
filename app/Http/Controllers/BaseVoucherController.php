@@ -34,8 +34,12 @@ abstract class BaseVoucherController extends Controller
         $settings = CompanySetting::firstOrFail();
         $categories = LookupCategory::with('activeValues')->orderBy('sort_order')->orderBy('name')->get();
         $employees = Employee::where('is_active', true)->orderBy('sort_order')->orderBy('name')->get();
+        $recentVouchers = Voucher::where('voucher_type', $this->voucherType)
+            ->orderByDesc('created_at')->limit(5)->get();
+        $todayCount = Voucher::where('voucher_type', $this->voucherType)
+            ->whereDate('created_at', Carbon::today())->count();
 
-        return view($this->createView, compact('settings', 'categories', 'employees'));
+        return view($this->createView, compact('settings', 'categories', 'employees', 'recentVouchers', 'todayCount'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -63,6 +67,17 @@ abstract class BaseVoucherController extends Controller
         $settings = CompanySetting::firstOrFail();
 
         return view($this->showView, compact('voucher', 'settings'));
+    }
+
+    public function duplicate(Voucher $voucher): RedirectResponse
+    {
+        $data = $voucher->toArray();
+        // Remove unique/system fields - new voucher gets fresh values
+        unset($data['id'], $data['voucher_number'], $data['created_at'], $data['updated_at']);
+
+        return redirect()->route($this->voucherType.'-voucher.create')
+            ->withInput($data)
+            ->with('info', 'Form pre-filled from voucher '.$voucher->voucher_number.'. Adjust dates and submit.');
     }
 
     public function downloadPdf(Voucher $voucher): BinaryFileResponse
