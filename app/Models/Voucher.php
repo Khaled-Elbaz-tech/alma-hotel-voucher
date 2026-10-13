@@ -93,6 +93,11 @@ class Voucher extends Model
         'service_immigration',
         'user_id',
         'nights_count',
+        'meal_plan',
+        'occupancy',
+        'room_type',
+        'cancellation_policy',
+        'vip_lounge_access',
     ];
 
     protected function casts(): array
