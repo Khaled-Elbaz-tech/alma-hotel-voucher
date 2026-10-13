@@ -669,7 +669,7 @@
                 </div>
             </section>
 <section>
-                <h3 class="v-sec-title">Journey Details</h3>
+                <h3 class="v-sec-title">Transfer Details</h3>
                 <div class="v-grid">
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
@@ -690,7 +690,7 @@
                 </div>
             </section>
 <section id="previewReturnBlock" class="{{ $preview ? 'd-none' : ($isRoundTrip ? '' : 'd-none') }}">
-                <h3 class="v-sec-title">Return Journey</h3>
+                <h3 class="v-sec-title">Return Transfer</h3>
                 <div class="v-grid">
 <div class="v-field">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
