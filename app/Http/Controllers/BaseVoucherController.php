@@ -92,6 +92,8 @@ abstract class BaseVoucherController extends Controller
         $path = 'vouchers/pdfs/'.$fileName;
         $logoData = $this->imageDataUri($settings->logo_path);
         $hotelPhotoData = $this->imageDataUri($voucher->hotel_photo_path);
+        // Hero fallback image for PDF (when no photo uploaded)
+        $heroImageData = $this->imageDataUri('images/vouchers/'.$this->voucherType.'-hero.jpg');
         $voucherCss = file_get_contents(resource_path('css/voucher.css'));
 
         if ($voucherCss === false) {
@@ -99,7 +101,7 @@ abstract class BaseVoucherController extends Controller
         }
 
         Storage::disk('public')->makeDirectory('vouchers/pdfs');
-        Pdf::loadView($this->pdfView, compact('voucher', 'settings', 'logoData', 'hotelPhotoData', 'voucherCss'))
+        Pdf::loadView($this->pdfView, compact('voucher', 'settings', 'logoData', 'hotelPhotoData', 'heroImageData', 'voucherCss'))
             ->setPaper('a4', 'landscape')
             ->setBasePath(public_path())
             ->setOption('isHtml5ParserEnabled', true)
