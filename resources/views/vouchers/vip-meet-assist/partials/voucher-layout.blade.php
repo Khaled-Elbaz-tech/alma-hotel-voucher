@@ -566,7 +566,7 @@
             @endif
             <div>
                 <div class="v-brand-name">{{ $settings->company_name }}</div>
-                @if($settings->tagline)<div class="v-brand-tag">{{ $settings->tagline }}</div>@endif
+                <div class="v-brand-tag">We Always Care</div>
             </div>
         </div>
         <div class="v-title">
