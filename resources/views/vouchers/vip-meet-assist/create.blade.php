@@ -36,7 +36,7 @@
                             <input class="form-control" id="confirmation_reference" name="confirmation_reference" value="{{ old('confirmation_reference') }}" placeholder="e.g. ALM8K2" required>
                         </div>
                         <div class="col-12">
-                            <label class="form-label" for="agent_name">Agent name <span class="required-star">*</span></label>
+                            <label class="form-label" for="agent_name">Provider Name <span class="required-star">*</span></label>
                             <input class="form-control" id="agent_name" name="agent_name" value="{{ old('agent_name') }}" placeholder="e.g. SkyTeam Travel" required>
                         </div>
                         <div class="col-12">
@@ -277,7 +277,7 @@
             setValue('previewReference', document.getElementById('confirmation_reference')?.value || 'Reference');
             setValue('previewServiceDate', formatDate(serviceDate?.value) || 'Select date');
             setValue('previewServiceTime', document.getElementById('service_time')?.value || '10:00');
-            setValue('previewCompanyName', document.getElementById('agent_name')?.value || 'Agent name');
+            setValue('previewCompanyName', document.getElementById('agent_name')?.value || 'Provider Name');
             setValue('previewServiceType', getOptionValue('service_type', 'service_type_other'));
             setValue('previewPassengers', document.getElementById('passengers')?.value || '1');
             setValue('previewMeetingPoint', document.getElementById('meeting_point')?.value || 'Meeting point');
