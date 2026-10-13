@@ -11,7 +11,13 @@ class AuthController extends Controller
 {
     public function showLogin(): View
     {
+        // Admin login keeps the classic design
         return view('auth.login');
+    }
+
+    public function showEmployeeLogin(): View
+    {
+        return view('auth.employee-login');
     }
 
     public function login(Request $request): RedirectResponse
