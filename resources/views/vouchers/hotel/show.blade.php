@@ -26,10 +26,47 @@
 </section>
 @endsection
 
+
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('printVoucherBtn').addEventListener('click', () => window.print());
+
+        // Auto-generate PDF and email it (only on fresh voucher creation)
+        @if(session('success') && str_contains(session('success'), 'generated successfully'))
+        setTimeout(function() {
+            const element = document.getElementById('printVoucher');
+            if (!element) return;
+
+            const opt = {
+                margin: 0,
+                filename: '{{ $voucher->voucher_number }}.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            };
+
+            html2pdf().set(opt).from(element).output('datauristring').then(function(pdfData) {
+                fetch('{{ route('hotel-voucher.save-pdf', $voucher) }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ pdf: pdfData })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    const msg = document.querySelector('.success-message');
+                    if (msg && data.emailed) {
+                        msg.textContent += ' Emailed to {{ auth()->user()->email }}.';
+                    }
+                })
+                .catch(e => console.error('PDF upload failed:', e));
+            });
+        }, 1500);
+        @endif
     });
 </script>
 @endsection
