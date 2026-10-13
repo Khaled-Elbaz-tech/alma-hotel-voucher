@@ -67,6 +67,11 @@ class TransfersVoucherController extends BaseVoucherController
     {
         return [
             'hotel_name' => '',
+            'hotel_address' => '',
+            'meal_plan' => '',
+            'room_type' => '',
+            'payment_method' => '',
+            'cancellation_policy' => '',
             'voucher_number' => $voucherNumber,
             'voucher_type' => 'transfers',
             'voucher_theme' => $validated['voucher_theme'],
