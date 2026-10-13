@@ -63,6 +63,11 @@ class CarRentalVoucherController extends BaseVoucherController
     {
         return [
             'hotel_name' => '',
+            'hotel_address' => '',
+            'meal_plan' => '',
+            'room_type' => '',
+            'payment_method' => '',
+            'cancellation_policy' => '',
             'voucher_number' => $voucherNumber,
             'voucher_type' => 'car-rental',
             'voucher_theme' => $validated['voucher_theme'],
