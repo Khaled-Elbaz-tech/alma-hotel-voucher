@@ -22,7 +22,7 @@ class VoucherGeneratedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your Alma Travel Voucher: '.$this->voucher->voucher_number,
+            subject: 'Alma Travel — Voucher '.$this->voucher->voucher_number.' Ready',
         );
     }
 
