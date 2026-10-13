@@ -13,13 +13,13 @@ use App\Http\Controllers\VipMeetAssistVoucherController;
 use App\Http\Middleware\EnsureAdmin;
 use Illuminate\Support\Facades\Route;
 
-// Hotel Voucher
+// Voucher Generator (requires login)
+Route::middleware(['auth'])->group(function () {
 Route::get('/', [HotelVoucherController::class, 'create'])->name('home');
 Route::get('/hotel-voucher', [HotelVoucherController::class, 'create'])->name('hotel-voucher.create');
 Route::post('/hotel-voucher', [HotelVoucherController::class, 'store'])->name('hotel-voucher.store');
 Route::get('/hotel-voucher/{voucher}', [HotelVoucherController::class, 'show'])->name('hotel-voucher.show');
 Route::get('/hotel-voucher/{voucher}/pdf', [HotelVoucherController::class, 'downloadPdf'])->name('hotel-voucher.pdf');
-Route::get('/hotel-voucher/{voucher}/duplicate', [HotelVoucherController::class, 'duplicate'])->name('hotel-voucher.duplicate');
 Route::post('/hotel-voucher/{voucher}/png', [HotelVoucherController::class, 'savePng'])->name('hotel-voucher.png');
 
 // Car Rental Voucher
@@ -27,7 +27,6 @@ Route::get('/car-rental', [CarRentalVoucherController::class, 'create'])->name('
 Route::post('/car-rental', [CarRentalVoucherController::class, 'store'])->name('car-rental-voucher.store');
 Route::get('/car-rental/{voucher}', [CarRentalVoucherController::class, 'show'])->name('car-rental-voucher.show');
 Route::get('/car-rental/{voucher}/pdf', [CarRentalVoucherController::class, 'downloadPdf'])->name('car-rental-voucher.pdf');
-Route::get('/car-rental/{voucher}/duplicate', [CarRentalVoucherController::class, 'duplicate'])->name('car-rental-voucher.duplicate');
 Route::post('/car-rental/{voucher}/png', [CarRentalVoucherController::class, 'savePng'])->name('car-rental-voucher.png');
 
 // Transfers Voucher
@@ -35,7 +34,6 @@ Route::get('/transfers', [TransfersVoucherController::class, 'create'])->name('t
 Route::post('/transfers', [TransfersVoucherController::class, 'store'])->name('transfers-voucher.store');
 Route::get('/transfers/{voucher}', [TransfersVoucherController::class, 'show'])->name('transfers-voucher.show');
 Route::get('/transfers/{voucher}/pdf', [TransfersVoucherController::class, 'downloadPdf'])->name('transfers-voucher.pdf');
-Route::get('/transfers/{voucher}/duplicate', [TransfersVoucherController::class, 'duplicate'])->name('transfers-voucher.duplicate');
 Route::post('/transfers/{voucher}/png', [TransfersVoucherController::class, 'savePng'])->name('transfers-voucher.png');
 
 // VIP Meet & Assist Voucher
@@ -43,9 +41,14 @@ Route::get('/vip-meet-assist', [VipMeetAssistVoucherController::class, 'create']
 Route::post('/vip-meet-assist', [VipMeetAssistVoucherController::class, 'store'])->name('vip-meet-assist-voucher.store');
 Route::get('/vip-meet-assist/{voucher}', [VipMeetAssistVoucherController::class, 'show'])->name('vip-meet-assist-voucher.show');
 Route::get('/vip-meet-assist/{voucher}/pdf', [VipMeetAssistVoucherController::class, 'downloadPdf'])->name('vip-meet-assist-voucher.pdf');
-Route::get('/vip-meet-assist/{voucher}/duplicate', [VipMeetAssistVoucherController::class, 'duplicate'])->name('vip-meet-assist-voucher.duplicate');
 Route::post('/vip-meet-assist/{voucher}/png', [VipMeetAssistVoucherController::class, 'savePng'])->name('vip-meet-assist-voucher.png');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+});
 
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login.store');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Legacy admin login routes (redirect to main login)
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login')->middleware('guest');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.store');
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
@@ -53,6 +56,7 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdmin::class])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('employees', EmployeeController::class)->except(['show']);
+    Route::resource('users', UserController::class)->except(['show']);
     Route::get('lookups', [LookupController::class, 'index'])->name('lookups.index');
     Route::post('lookups/categories', [LookupController::class, 'storeCategory'])->name('lookups.categories.store');
     Route::patch('lookups/categories/{category}', [LookupController::class, 'updateCategory'])->name('lookups.categories.update');

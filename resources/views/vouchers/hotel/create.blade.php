@@ -17,16 +17,7 @@
 
         <form id="voucher-form" class="generator-layout" method="POST" action="{{ route('hotel-voucher.store') }}" enctype="multipart/form-data">
 
-            {{-- Recent vouchers + today count --}}
-            <div class="recent-bar mb-3">
-                <span class="badge bg-alma">Today: {{ $todayCount ?? 0 }}</span>
-                @if(!empty($recentVouchers) && $recentVouchers->count())
-                <span class="ms-3 text-muted small">Recent:</span>
-                @foreach($recentVouchers as $rv)
-                    <a href="{{ route('hotel-voucher.show', $rv) }}" class="badge bg-light text-dark text-decoration-none ms-1">{{ $rv->voucher_number }}</a>
-                @endforeach
-                @endif
-            </div>
+
             @csrf
             <input type="hidden" name="voucher_theme" id="voucher_theme" value="{{ $settings->voucher_theme ?? 'classic' }}">
             <section class="form-panel" aria-label="Voucher details">

@@ -22,6 +22,9 @@
                 <a class="nav-item {{ request()->is('vip-meet-assist') ? 'active' : '' }}" href="{{ route('vip-meet-assist-voucher.create') }}">VIP Meet &amp; Assist</a>
             </nav>
             <div class="header-actions">
+                <a class="nav-item {{ request()->is('profile') ? 'active' : '' }}" href="{{ route('profile') }}">My Vouchers</a>
+                <span class="text-muted small">{{ auth()->user()->name }}</span>
+                <form method="POST" action="{{ route('logout') }}" class="d-inline">@csrf<button type="submit" class="btn btn-sm btn-outline-light">Logout</button></form>
             </div>
         </div>
     </header>

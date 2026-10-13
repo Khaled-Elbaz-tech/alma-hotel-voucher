@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Voucher extends Model
 {
@@ -90,6 +91,7 @@ class Voucher extends Model
         'service_meet_assist',
         'service_private_car',
         'service_immigration',
+            'user_id',
     ];
 
     protected function casts(): array
@@ -215,5 +217,10 @@ class Voucher extends Model
     public function pngUrl(): ?string
     {
         return $this->png_path ? asset('storage/'.$this->png_path) : null;
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
