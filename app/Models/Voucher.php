@@ -91,7 +91,8 @@ class Voucher extends Model
         'service_meet_assist',
         'service_private_car',
         'service_immigration',
-            'user_id',
+        'user_id',
+        'nights_count',
     ];
 
     protected function casts(): array
