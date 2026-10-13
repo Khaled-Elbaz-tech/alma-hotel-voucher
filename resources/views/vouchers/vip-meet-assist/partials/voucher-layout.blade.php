@@ -651,16 +651,9 @@
                         <div id="previewPhotoPlaceholder" class="v-photo-tag d-none">No photo included</div>
                     </div>
                 @else
-                    @if(!empty($heroImageData))
                     <div class="v-photo">
-                        <img src="{{ $heroImageData }}" alt="Service">
+                        <img src="{{ !empty($heroImageData) ? $heroImageData : $heroImage }}" alt="Photo">
                     </div>
-                    @else
-                    <div class="v-photo-empty">
-                        <svg viewBox="0 0 24 24"><path d="M5 16L3 6l5.5 4L12 4l3.5 6L21 6l-2 10H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
-                        <span>Service photo not included</span>
-                    </div>
-                    @endif
                 @endif
                 <div class="v-show-body">
                     <h3 class="v-hero" id="previewCompanyName">{{ $companyName }}</h3>
