@@ -6,7 +6,7 @@
     $value = fn (string $key, string $fallback = '') => $preview ? $fallback : data_get($voucher, $key, $fallback);
     $formattedDate = $preview ? 'Select date' : $voucher->check_in_date->format('d M Y');
     $serviceTime = $preview ? '10:00' : ($voucher->check_in_time ?? '10:00');
-    $companyName = $preview ? 'Agent name' : ($voucher->company_name ?? '—');
+    $companyName = $preview ? 'Provider Name' : ($voucher->company_name ?? '—');
     $companyAddress = $preview ? 'Agent company' : ($voucher->company_address ?? '—');
     $companyPhone = $preview ? 'Agent phone' : ($voucher->company_phone ?? '—');
     $companyEmail = $preview ? 'agent@company.com' : ($voucher->company_email ?? '');
@@ -570,7 +570,7 @@
         <div class="v-title">
             <div class="v-badge"><svg viewBox="0 0 24 24"><path d="M5 16L3 6l5.5 4L12 4l3.5 6L21 6l-2 10H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg></div>
             <h2>VIP Meet &amp; Assist Voucher</h2>
-            <p>Your Journey, Our Commitment</p>
+            <p>We Always Care</p>
         </div>
         <div class="v-meta">
             <div class="lbl">Voucher No.</div>
