@@ -49,6 +49,17 @@ Route::get('/vip-meet-assist/{voucher}/pdf', [VipMeetAssistVoucherController::cl
 Route::post('/vip-meet-assist/{voucher}/png', [VipMeetAssistVoucherController::class, 'savePng'])->name('vip-meet-assist-voucher.png');
 Route::post('/vip-meet-assist/{voucher}/save-pdf', [VipMeetAssistVoucherController::class, 'savePdf'])->name('vip-meet-assist-voucher.save-pdf');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/test-email', function () {
+        try {
+            $user = auth()->user();
+            \Mail::raw('Test email from Alma Travel Voucher System', function ($m) use ($user) {
+                $m->to($user->email)->subject('Test Email');
+            });
+            return 'Email sent to '.$user->email;
+        } catch (\Throwable $e) {
+            return 'FAILED: '.get_class($e).' - '.$e->getMessage().' at '.$e->getFile().':'.$e->getLine();
+        }
+    })->name('test-email');
 });
 
 Route::get('/login', [AuthController::class, 'showEmployeeLogin'])->name('login')->middleware('guest');
