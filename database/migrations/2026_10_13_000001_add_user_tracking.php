@@ -8,13 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_active')->default(true)->after('is_admin');
-        });
+        if (! Schema::hasColumn('users', 'is_active')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->boolean('is_active')->default(true)->after('is_admin');
+            });
+        }
 
-        Schema::table('vouchers', function (Blueprint $table) {
-            $table->foreignId('user_id')->nullable()->after('id')->constrained()->nullOnDelete();
-        });
+        if (! Schema::hasColumn('vouchers', 'user_id')) {
+            Schema::table('vouchers', function (Blueprint $table) {
+                $table->foreignId('user_id')->nullable()->after('id')->constrained()->nullOnDelete();
+            });
+        }
     }
 
     public function down(): void
