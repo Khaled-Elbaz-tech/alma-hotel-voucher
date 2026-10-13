@@ -485,7 +485,6 @@
         html, body { margin: 0; padding: 0; }
         body * { visibility: hidden; }
         #printVoucher, #printVoucher * { visibility: visible; }
-        #printVoucherReturn, #printVoucherReturn * { visibility: visible; }
         #printVoucher {
             position: absolute;
             left: 0;
@@ -494,24 +493,18 @@
             margin: 0;
             page-break-inside: avoid;
         }
-        /* One-way: 5% shrink to fit nicely on one page */
+        /* One-way: 5% shrink, round-trip: 12% shrink — both fit one page */
         #printVoucher:not(.is-roundtrip) {
             zoom: 0.95;
             left: 50%;
             transform: translateX(-50%);
         }
-        /* Round-trip: page 1 = outbound only (hide return block), page 2 = return card */
-        #printVoucher.is-roundtrip #previewReturnBlock { display: none !important; }
-        #printVoucherReturn {
-            display: block !important;
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 297mm;
-            margin: 0;
-            page-break-before: always;
-            page-break-inside: avoid;
+        #printVoucher.is-roundtrip {
+            zoom: 0.88;
+            left: 50%;
+            transform: translateX(-50%);
         }
+
         /* compact spacing so the voucher fits a single A4 landscape page */
         .v-head { min-height: 30mm; padding-top: 8px; padding-bottom: 8px; }
         .v-body { padding-top: 10px; padding-bottom: 10px; }
@@ -826,99 +819,3 @@
     </div>
 
 </div>
-
-{-- Return journey card: round-trip page 2 (print only) --}
-@if(!$preview && ($isRoundTrip ?? false))
-<div class="voucher-card theme-{{ ($theme = $voucher?->voucher_theme ?? $settings?->voucher_theme ?? 'classic') === 'alma_premium' ? 'premium' : $theme }} voucher-final" id="printVoucherReturn" style="display:none;">
-    <!-- HEADER -->
-    <div class="v-head">
-        <div class="v-brand">
-            @if($logoSource)
-                <img src="{{ $logoSource }}" alt="{{ $settings->company_name }} logo">
-            @endif
-            <div>
-                <div class="v-brand-name">{{ $settings->company_name }}</div>
-                @if($settings->tagline)<div class="v-brand-tag">{{ $settings->tagline }}</div>@endif
-            </div>
-        </div>
-        <div class="v-title">
-            <div class="v-badge"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
-            <h2>Transfers Voucher</h2>
-            <p>Your Journey, Our Commitment</p>
-        </div>
-        <div class="v-meta">
-            <div class="lbl">Voucher No.</div>
-            <div class="num">{{ $voucherNumber }}</div>
-            <div class="dt">Issued · {{ $voucherDate }}</div>
-            <div class="v-barcode"></div>
-        </div>
-    </div>
-
-    <!-- BODY -->
-    <div class="v-body">
-        <div class="v-main">
-            <section>
-                <h3 class="v-sec-title">Return Journey</h3>
-                <div class="v-grid">
-
-                <h3 class="v-sec-title">Return Journey</h3>
-                <div class="v-grid">
-<div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Return Pickup</span><span class="v-val" id="previewReturnPickupLocation">{{ $preview ? '—' : ($voucher->return_pickup_location ?? '—') }}</span></div>
-                    </div>
-<div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Pickup Date &amp; Time</span><span class="v-val" id="previewReturnPickup">{{ $returnPickupDateTime }}</span></div>
-                    </div>
-<div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Return Drop-off</span><span class="v-val" id="previewReturnDropoffLocation">{{ $preview ? '—' : ($voucher->return_dropoff_location ?? '—') }}</span></div>
-                    </div>
-<div class="v-field">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Drop-off Date &amp; Time</span><span class="v-val" id="previewReturnDropoff">{{ $returnDropoffDateTime }}</span></div>
-                    </div>
-<div class="v-field span2">
-                        <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
-                        <div class="v-tx"><span class="v-label">Return Flight Number</span><span class="v-val" id="previewReturnFlightDetails">{{ $returnFlightDetailsText }}</span></div>
-                    </div>
-                </div>
-            
-                </div>
-            </section>
-        </div>
-    </div>
-    <div class="v-foot">
-        <div class="v-fcol">
-            <h5>{{ $settings->company_name }} Contact</h5>
-            <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>{{ $settings->phone ?? '+966 920022050' }}</span></div>
-            <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span>{{ $settings->email ?? 'info@almatravel.co' }}</span></div>
-            <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93C7.05 19.44 4 16.08 4 12c0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span>{{ $settings->website ?? 'www.almatravel.co' }}</span></div>
-            <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg><span>{{ $settings->address ?? 'Riyadh, Saudi Arabia' }}</span></div>
-        </div>
-        <div class="v-fcol mid">
-            <h5>Booking Consultant</h5>
-            @if($preview)
-                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg><span id="previewConsultantName">Alma Travel Team</span></div>
-                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="previewConsultantEmail">Booking support</span></div>
-                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span id="previewConsultantPhone">{{ $settings->phone ?? '+966 920022050' }}</span></div>
-            @elseif($employee)
-                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg><span id="previewConsultantName">{{ $employee->name }}</span></div>
-                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="previewConsultantEmail">{{ $employee->email }}</span></div>
-                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span id="previewConsultantPhone">{{ $employee->phone }}</span></div>
-            @else
-                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg><span id="previewConsultantName">Alma Travel Team</span></div>
-                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span id="previewConsultantEmail">Booking support</span></div>
-                <div class="v-fline"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span id="previewConsultantPhone">{{ $settings->phone ?? '+966 920022050' }}</span></div>
-            @endif
-        </div>
-        <div class="v-fcol v-comp">
-            <div class="t">With Compliments</div>
-            <div class="s">{{ $settings->company_name }}</div>
-        </div>
-    </div>
-
-</div>
-@endif
-
