@@ -15,6 +15,8 @@
             </div>
             <div class="col-lg-4 result-actions">
                 <button class="btn btn-alma btn-lg" id="printVoucherBtn" type="button">Print voucher</button>
+                <button class="btn btn-outline-alma btn-lg" id="emailPdfBtn" type="button">📧 Email PDF</button>
+                <div id="emailStatus" class="mt-2 small"></div>
             </div>
         </div>
         <div class="result-layout">
@@ -32,6 +34,41 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('printVoucherBtn').addEventListener('click', () => window.print());
+        
+        // Manual email trigger
+        const emailBtn = document.getElementById('emailPdfBtn');
+        const emailStatus = document.getElementById('emailStatus');
+        function sendVoucherEmail() {
+            if (emailStatus) emailStatus.innerHTML = '<span class="text-info">Generating PDF...</span>';
+            const element = document.getElementById('printVoucher');
+            if (!element) { if (emailStatus) emailStatus.innerHTML = '<span class="text-danger">Voucher element not found.</span>'; return; }
+            if (typeof html2pdf === 'undefined') { if (emailStatus) emailStatus.innerHTML = '<span class="text-danger">PDF library not loaded. Check internet connection.</span>'; return; }
+            const opt = {
+                margin: 0,
+                filename: '{{ $voucher->voucher_number }}.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            };
+            html2pdf().set(opt).from(element).output('datauristring').then(function(pdfData) {
+                if (emailStatus) emailStatus.innerHTML = '<span class="text-info">Uploading...</span>';
+                fetch('{{ route('car-rental-voucher.save-pdf', $voucher) }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    body: JSON.stringify({ pdf: pdfData })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.emailed) {
+                        if (emailStatus) emailStatus.innerHTML = '<span class="text-success">✅ Emailed to {{ auth()->user()->email }}</span>';
+                    } else {
+                        if (emailStatus) emailStatus.innerHTML = '<span class="text-warning">⚠️ PDF saved but email failed: ' + (data.error || 'unknown') + '</span>';
+                    }
+                })
+                .catch(e => { if (emailStatus) emailStatus.innerHTML = '<span class="text-danger">❌ Upload failed: ' + e.message + '</span>'; });
+            }).catch(e => { if (emailStatus) emailStatus.innerHTML = '<span class="text-danger">❌ PDF generation failed: ' + e.message + '</span>'; });
+        }
+        if (emailBtn) emailBtn.addEventListener('click', sendVoucherEmail);
 
         // Auto-generate PDF and email it (only on fresh voucher creation)
         @if(session('success') && str_contains(session('success'), 'generated successfully'))
