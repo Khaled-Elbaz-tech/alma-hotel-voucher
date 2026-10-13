@@ -23,9 +23,17 @@
             </nav>
             <div class="header-actions">
                 @auth
-                <a class="nav-item {{ request()->is('profile') ? 'active' : '' }}" href="{{ route('profile') }}">My Vouchers</a>
-                <span class="text-muted small">{{ auth()->user()->name }}</span>
-                <form method="POST" action="{{ route('logout') }}" class="d-inline">@csrf<button type="submit" class="btn btn-sm btn-outline-light">Logout</button></form>
+                <a class="header-btn {{ request()->is('profile') ? 'active' : '' }}" href="{{ route('profile') }}">
+                    <span class="header-btn-icon">🎫</span> My Vouchers
+                </a>
+                <div class="user-chip">
+                    <span class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                    <span class="user-info">
+                        <span class="user-name">{{ auth()->user()->name }}</span>
+                        <span class="user-email">{{ auth()->user()->email }}</span>
+                    </span>
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">@csrf<button type="submit" class="logout-btn" title="Logout">⏻</button></form>
+                </div>
                 @endauth
             </div>
         </div>
