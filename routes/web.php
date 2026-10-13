@@ -47,7 +47,7 @@ Route::post('/vip-meet-assist/{voucher}/png', [VipMeetAssistVoucherController::c
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 });
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
+Route::get('/login', [AuthController::class, 'showEmployeeLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Legacy admin login routes (redirect to main login)
