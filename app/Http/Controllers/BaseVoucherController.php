@@ -174,23 +174,8 @@ abstract class BaseVoucherController extends Controller
         Storage::disk('public')->put($path, $decoded, 'public');
         $voucher->update(['pdf_path' => $path]);
 
-        // Send email - ultra simple version
-        $toEmail = ($voucher->user->email ?? null) ?: ($request->user()->email ?? null);
-        if (!$toEmail) {
-            return response()->json(['path' => $path, 'emailed' => false, 'error' => 'No recipient email address']);
-        }
-        try {
-            $pdfFull = storage_path('app/public/'.$path);
-            $vNum = $voucher->voucher_number;
-            Mail::raw("Your voucher $vNum is attached.", function ($m) use ($toEmail, $vNum, $pdfFull) {
-                $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
-                if (file_exists($pdfFull)) { $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']); }
-            });
-            return response()->json(['path' => $path, 'emailed' => true]);
-        } catch (\Throwable $e) {
-            $err = get_class($e).': '.($e->getMessage() ?: 'empty message').' @'.$e->getFile().':'.$e->getLine();
-            return response()->json(['path' => $path, 'emailed' => false, 'error' => $err]);
-        }
+        // PDF saved. Email is sent from store() - no duplicate here.
+        return response()->json(['path' => $path, 'saved' => true]);
     }
 
     public function destroy(Voucher $voucher): RedirectResponse
