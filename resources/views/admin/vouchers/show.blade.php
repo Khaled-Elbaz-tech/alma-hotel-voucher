@@ -42,7 +42,6 @@
     @elseif ($voucher->voucher_type === 'car-rental')
         <div class="record-grid">
             <div><span>Rental duration</span><strong>{{ $voucher->rental_duration ? $voucher->rental_duration.' '.($voucher->rental_duration == 1 ? 'Day' : 'Days') : '—' }}</strong></div>
-            <div><span>Branch timing</span><strong>{{ $voucher->branch_timing ?: '—' }}</strong></div>
             <div><span>Supplier reference</span><strong>{{ $voucher->supplier_reference ?: '—' }}</strong></div>
             <div><span>Flight</span><strong>{{ trim(trim((string) $voucher->flight_number).' '.($voucher->flight_arrival_date?->format('d M Y') ?? '').' '.trim((string) ($voucher->flight_arrival_time ?? ''))) ?: '—' }}{{ $voucher->flight_airport ? ' · '.$voucher->flight_airport : '' }}</strong></div>
             <div><span>Vehicle</span><strong>{{ trim(($voucher->vehicle_type ?? '').($voucher->vehicle_model ? ' · '.$voucher->vehicle_model : '')) ?: '—' }}</strong></div>
