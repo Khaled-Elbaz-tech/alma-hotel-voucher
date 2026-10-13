@@ -13,7 +13,8 @@ use App\Http\Controllers\VipMeetAssistVoucherController;
 use App\Http\Middleware\EnsureAdmin;
 use Illuminate\Support\Facades\Route;
 
-// Hotel Voucher
+// Voucher Generator (requires login)
+Route::middleware(['auth'])->group(function () {
 Route::get('/', [HotelVoucherController::class, 'create'])->name('home');
 Route::get('/hotel-voucher', [HotelVoucherController::class, 'create'])->name('hotel-voucher.create');
 Route::post('/hotel-voucher', [HotelVoucherController::class, 'store'])->name('hotel-voucher.store');
@@ -41,7 +42,13 @@ Route::post('/vip-meet-assist', [VipMeetAssistVoucherController::class, 'store']
 Route::get('/vip-meet-assist/{voucher}', [VipMeetAssistVoucherController::class, 'show'])->name('vip-meet-assist-voucher.show');
 Route::get('/vip-meet-assist/{voucher}/pdf', [VipMeetAssistVoucherController::class, 'downloadPdf'])->name('vip-meet-assist-voucher.pdf');
 Route::post('/vip-meet-assist/{voucher}/png', [VipMeetAssistVoucherController::class, 'savePng'])->name('vip-meet-assist-voucher.png');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+});
 
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login.store');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Legacy admin login routes (redirect to main login)
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login')->middleware('guest');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.store');
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
@@ -49,6 +56,7 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdmin::class])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('employees', EmployeeController::class)->except(['show']);
+    Route::resource('users', UserController::class)->except(['show']);
     Route::get('lookups', [LookupController::class, 'index'])->name('lookups.index');
     Route::post('lookups/categories', [LookupController::class, 'storeCategory'])->name('lookups.categories.store');
     Route::patch('lookups/categories/{category}', [LookupController::class, 'updateCategory'])->name('lookups.categories.update');
