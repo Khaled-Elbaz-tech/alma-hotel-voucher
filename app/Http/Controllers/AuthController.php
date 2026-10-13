@@ -27,9 +27,21 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
+        // Check if user is active
+        if (! Auth::user()->is_active) {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'Your account has been deactivated. Please contact the administrator.',
+            ])->onlyInput('email');
+        }
+
         $request->session()->regenerate();
 
-        return redirect()->intended(route('admin.dashboard'));
+        // Redirect admins to dashboard, regular users to voucher generator
+        if (Auth::user()->is_admin) {
+            return redirect()->intended(route('admin.dashboard'));
+        }
+        return redirect()->intended(route('home'));
     }
 
     public function logout(Request $request): RedirectResponse
@@ -38,6 +50,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 }
