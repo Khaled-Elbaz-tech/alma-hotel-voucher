@@ -16,6 +16,16 @@
         </div>
 
         <form id="voucher-form" class="generator-layout" method="POST" action="{{ route('car-rental-voucher.store') }}" enctype="multipart/form-data">
+            @if($errors->any())
+            <div class="alert alert-danger mb-3">
+                <strong>Please fix the following errors:</strong>
+                <ul class="mb-0 mt-2">
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
 
             @csrf
