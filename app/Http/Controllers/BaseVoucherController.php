@@ -165,7 +165,20 @@ abstract class BaseVoucherController extends Controller
             if (! $user->email) {
                 return response()->json(['path' => $path, 'emailed' => false, 'error' => 'User has no email address']);
             }
-            Mail::to($user->email)->send(new VoucherGeneratedMail($voucher, $path));
+            // Try with mailable first
+            try {
+                Mail::to($user->email)->send(new VoucherGeneratedMail($voucher, $path));
+            } catch (\Throwable $mailErr) {
+                // Fallback: simple email without mailable
+                \Log::warning('Mailable failed, trying raw: '.$mailErr->getMessage());
+                $pdfFullPath = storage_path('app/public/'.$path);
+                Mail::raw('Your voucher '.$voucher->voucher_number.' is attached.', function ($m) use ($user, $voucher, $pdfFullPath) {
+                    $m->to($user->email)->subject('Alma Travel — Voucher '.$voucher->voucher_number);
+                    if (file_exists($pdfFullPath)) {
+                        $m->attach($pdfFullPath, ['as' => $voucher->voucher_number.'.pdf', 'mime' => 'application/pdf']);
+                    }
+                });
+            }
             return response()->json(['path' => $path, 'emailed' => true, 'to' => $user->email]);
         } catch (\Throwable $e) {
             \Log::error('Voucher email failed', [
