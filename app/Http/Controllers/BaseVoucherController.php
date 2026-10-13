@@ -56,17 +56,8 @@ abstract class BaseVoucherController extends Controller
         $voucherData['user_id'] = $request->user()->id;
         $voucher = Voucher::create($voucherData);
 
-        // Generate PDF and email it to the user
-        try {
-            $pdfPath = $this->generateVoucherPdf($voucher);
-            Mail::to($request->user()->email)->send(new VoucherGeneratedMail($voucher, $pdfPath));
-            $message = 'Voucher '.$voucherNumber.' generated and emailed successfully.';
-        } catch (\Exception $e) {
-            $message = 'Voucher '.$voucherNumber.' generated successfully (email failed: '.$e->getMessage().').';
-        }
-
         return redirect()->route($this->voucherType.'-voucher.show', $voucher)
-            ->with('success', $message);
+            ->with('success', 'Voucher '.$voucherNumber.' generated successfully.');
     }
 
     public function show(Voucher $voucher): View
@@ -137,6 +128,43 @@ abstract class BaseVoucherController extends Controller
         $voucher->update(['png_path' => $path]);
 
         return response()->json(['path' => $path]);
+    }
+
+    public function savePdf(Request $request, Voucher $voucher): JsonResponse
+    {
+        $validated = $request->validate([
+            'pdf' => ['required', 'string', 'max:20000000'],
+        ]);
+
+        if (! preg_match('/^data:application\/pdf;base64,/', $validated['pdf'])) {
+            return response()->json(['message' => 'Invalid PDF data.'], 422);
+        }
+
+        $pdf = preg_replace('/^data:application\/pdf;base64,/', '', $validated['pdf']);
+        $decoded = base64_decode($pdf, true);
+
+        if ($decoded === false) {
+            return response()->json(['message' => 'Unable to decode PDF.'], 422);
+        }
+
+        $fileName = $voucher->voucher_number.'.pdf';
+        $path = 'vouchers/pdfs/'.$fileName;
+        Storage::disk('public')->makeDirectory('vouchers/pdfs');
+        Storage::disk('public')->put($path, $decoded, 'public');
+        $voucher->update(['pdf_path' => $path]);
+
+        // Send email with the browser-generated PDF
+        try {
+            $user = $voucher->user ?? $request->user();
+            if ($user && $user->email) {
+                Mail::to($user->email)->send(new VoucherGeneratedMail($voucher, $path));
+                return response()->json(['path' => $path, 'emailed' => true]);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['path' => $path, 'emailed' => false, 'error' => $e->getMessage()]);
+        }
+
+        return response()->json(['path' => $path, 'emailed' => false]);
     }
 
     public function destroy(Voucher $voucher): RedirectResponse
