@@ -347,4 +347,17 @@ button, input, select, textarea { font: inherit; }
     .voucher-nav .nav-item { font-size: 11px; padding: 8px 14px; }
 }
 
+/* Header user area */
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.header-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #c9a227; border: 1px solid rgba(201,162,39,.4); text-decoration: none; transition: all .2s; }
+.header-btn:hover { background: rgba(201,162,39,.12); color: #e0b93c; }
+.header-btn.active { background: #c9a227; color: #1a1a1a; border-color: #c9a227; }
+.header-btn-icon { font-size: 14px; }
+.user-chip { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 24px; padding: 4px 6px 4px 4px; }
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #c9a227, #a0821e); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: #1a1a1a; }
+.user-info { display: flex; flex-direction: column; line-height: 1.2; }
+.user-name { font-size: 13px; font-weight: 600; color: #fff; }
+.user-email { font-size: 11px; color: rgba(255,255,255,.55); }
+.logout-btn { background: none; border: none; color: rgba(255,255,255,.6); font-size: 16px; cursor: pointer; padding: 6px 10px; border-radius: 50%; transition: all .2s; }
+.logout-btn:hover { background: rgba(255,255,255,.12); color: #fff; }
 
