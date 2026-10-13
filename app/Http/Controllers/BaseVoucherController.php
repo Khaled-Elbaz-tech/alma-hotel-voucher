@@ -56,19 +56,25 @@ abstract class BaseVoucherController extends Controller
         $voucherData['user_id'] = $request->user()->id;
         $voucher = Voucher::create($voucherData);
 
-        // Send email immediately (DomPDF version as fallback)
-        // The browser will upload a better PDF afterwards and re-send
+        // Generate PDF (may fail for complex layouts, that's ok)
+        $pdfFull = null;
         try {
             $pdfPath = $this->generateVoucherPdf($voucher);
+            $pdfFull = storage_path('app/public/'.$pdfPath);
+        } catch (\Throwable $e) {
+            \Log::warning('PDF generation failed: '.$e->getMessage());
+        }
+
+        // Send email regardless of PDF success
+        try {
             $toEmail = $request->user()->email;
             $vNum = $voucher->voucher_number;
-            $pdfFull = storage_path('app/public/'.$pdfPath);
-            Mail::raw("Your voucher $vNum is attached.", function ($m) use ($toEmail, $vNum, $pdfFull) {
+            Mail::raw("Your voucher $vNum has been generated.", function ($m) use ($toEmail, $vNum, $pdfFull) {
                 $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
-                if (file_exists($pdfFull)) { $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']); }
+                if ($pdfFull && file_exists($pdfFull)) { $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']); }
             });
         } catch (\Throwable $e) {
-            \Log::warning('Initial voucher email failed: '.$e->getMessage());
+            \Log::warning('Voucher email failed: '.get_class($e).': '.$e->getMessage());
         }
 
         return redirect()->route($this->voucherType.'-voucher.show', $voucher)
