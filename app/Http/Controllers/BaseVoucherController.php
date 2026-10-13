@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Mail\VoucherGeneratedMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -51,10 +53,20 @@ abstract class BaseVoucherController extends Controller
         }
 
         $voucherData = $this->prepareVoucherData($validated, $voucherNumber, $photoPath, $checkIn, $checkOut);
+        $voucherData['user_id'] = $request->user()->id;
         $voucher = Voucher::create($voucherData);
 
+        // Generate PDF and email it to the user
+        try {
+            $pdfPath = $this->generateVoucherPdf($voucher);
+            Mail::to($request->user()->email)->send(new VoucherGeneratedMail($voucher, $pdfPath));
+            $message = 'Voucher '.$voucherNumber.' generated and emailed successfully.';
+        } catch (\Exception $e) {
+            $message = 'Voucher '.$voucherNumber.' generated successfully (email failed: '.$e->getMessage().').';
+        }
+
         return redirect()->route($this->voucherType.'-voucher.show', $voucher)
-            ->with('success', 'Voucher '.$voucherNumber.' generated successfully.');
+            ->with('success', $message);
     }
 
     public function show(Voucher $voucher): View
@@ -66,6 +78,14 @@ abstract class BaseVoucherController extends Controller
 
 
     public function downloadPdf(Voucher $voucher): BinaryFileResponse
+    {
+        $path = $this->generateVoucherPdf($voucher);
+        $fileName = $voucher->voucher_number.'.pdf';
+
+        return response()->download(storage_path('app/public/'.$path), $fileName);
+    }
+
+    protected function generateVoucherPdf(Voucher $voucher): string
     {
         $settings = CompanySetting::firstOrFail();
         $fileName = $voucher->voucher_number.'.pdf';
@@ -88,7 +108,7 @@ abstract class BaseVoucherController extends Controller
 
         $voucher->update(['pdf_path' => $path]);
 
-        return response()->download(storage_path('app/public/'.$path), $fileName);
+        return $path;
     }
 
     public function savePng(Request $request, Voucher $voucher): JsonResponse
