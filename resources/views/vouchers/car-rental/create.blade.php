@@ -135,8 +135,6 @@
                             <input class="form-control" id="rental_duration" name="rental_duration" type="number" min="1" max="365" value="{{ old('rental_duration') }}" placeholder="e.g. 4">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="branch_timing">Branch timing (hours)</label>
-                            <input class="form-control" id="branch_timing" name="branch_timing" value="{{ old('branch_timing') }}" placeholder="e.g. 24 Hrs.">
                         </div>
                     </div>
                 </div>
@@ -370,7 +368,6 @@
                 setValue('previewHeroVehicleType', getOptionValue('vehicle_type', 'vehicle_type_other') || 'Vehicle type');
                 setValue('previewVehicleModel', document.getElementById('vehicle_model')?.value || '');
                 setValue('previewInsuranceType', getOptionValue('insurance_type', 'insurance_type_other'));
-                (() => { const v = document.getElementById('branch_timing')?.value?.trim() || ''; setValue('previewBranchTiming', v ? (/hour|hr/i.test(v) ? v : v + ' Hours') : '—'); })();
 
                 // Flight Number
                 setValue('previewFlightNumber', document.getElementById('flight_number')?.value || '—');
