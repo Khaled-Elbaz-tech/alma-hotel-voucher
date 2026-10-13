@@ -656,7 +656,7 @@
                 @endif
                 <div class="v-show-body">
                     <h3 class="v-hero" id="previewCompanyName">{{ $companyName }}</h3>
-                    <div class="v-hero-sub">Service Agent</div>
+                    <div class="v-hero-sub">Service Provider</div>
                     <div class="v-rows">
                         <div class="v-row">
                             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
