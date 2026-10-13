@@ -607,7 +607,7 @@
 <section>
                 <h3 class="v-sec-title">Booking Details</h3>
                 <div class="v-grid">
-<div class="v-field">
+<div class="v-field span2">
                         <div class="v-ico"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/></svg></div>
                         <div class="v-tx"><span class="v-label">Guest Name</span><span class="v-val" id="previewGuest">{{ $value('guest_name', 'Guest name') }}</span></div>
                     </div>
