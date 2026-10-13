@@ -167,9 +167,18 @@ abstract class BaseVoucherController extends Controller
             }
             Mail::to($user->email)->send(new VoucherGeneratedMail($voucher, $path));
             return response()->json(['path' => $path, 'emailed' => true, 'to' => $user->email]);
-        } catch (\Exception $e) {
-            \Log::error('Voucher email failed: '.$e->getMessage(), ['exception' => $e]);
-            $msg = $e->getMessage() ?: get_class($e);
+        } catch (\Throwable $e) {
+            \Log::error('Voucher email failed', [
+                'message' => $e->getMessage(),
+                'class' => get_class($e),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            $msg = $e->getMessage();
+            if (! $msg) {
+                $msg = get_class($e).' at '.$e->getFile().':'.$e->getLine();
+            }
             return response()->json(['path' => $path, 'emailed' => false, 'error' => $msg]);
         }
     }
