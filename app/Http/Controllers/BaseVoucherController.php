@@ -56,20 +56,12 @@ abstract class BaseVoucherController extends Controller
         $voucherData['user_id'] = $request->user()->id;
         $voucher = Voucher::create($voucherData);
 
-        // Send voucher as HTML email (100% fidelity)
+        // Send professional HTML email (email-client friendly)
         try {
-            $settings = CompanySetting::first();
-            $voucherHtml = view($this->layoutView, [
-                'settings' => $settings,
-                'voucher' => $voucher,
-                'voucherNumber' => $voucher->voucher_number,
-                'voucherDate' => now()->format('d M Y'),
-                'preview' => false,
-            ])->render();
             $toEmail = $request->user()->email;
             $vNum = $voucher->voucher_number;
             \Illuminate\Support\Facades\Mail::html(
-                view('emails.voucher-html', ['voucher' => $voucher, 'voucherHtml' => $voucherHtml])->render(),
+                view('emails.voucher-html', ['voucher' => $voucher])->render(),
                 function ($m) use ($toEmail, $vNum) {
                     $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
                 }
