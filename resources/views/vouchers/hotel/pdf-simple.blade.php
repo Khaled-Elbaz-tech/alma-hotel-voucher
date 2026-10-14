@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
-@page { margin: 0; }
-body { font-family: DejaVu Sans, sans-serif; margin: 0; padding: 0; color: #333; font-size: 10px; }
+@page { margin: 0; size: A4 landscape; }
+body { font-family: DejaVu Sans, sans-serif; margin: 0; padding: 0; color: #2c2c2c; font-size: 10px; line-height: 1.4; }
 .header { background: #0B3B3E; color: white; padding: 25px 30px; }
 .header-table { width: 100%; }
 .header-table td { vertical-align: middle; }
@@ -28,6 +28,7 @@ body { font-family: DejaVu Sans, sans-serif; margin: 0; padding: 0; color: #333;
 <td style="width: 30%;"><div class="voucher-no">VOUCHER NO.<br><strong style="color: white;">{{ $voucher->voucher_number }}</strong></div></td>
 </tr></table>
 </div>
+<div style="height: 3px; background: #C8A24B;"></div>
 <div class="content">
 <div class="section">
 <div class="section-head">BOOKING DETAILS</div>
