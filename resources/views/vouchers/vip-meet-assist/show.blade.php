@@ -41,7 +41,7 @@
                 fetch('{{ route('vip-meet-assist-voucher.save-pdf', $voucher) }}', {
                     method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                     body: JSON.stringify({pdf: pdfData})
-                }).then(r => r.json()).then(d => console.log('Email result:', d)).catch(e => console.error(e));
+                }).then(r => r.json()).then(d => { if (d.saved) { window.location.href = '{{ route('vip-meet-assist-voucher.email-pdf', $voucher) }}'; } }).catch(e => console.error(e));
             });
         }, 2000);
         @endif
