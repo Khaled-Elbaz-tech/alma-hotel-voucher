@@ -12,7 +12,7 @@ class CarRentalVoucherController extends BaseVoucherController
     protected string $voucherPrefix = 'ALMA-CR';
     protected string $createView = 'vouchers.car-rental.create';
     protected string $showView = 'vouchers.car-rental.show';
-    protected string $pdfView = 'vouchers.car-rental.pdf';
+    protected string $pdfView = 'vouchers.car-rental.pdf-simple';
     protected string $layoutView = 'vouchers.car-rental.partials.voucher-layout';
     protected string $photoField = 'car_photo';
     protected string $photoToggleField = 'include_car_photo';

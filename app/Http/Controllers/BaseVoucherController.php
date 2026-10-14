@@ -56,7 +56,20 @@ abstract class BaseVoucherController extends Controller
         $voucherData['user_id'] = $request->user()->id;
         $voucher = Voucher::create($voucherData);
 
-        // Email is sent from savePdf() after the browser generates a beautiful PDF
+        // Generate simple PDF and email it
+        try {
+            $pdfPath = $this->generateVoucherPdf($voucher);
+            $toEmail = $request->user()->email;
+            $vNum = $voucher->voucher_number;
+            $pdfFull = storage_path('app/public/'.$pdfPath);
+            Mail::raw("Your voucher $vNum is attached.", function ($m) use ($toEmail, $vNum, $pdfFull) {
+                $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
+                if (file_exists($pdfFull)) { $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']); }
+            });
+        } catch (\Throwable $e) {
+            \Log::warning('Voucher email failed: '.$e->getMessage());
+        }
+
         return redirect()->route($this->voucherType.'-voucher.show', $voucher)
             ->with('success', 'Voucher '.$voucherNumber.' generated successfully.');
     }

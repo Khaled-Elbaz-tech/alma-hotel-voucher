@@ -12,7 +12,7 @@ class HotelVoucherController extends BaseVoucherController
     protected string $voucherPrefix = 'ALMA-HV';
     protected string $createView = 'vouchers.hotel.create';
     protected string $showView = 'vouchers.hotel.show';
-    protected string $pdfView = 'vouchers.hotel.pdf';
+    protected string $pdfView = 'vouchers.hotel.pdf-simple';
     protected string $layoutView = 'vouchers.hotel.partials.voucher-layout';
     protected string $photoField = 'hotel_photo';
     protected string $photoToggleField = 'include_hotel_photo';
