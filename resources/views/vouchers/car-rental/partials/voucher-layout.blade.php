@@ -583,7 +583,7 @@
             @endif
             <div>
                 <div class="v-brand-name">{{ $settings->company_name }}</div>
-                <div class="v-brand-tag">We Always Care</div>
+                <div class="v-brand-tag">YOUR JOURNEY, OUR COMMITMENT</div>
             </div>
         </div>
         <div class="v-title">
