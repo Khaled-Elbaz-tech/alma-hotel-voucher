@@ -21,7 +21,7 @@ body { font-family: DejaVu Sans, sans-serif; margin: 0; padding: 0; color: #333;
 </style></head><body>
 <div class="header">
 <table class="header-table"><tr>
-<td style="width: 30%;"><div class="brand">Alma Travel</div><div class="tagline">WE ALWAYS CARE</div></td>
+<td style="width: 30%;"><div class="brand">Alma Travel</div><div class="tagline">YOUR JOURNEY, OUR COMMITMENT</div></td>
 <td style="width: 40%;"><div class="voucher-title">VIP MEET & ASSIST<br>VOUCHER</div></td>
 <td style="width: 30%;"><div class="voucher-no">VOUCHER NO.<br><strong style="color: white;">{{ $voucher->voucher_number }}</strong></div></td>
 </tr></table>
