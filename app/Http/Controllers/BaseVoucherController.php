@@ -178,6 +178,32 @@ abstract class BaseVoucherController extends Controller
         return response()->json(array_merge(['path' => $path, 'saved' => true], $emailResult));
     }
 
+    public function emailPdf(Voucher $voucher): RedirectResponse
+    {
+        $pdfPath = $voucher->pdf_path;
+        if (!$pdfPath) {
+            return redirect()->back()->with('error', 'No PDF found. Please generate it first.');
+        }
+        try {
+            $user = $voucher->user;
+            $toEmail = $user ? $user->email : null;
+            if (!$toEmail) {
+                return redirect()->back()->with('error', 'No recipient email.');
+            }
+            $vNum = $voucher->voucher_number;
+            $pdfFull = storage_path('app/public/'.$pdfPath);
+            \Illuminate\Support\Facades\Mail::raw("Your voucher $vNum is attached.", function ($m) use ($toEmail, $vNum, $pdfFull) {
+                $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
+                if (file_exists($pdfFull)) {
+                    $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']);
+                }
+            });
+            return redirect()->back()->with('success', 'Voucher emailed to '.$toEmail);
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Email failed: '.$e->getMessage());
+        }
+    }
+
     public function destroy(Voucher $voucher): RedirectResponse
     {
         foreach (['hotel_photo_path', 'pdf_path', 'png_path'] as $pathField) {
