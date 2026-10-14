@@ -167,27 +167,8 @@ abstract class BaseVoucherController extends Controller
         Storage::disk('public')->put($path, $decoded, 'public');
         $voucher->update(['pdf_path' => $path]);
 
-        // Email the browser-generated PDF (beautiful version)
-        try {
-            $toEmail = $request->user()->email;
-            $vNum = $voucher->voucher_number;
-            $pdfFull = storage_path('app/public/'.$path);
-            Mail::raw("Your voucher $vNum is attached.", function ($m) use ($toEmail, $vNum, $pdfFull) {
-                $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
-                if (file_exists($pdfFull)) { $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']); }
-            });
-            return response()->json(['path' => $path, 'emailed' => true]);
-        } catch (\Throwable $e) {
-            \Log::error('savePdf email failed', [
-                'class' => get_class($e),
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ]);
-            $errMsg = $e->getMessage();
-            if (!$errMsg) { $errMsg = get_class($e).' @ '.$e->getFile().':'.$e->getLine(); }
-            return response()->json(['path' => $path, 'emailed' => false, 'error' => $errMsg]);
-        }
+        // PDF saved only. Email is sent from store() with the simple template.
+        return response()->json(['path' => $path, 'saved' => true]);
     }
 
     public function destroy(Voucher $voucher): RedirectResponse
