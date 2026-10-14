@@ -43,10 +43,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        // Redirect admins to dashboard, regular users to voucher generator
-        if (Auth::user()->is_admin) {
-            return redirect()->intended(route('admin.dashboard'));
-        }
+        // Everyone goes to the voucher generator; admins can visit /admin manually
         return redirect()->intended(route('home'));
     }
 
