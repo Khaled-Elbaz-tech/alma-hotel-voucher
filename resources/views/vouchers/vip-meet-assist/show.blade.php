@@ -28,10 +28,23 @@
 
 
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const btn = document.getElementById('printVoucherBtn');
         if (btn) btn.addEventListener('click', () => window.print());
+        @if(session('success') && str_contains(session('success'), 'generated successfully'))
+        setTimeout(function() {
+            const el = document.getElementById('printVoucher');
+            if (!el || typeof html2pdf === 'undefined') return;
+            html2pdf().set({margin: 0, filename: '{{ $voucher->voucher_number }}.pdf', image: {type: 'jpeg', quality: 0.98}, html2canvas: {scale: 2, useCORS: true}, jsPDF: {unit: 'mm', format: 'a4', orientation: 'landscape'}}).from(el).output('datauristring').then(function(pdfData) {
+                fetch('{{ route('vip-meet-assist-voucher.save-pdf', $voucher) }}', {
+                    method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                    body: JSON.stringify({pdf: pdfData})
+                }).then(r => r.json()).then(d => console.log('Email result:', d)).catch(e => console.error(e));
+            });
+        }, 2000);
+        @endif
     });
 </script>
 @endsection
