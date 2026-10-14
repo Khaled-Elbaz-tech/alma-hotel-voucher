@@ -12,7 +12,7 @@ class TransfersVoucherController extends BaseVoucherController
     protected string $voucherPrefix = 'ALMA-TR';
     protected string $createView = 'vouchers.transfers.create';
     protected string $showView = 'vouchers.transfers.show';
-    protected string $pdfView = 'vouchers.transfers.pdf';
+    protected string $pdfView = 'vouchers.transfers.pdf-simple';
     protected string $layoutView = 'vouchers.transfers.partials.voucher-layout';
     protected string $photoField = 'photo';
     protected string $photoToggleField = 'include_photo';

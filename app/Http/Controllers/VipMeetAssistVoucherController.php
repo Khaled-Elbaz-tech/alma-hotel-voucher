@@ -12,7 +12,7 @@ class VipMeetAssistVoucherController extends BaseVoucherController
     protected string $voucherPrefix = 'ALMA-VIP';
     protected string $createView = 'vouchers.vip-meet-assist.create';
     protected string $showView = 'vouchers.vip-meet-assist.show';
-    protected string $pdfView = 'vouchers.vip-meet-assist.pdf';
+    protected string $pdfView = 'vouchers.vip-meet-assist.pdf-simple';
     protected string $layoutView = 'vouchers.vip-meet-assist.partials.voucher-layout';
     protected string $photoField = 'photo';
     protected string $photoToggleField = 'include_photo';
