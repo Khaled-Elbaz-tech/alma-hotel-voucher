@@ -56,7 +56,28 @@ abstract class BaseVoucherController extends Controller
         $voucherData['user_id'] = $request->user()->id;
         $voucher = Voucher::create($voucherData);
 
-        // Email sent from savePdf() with browser-generated beautiful PDF
+        // Send voucher as HTML email (100% fidelity)
+        try {
+            $settings = CompanySetting::first();
+            $voucherHtml = view($this->layoutView, [
+                'settings' => $settings,
+                'voucher' => $voucher,
+                'voucherNumber' => $voucher->voucher_number,
+                'voucherDate' => now()->format('d M Y'),
+                'preview' => false,
+            ])->render();
+            $toEmail = $request->user()->email;
+            $vNum = $voucher->voucher_number;
+            \Illuminate\Support\Facades\Mail::html(
+                view('emails.voucher-html', ['voucher' => $voucher, 'voucherHtml' => $voucherHtml])->render(),
+                function ($m) use ($toEmail, $vNum) {
+                    $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
+                }
+            );
+        } catch (\Throwable $e) {
+            \Log::warning('HTML voucher email failed: '.$e->getMessage());
+        }
+
         return redirect()->route($this->voucherType.'-voucher.show', $voucher)
             ->with('success', 'Voucher '.$voucherNumber.' generated successfully.');
     }
