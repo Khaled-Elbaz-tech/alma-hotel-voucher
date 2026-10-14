@@ -56,20 +56,7 @@ abstract class BaseVoucherController extends Controller
         $voucherData['user_id'] = $request->user()->id;
         $voucher = Voucher::create($voucherData);
 
-        // Generate simple PDF and email it
-        try {
-            $pdfPath = $this->generateVoucherPdf($voucher);
-            $toEmail = $request->user()->email;
-            $vNum = $voucher->voucher_number;
-            $pdfFull = storage_path('app/public/'.$pdfPath);
-            Mail::raw("Your voucher $vNum is attached.", function ($m) use ($toEmail, $vNum, $pdfFull) {
-                $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
-                if (file_exists($pdfFull)) { $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']); }
-            });
-        } catch (\Throwable $e) {
-            \Log::warning('Voucher email failed: '.$e->getMessage());
-        }
-
+        // Email sent from savePdf() with browser-generated beautiful PDF
         return redirect()->route($this->voucherType.'-voucher.show', $voucher)
             ->with('success', 'Voucher '.$voucherNumber.' generated successfully.');
     }
@@ -167,8 +154,28 @@ abstract class BaseVoucherController extends Controller
         Storage::disk('public')->put($path, $decoded, 'public');
         $voucher->update(['pdf_path' => $path]);
 
-        // PDF saved only. Email is sent from store() with the simple template.
-        return response()->json(['path' => $path, 'saved' => true]);
+        // Email the browser PDF using the voucher's user (not request user)
+        $emailResult = ['emailed' => false];
+        try {
+            $voucherUser = $voucher->user;
+            $toEmail = $voucherUser ? $voucherUser->email : null;
+            if ($toEmail) {
+                $vNum = $voucher->voucher_number;
+                $pdfFull = storage_path('app/public/'.$path);
+                \Illuminate\Support\Facades\Mail::raw("Your voucher $vNum is attached.", function ($m) use ($toEmail, $vNum, $pdfFull) {
+                    $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
+                    if (file_exists($pdfFull)) {
+                        $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']);
+                    }
+                });
+                $emailResult = ['emailed' => true];
+            } else {
+                $emailResult = ['emailed' => false, 'error' => 'No user email found'];
+            }
+        } catch (\Throwable $e) {
+            $emailResult = ['emailed' => false, 'error' => get_class($e).': '.($e->getMessage() ?: 'no message')];
+        }
+        return response()->json(array_merge(['path' => $path, 'saved' => true], $emailResult));
     }
 
     public function destroy(Voucher $voucher): RedirectResponse
