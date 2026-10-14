@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('vouchers', function (Blueprint $table) {
             // Rental Company
-            $table->string('rental_company', 160)->nullable()->after('vehicle_model');
+            $table->string('rental_company', 160)->nullable()->after('vehicle_type');
 
             // Important Notes (single section)
             $table->text('important_notes')->nullable()->after('rental_company');
