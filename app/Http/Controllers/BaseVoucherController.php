@@ -165,7 +165,15 @@ abstract class BaseVoucherController extends Controller
             });
             return response()->json(['path' => $path, 'emailed' => true]);
         } catch (\Throwable $e) {
-            return response()->json(['path' => $path, 'emailed' => false, 'error' => $e->getMessage() ?: 'sending failed']);
+            \Log::error('savePdf email failed', [
+                'class' => get_class($e),
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            $errMsg = $e->getMessage();
+            if (!$errMsg) { $errMsg = get_class($e).' @ '.$e->getFile().':'.$e->getLine(); }
+            return response()->json(['path' => $path, 'emailed' => false, 'error' => $errMsg]);
         }
     }
 
