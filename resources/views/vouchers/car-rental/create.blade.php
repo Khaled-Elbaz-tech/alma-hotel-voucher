@@ -284,7 +284,12 @@
             const themeSelect = document.getElementById('voucher_theme_select');
             const themeInput = document.getElementById('voucher_theme');
             const voucherCard = document.getElementById('printVoucher');
-            if (themeSelect && themeInput) { themeSelect.value = themeInput.value; }
+            if (themeSelect && themeInput) {
+                const validThemes = ['premium', 'premiumred', 'modern', 'maroon', 'crimson', 'slate'];
+                const savedTheme = validThemes.includes(themeInput.value) ? themeInput.value : 'premium';
+                themeSelect.value = savedTheme;
+                themeInput.value = savedTheme;
+            }
             if (themeSelect && voucherCard) {
                 themeSelect.addEventListener('change', function () {
                     themeInput.value = this.value;
