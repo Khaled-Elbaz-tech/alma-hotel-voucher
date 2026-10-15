@@ -179,7 +179,7 @@
     .v-brand img { max-height: 40px; max-width: 150px; object-fit: contain; }
     .v-brand .v-logos-row { display: flex; align-items: center; gap: 14px; }
     .v-brand .v-logo-main { max-height: 42px; max-width: 140px; object-fit: contain; }
-    .v-brand .v-logo-lh { max-height: 32px; max-width: 120px; object-fit: contain; }
+    .v-brand .v-logo-lh { max-height: 44px; max-width: 160px; object-fit: contain; }
     .v-brand-name {
         font-family: 'Playfair Display', 'Georgia', serif;
         font-size: 25px;
@@ -575,13 +575,14 @@
                 <img src="{{ asset('images/logos/alma-main.png') }}" alt="Alma Travel" class="v-logo-main">
                 <img src="{{ asset('images/logos/lufthansa.png') }}" alt="Lufthansa City Center" class="v-logo-lh">
             </div>
+            <div class="v-brand-tag">MORE THAN A JOURNEY</div>
         </div>
         <div class="v-title">
             <div class="v-badge">
                 <svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>
             </div>
             <h2>Hotel Confirmation Voucher</h2>
-            <p>MORE THAN A JOURNEY</p>
+            <p>We Always Care</p>
         </div>
         <div class="v-meta">
             <div class="lbl">Voucher No.</div>
