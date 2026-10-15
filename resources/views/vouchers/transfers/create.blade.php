@@ -235,9 +235,7 @@
                             <option value="modern">Alma Modern Premium</option>
                             <option value="maroon">Alma Maroon Elite</option>
                             <option value="crimson">Alma Crimson</option>
-                            <option value="slate">Alma Slate</option>
-                            <option value="classic">Alma Executive Classic</option>
-                        </select>
+                            <option value="slate">Alma Slate</option>                        </select>
                     </div>
                     <button class="btn btn-alma btn-lg generate-voucher-button" type="submit">Generate voucher <span aria-hidden="true">→</span></button>
                     <small>Generating saves a voucher log for admin review.</small>
@@ -280,7 +278,7 @@
             if (themeSelect && voucherCard) {
                 themeSelect.addEventListener('change', function () {
                     themeInput.value = this.value;
-                    voucherCard.classList.remove('theme-classic', 'theme-modern', 'theme-premium', 'theme-maroon', 'theme-crimson', 'theme-slate');
+                    voucherCard.classList.remove('theme-modern', 'theme-premium', 'theme-maroon', 'theme-crimson', 'theme-slate');
                     voucherCard.classList.add('theme-' + this.value);
                     dispatchPreview();
                 });
