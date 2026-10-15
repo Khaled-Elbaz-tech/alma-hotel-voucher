@@ -234,7 +234,7 @@ abstract class BaseVoucherController extends Controller
     {
         return array_merge([
             'guest_name' => ['required', 'string', 'max:120'],
-            'voucher_theme' => ['required', 'in:modern,premium,maroon,crimson,slate'],
+            'voucher_theme' => ['required', 'in:modern,premium,premiumred,maroon,crimson,slate'],
         ], $this->validationRules);
     }
 
