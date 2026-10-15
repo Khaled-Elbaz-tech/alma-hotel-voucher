@@ -621,12 +621,11 @@
                 <img src="{{ asset('images/logos/alma-main.png') }}" alt="Alma Travel" class="v-logo-main">
                 <img src="{{ asset('images/logos/lufthansa.png') }}" alt="Lufthansa City Center" class="v-logo-lh">
             </div>
-            <div class="v-brand-tag">MORE THAN A JOURNEY</div>
         </div>
         <div class="v-title">
             <div class="v-badge"><svg viewBox="0 0 24 24"><path d="M5 16L3 6l5.5 4L12 4l3.5 6L21 6l-2 10H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg></div>
             <h2>VIP Meet &amp; Assist Voucher</h2>
-            <p>We Always Care</p>
+            <p>MORE THAN A JOURNEY</p>
         </div>
         <div class="v-meta">
             <div class="lbl">Voucher No.</div>
