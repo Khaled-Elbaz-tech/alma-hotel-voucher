@@ -194,6 +194,9 @@
     .v-brand .v-logos-row { display: flex; align-items: center; gap: 14px; }
     .v-brand .v-logo-main { max-height: 42px; max-width: 140px; object-fit: contain; }
     .v-brand .v-logo-lh { max-height: 44px; max-width: 160px; object-fit: contain; }
+    .v-brand .v-logos-modern { display: none; }
+    .voucher-card.theme-modern .v-brand .v-logos-default { display: none; }
+    .voucher-card.theme-modern .v-brand .v-logos-modern { display: flex; }
     .v-brand-name {
         font-family: 'Playfair Display', 'Georgia', serif;
         font-size: 25px;
@@ -617,9 +620,13 @@
     <!-- HEADER -->
     <div class="v-head">
         <div class="v-brand">
-            <div class="v-logos-row">
+            <div class="v-logos-row v-logos-default">
                 <img src="{{ asset('images/logos/alma-main.png') }}" alt="Alma Travel" class="v-logo-main">
                 <img src="{{ asset('images/logos/lufthansa.png') }}" alt="Lufthansa City Center" class="v-logo-lh">
+            </div>
+            <div class="v-logos-row v-logos-modern">
+                <img src="{{ asset('images/logos/Alma travel_logos_final.png') }}" alt="Alma Travel" class="v-logo-main">
+                <img src="{{ asset('images/logos/lufthansa-final.png') }}" alt="Lufthansa City Center" class="v-logo-lh">
             </div>
         </div>
         <div class="v-title">
