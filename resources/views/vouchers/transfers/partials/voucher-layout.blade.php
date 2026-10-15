@@ -129,6 +129,13 @@
         --vhead-bg: var(--vgrad);
         --vbrand: #ffffff;
     }
+    /* Slate: red icons in header/footer */
+    .voucher-card.theme-slate .v-head,
+    .voucher-card.theme-slate .v-foot {
+        --va: #C0392B;
+        --va-soft: rgba(192, 57, 43, 0.13);
+        --va-line: rgba(192, 57, 43, 0.42);
+    }
     .voucher-card.theme-premiumred {
         --vp: #8B251E;
         --vpd: #5F1812;
