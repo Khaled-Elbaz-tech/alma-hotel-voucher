@@ -120,12 +120,12 @@
         --vbrand: #ffffff;
     }
     .voucher-card.theme-slate {
-        --vp: #334155;
-        --vpd: #1E293B;
-        --va: #64748B;
-        --va-soft: rgba(100, 116, 139, 0.15);
-        --va-line: rgba(100, 116, 139, 0.45);
-        --vgrad: linear-gradient(118deg, #1E293B 0%, #334155 55%, #475569 100%);
+        --vp: #64748B;
+        --vpd: #475569;
+        --va: #94A3B8;
+        --va-soft: rgba(148, 163, 184, 0.15);
+        --va-line: rgba(148, 163, 184, 0.45);
+        --vgrad: linear-gradient(118deg, #475569 0%, #64748B 55%, #94A3B8 100%);
         --vhead-bg: var(--vgrad);
         --vbrand: #ffffff;
     }
@@ -601,7 +601,7 @@
     .voucher-pdf .voucher-card.theme-premium .v-head { background: #8B251E !important; }
     .voucher-pdf .voucher-card.theme-maroon .v-head { background: #6B1A1A !important; }
     .voucher-pdf .voucher-card.theme-crimson .v-head { background: #A93226 !important; }
-    .voucher-pdf .voucher-card.theme-slate .v-head { background: #334155 !important; }
+    .voucher-pdf .voucher-card.theme-slate .v-head { background: #64748B !important; }
     .voucher-pdf .v-head > div { display: table-cell !important; vertical-align: middle !important; }
     .voucher-pdf .v-brand-name { font-size: 14px !important; }
     .voucher-pdf .v-brand-tag { font-size: 6px !important; margin-top: 2px !important; }
@@ -636,7 +636,7 @@
     .voucher-pdf .voucher-card.theme-modern .v-foot, .voucher-pdf .voucher-card.theme-premium .v-foot { background: #8B251E !important; }
     .voucher-pdf .voucher-card.theme-maroon .v-foot { background: #6B1A1A !important; }
     .voucher-pdf .voucher-card.theme-crimson .v-foot { background: #A93226 !important; }
-    .voucher-pdf .voucher-card.theme-slate .v-foot { background: #334155 !important; }
+    .voucher-pdf .voucher-card.theme-slate .v-foot { background: #64748B !important; }
     .voucher-pdf .v-fcol { display: table-cell !important; vertical-align: middle !important; }
     .voucher-pdf .v-fcol h5 { font-size: 6.5px !important; margin: 0 0 2px !important; }
     .voucher-pdf .v-fline { font-size: 6.5px !important; margin-bottom: 1px !important; }
