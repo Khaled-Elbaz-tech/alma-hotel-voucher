@@ -30,7 +30,7 @@ class VoucherController extends Controller
     {
         $validated = $request->validate([
             'guest_name' => ['required', 'string', 'max:120'],
-            'voucher_theme' => ['required', 'in:modern,premium,maroon,crimson,slate'],
+            'voucher_theme' => ['required', 'in:modern,premium,premiumred,maroon,crimson,slate'],
             'hotel_name' => ['required', 'string', 'max:160'],
             'hotel_address' => ['required', 'string', 'max:500'],
             'hotel_location_sub' => ['nullable', 'string', 'max:160'],
