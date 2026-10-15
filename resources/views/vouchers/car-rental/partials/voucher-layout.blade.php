@@ -121,6 +121,13 @@
         --vhead-bg: var(--vgrad);
         --vbrand: #ffffff;
     }
+    /* Premium Red: red icons in body only, header/footer keep gold */
+    .voucher-card.theme-premiumred .v-head,
+    .voucher-card.theme-premiumred .v-foot {
+        --va: #D4AF37;
+        --va-soft: rgba(212, 175, 55, 0.13);
+        --va-line: rgba(212, 175, 55, 0.42);
+    }
 
     /* ============ CARD SHELL ============ */
     .voucher-card {
