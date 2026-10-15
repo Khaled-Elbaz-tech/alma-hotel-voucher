@@ -241,8 +241,7 @@
     .v-title p {
         font-family: 'Playfair Display', 'Georgia', serif;
         font-style: italic;
-        font-size: 10px;
-        letter-spacing: 1.5px;
+        font-size: 12.5px;
         white-space: nowrap;
         color: rgba(255,255,255,0.92);
         margin: 4px 0 0;
