@@ -82,6 +82,7 @@
         --vbrand: #ffffff;
     }
     .voucher-card.theme-maroon {
+        --vhead-bg: var(--vgrad);
         --vp: #6B1A1A;
         --vpd: #3D0D0D;
         --va: #D4AF37;
@@ -91,6 +92,7 @@
         --vbrand: #ffffff;
     }
     .voucher-card.theme-crimson {
+        --vhead-bg: var(--vgrad);
         --vp: #C0392B;
         --vpd: #922B21;
         --va: #F1C40F;
@@ -100,6 +102,7 @@
         --vbrand: #ffffff;
     }
     .voucher-card.theme-slate {
+        --vhead-bg: var(--vgrad);
         --vp: #4B5563;
         --vpd: #1F2937;
         --va: #D1D5DB;
