@@ -193,7 +193,7 @@
     .v-brand img { max-height: 40px; max-width: 150px; object-fit: contain; }
     .v-brand .v-logos-row { display: flex; align-items: center; gap: 14px; }
     .v-brand .v-logo-main { max-height: 42px; max-width: 140px; object-fit: contain; }
-    .v-brand .v-logo-lh { max-height: 32px; max-width: 120px; object-fit: contain; }
+    .v-brand .v-logo-lh { max-height: 44px; max-width: 160px; object-fit: contain; }
     .v-brand-name {
         font-family: 'Playfair Display', 'Georgia', serif;
         font-size: 25px;
