@@ -177,10 +177,6 @@
 
     .v-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
     .v-brand img { max-height: 40px; max-width: 150px; object-fit: contain; }
-    .v-brand .v-logo-img { max-height: 48px; max-width: 180px; object-fit: contain; }
-    .v-brand .v-logo-dark { display: none; }
-    .voucher-card.theme-modern .v-brand .v-logo-white { display: none; }
-    .voucher-card.theme-modern .v-brand .v-logo-dark { display: block; }
     .v-brand-name {
         font-family: 'Playfair Display', 'Georgia', serif;
         font-size: 25px;
@@ -572,8 +568,13 @@
     <!-- HEADER -->
     <div class="v-head">
         <div class="v-brand">
-            <img src="{{ asset('images/logos/logo2.jpeg') }}" alt="Alma Travel" class="v-logo-img v-logo-white">
-            <img src="{{ asset('images/logos/logo1.jpeg') }}" alt="Alma Travel" class="v-logo-img v-logo-dark">
+            @if($logoSource)
+                <img src="{{ $logoSource }}" alt="{{ $settings->company_name }} logo">
+            @endif
+            <div>
+                <div class="v-brand-name">{{ $settings->company_name }}</div>
+                <div class="v-brand-tag">MORE THAN A JOURNEY</div>
+            </div>
         </div>
         <div class="v-title">
             <div class="v-badge">
