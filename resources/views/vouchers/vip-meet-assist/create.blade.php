@@ -29,7 +29,7 @@
 
 
             @csrf
-            <input type="hidden" name="voucher_theme" id="voucher_theme" value="{{ $settings->voucher_theme ?? 'classic' }}">
+            <input type="hidden" name="voucher_theme" id="voucher_theme" value="{{ $settings->voucher_theme ?? 'premium' }}">
             <section class="form-panel" aria-label="Voucher details">
                 <div class="panel-heading">
                     <div><p class="eyebrow mb-1">Step 01 / Booking details</p><h2>Enter the VIP service information</h2></div>
@@ -190,8 +190,12 @@
                     <div class="form-group" style="margin-bottom: 12px;">
                         <label class="form-label" for="voucher_theme_select">Voucher Theme</label>
                         <select class="form-select" id="voucher_theme_select" name="voucher_theme" onchange="document.getElementById('voucher_theme').value = this.value; dispatchPreview();">
-                            <option value="classic">Alma Executive Classic</option>
+                            <option value="premium" selected>Alma Premium</option>
                             <option value="modern">Alma Modern Premium</option>
+                            <option value="maroon">Alma Maroon Elite</option>
+                            <option value="crimson">Alma Crimson</option>
+                            <option value="slate">Alma Slate</option>
+                            <option value="classic">Alma Executive Classic</option>
                         </select>
                     </div>
                     <button class="btn btn-alma btn-lg generate-voucher-button" type="submit">Generate voucher <span aria-hidden="true">→</span></button>
@@ -235,7 +239,7 @@
             if (themeSelect && voucherCard) {
                 themeSelect.addEventListener('change', function () {
                     themeInput.value = this.value;
-                    voucherCard.classList.remove('theme-classic', 'theme-modern');
+                    voucherCard.classList.remove('theme-classic', 'theme-modern', 'theme-premium', 'theme-maroon', 'theme-crimson', 'theme-slate');
                     voucherCard.classList.add('theme-' + this.value);
                     dispatchPreview();
                 });
