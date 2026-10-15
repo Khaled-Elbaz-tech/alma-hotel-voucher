@@ -583,15 +583,13 @@
             <div class="v-logos-row v-logos-modern">
                 <img src="{{ asset('images/logos/Alma travel_logos_final.png') }}" alt="Alma Travel" class="v-logo-main">
                 <img src="{{ asset('images/logos/lufthansa-final.png') }}" alt="Lufthansa City Center" class="v-logo-lh">
-            </div>
-            <div class="v-brand-tag">MORE THAN A JOURNEY</div>
-        </div>
+            </div>        </div>
         <div class="v-title">
             <div class="v-badge">
                 <svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>
             </div>
             <h2>Hotel Confirmation Voucher</h2>
-            <p>MORE THAN A JOURNEY</p>
+            <p>We Always Care</p>
         </div>
         <div class="v-meta">
             <div class="lbl">Voucher No.</div>
