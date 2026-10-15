@@ -191,6 +191,7 @@
                         <label class="form-label" for="voucher_theme_select">Voucher Theme</label>
                         <select class="form-select" id="voucher_theme_select" name="voucher_theme" onchange="document.getElementById('voucher_theme').value = this.value; dispatchPreview();">
                             <option value="premium" selected>Alma Premium</option>
+                            <option value="premiumred">Alma Premium Red</option>
                             <option value="modern">Alma Modern Premium</option>
                             <option value="maroon">Alma Maroon Elite</option>
                             <option value="crimson">Alma Crimson</option>
@@ -237,7 +238,7 @@
             if (themeSelect && voucherCard) {
                 themeSelect.addEventListener('change', function () {
                     themeInput.value = this.value;
-                    voucherCard.classList.remove('theme-modern', 'theme-premium', 'theme-maroon', 'theme-crimson', 'theme-slate');
+                    voucherCard.classList.remove('theme-modern', 'theme-premium', 'theme-premiumred', 'theme-maroon', 'theme-crimson', 'theme-slate');
                     voucherCard.classList.add('theme-' + this.value);
                     dispatchPreview();
                 });
