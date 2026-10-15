@@ -92,23 +92,23 @@
         --vbrand: #ffffff;
     }
     .voucher-card.theme-crimson {
+        --vp: #A93226;
+        --vpd: #7B241C;
+        --va: #CD7F32;
+        --va-soft: rgba(205, 127, 50, 0.13);
+        --va-line: rgba(205, 127, 50, 0.42);
+        --vgrad: linear-gradient(118deg, #7B241C 0%, #A93226 55%, #C0392B 100%);
         --vhead-bg: var(--vgrad);
-        --vp: #C0392B;
-        --vpd: #922B21;
-        --va: #F1C40F;
-        --va-soft: rgba(241, 196, 15, 0.13);
-        --va-line: rgba(241, 196, 15, 0.42);
-        --vgrad: linear-gradient(118deg, #922B21 0%, #C0392B 55%, #E74C3C 100%);
         --vbrand: #ffffff;
     }
     .voucher-card.theme-slate {
+        --vp: #334155;
+        --vpd: #1E293B;
+        --va: #64748B;
+        --va-soft: rgba(100, 116, 139, 0.15);
+        --va-line: rgba(100, 116, 139, 0.45);
+        --vgrad: linear-gradient(118deg, #1E293B 0%, #334155 55%, #475569 100%);
         --vhead-bg: var(--vgrad);
-        --vp: #4B5563;
-        --vpd: #1F2937;
-        --va: #D1D5DB;
-        --va-soft: rgba(209, 213, 219, 0.13);
-        --va-line: rgba(209, 213, 219, 0.42);
-        --vgrad: linear-gradient(118deg, #1F2937 0%, #4B5563 55%, #6B7280 100%);
         --vbrand: #ffffff;
     }
     .voucher-card.theme-premiumred {
@@ -583,8 +583,8 @@
     .voucher-pdf .voucher-card.theme-modern .v-head { background: #F7F2E7 !important; }
     .voucher-pdf .voucher-card.theme-premium .v-head { background: #8B251E !important; }
     .voucher-pdf .voucher-card.theme-maroon .v-head { background: #6B1A1A !important; }
-    .voucher-pdf .voucher-card.theme-crimson .v-head { background: #C0392B !important; }
-    .voucher-pdf .voucher-card.theme-slate .v-head { background: #4B5563 !important; }
+    .voucher-pdf .voucher-card.theme-crimson .v-head { background: #A93226 !important; }
+    .voucher-pdf .voucher-card.theme-slate .v-head { background: #334155 !important; }
     .voucher-pdf .v-head > div { display: table-cell !important; vertical-align: middle !important; }
     .voucher-pdf .v-brand-name { font-size: 14px !important; }
     .voucher-pdf .v-brand-tag { font-size: 6px !important; margin-top: 2px !important; }
@@ -618,8 +618,8 @@
     .voucher-pdf .v-foot { display: table !important; width: 100% !important; clear: both !important; padding: 4px 14px !important; background: #0B3B3E !important; border-top: 2px solid #C8A24B !important; }
     .voucher-pdf .voucher-card.theme-modern .v-foot, .voucher-pdf .voucher-card.theme-premium .v-foot { background: #8B251E !important; }
     .voucher-pdf .voucher-card.theme-maroon .v-foot { background: #6B1A1A !important; }
-    .voucher-pdf .voucher-card.theme-crimson .v-foot { background: #C0392B !important; }
-    .voucher-pdf .voucher-card.theme-slate .v-foot { background: #4B5563 !important; }
+    .voucher-pdf .voucher-card.theme-crimson .v-foot { background: #A93226 !important; }
+    .voucher-pdf .voucher-card.theme-slate .v-foot { background: #334155 !important; }
     .voucher-pdf .v-fcol { display: table-cell !important; vertical-align: middle !important; }
     .voucher-pdf .v-fcol h5 { font-size: 6.5px !important; margin: 0 0 2px !important; }
     .voucher-pdf .v-fline { font-size: 6.5px !important; margin-bottom: 1px !important; }
