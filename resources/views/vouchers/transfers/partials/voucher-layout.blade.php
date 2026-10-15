@@ -99,6 +99,33 @@
         --vgrad: linear-gradient(118deg, #5F1812 0%, #8B251E 55%, #B5322B 100%);
         --vbrand: #ffffff;
     }
+    .voucher-card.theme-maroon {
+        --vp: #6B1A1A;
+        --vpd: #3D0D0D;
+        --va: #D4AF37;
+        --va-soft: rgba(212, 175, 55, 0.13);
+        --va-line: rgba(212, 175, 55, 0.42);
+        --vgrad: linear-gradient(118deg, #3D0D0D 0%, #6B1A1A 55%, #8B2424 100%);
+        --vbrand: #ffffff;
+    }
+    .voucher-card.theme-crimson {
+        --vp: #C0392B;
+        --vpd: #922B21;
+        --va: #F1C40F;
+        --va-soft: rgba(241, 196, 15, 0.13);
+        --va-line: rgba(241, 196, 15, 0.42);
+        --vgrad: linear-gradient(118deg, #922B21 0%, #C0392B 55%, #E74C3C 100%);
+        --vbrand: #ffffff;
+    }
+    .voucher-card.theme-slate {
+        --vp: #4B5563;
+        --vpd: #1F2937;
+        --va: #D1D5DB;
+        --va-soft: rgba(209, 213, 219, 0.13);
+        --va-line: rgba(209, 213, 219, 0.42);
+        --vgrad: linear-gradient(118deg, #1F2937 0%, #4B5563 55%, #6B7280 100%);
+        --vbrand: #ffffff;
+    }
 
     /* ============ CARD SHELL ============ */
     .voucher-card {
@@ -552,6 +579,9 @@
     .voucher-pdf .v-head { display: table !important; width: 100% !important; min-height: 0 !important; padding: 4px 20px !important; background: #0B3B3E !important; border-bottom: 2px solid #C8A24B !important; }
     .voucher-pdf .voucher-card.theme-modern .v-head { background: #F7F2E7 !important; }
     .voucher-pdf .voucher-card.theme-premium .v-head { background: #8B251E !important; }
+    .voucher-pdf .voucher-card.theme-maroon .v-head { background: #6B1A1A !important; }
+    .voucher-pdf .voucher-card.theme-crimson .v-head { background: #C0392B !important; }
+    .voucher-pdf .voucher-card.theme-slate .v-head { background: #4B5563 !important; }
     .voucher-pdf .v-head > div { display: table-cell !important; vertical-align: middle !important; }
     .voucher-pdf .v-brand-name { font-size: 14px !important; }
     .voucher-pdf .v-brand-tag { font-size: 6px !important; margin-top: 2px !important; }
@@ -584,13 +614,16 @@
     .voucher-pdf .v-note { padding: 4px 7px !important; font-size: 7.5px !important; margin-bottom: 5px !important; }
     .voucher-pdf .v-foot { display: table !important; width: 100% !important; clear: both !important; padding: 4px 14px !important; background: #0B3B3E !important; border-top: 2px solid #C8A24B !important; }
     .voucher-pdf .voucher-card.theme-modern .v-foot, .voucher-pdf .voucher-card.theme-premium .v-foot { background: #8B251E !important; }
+    .voucher-pdf .voucher-card.theme-maroon .v-foot { background: #6B1A1A !important; }
+    .voucher-pdf .voucher-card.theme-crimson .v-foot { background: #C0392B !important; }
+    .voucher-pdf .voucher-card.theme-slate .v-foot { background: #4B5563 !important; }
     .voucher-pdf .v-fcol { display: table-cell !important; vertical-align: middle !important; }
     .voucher-pdf .v-fcol h5 { font-size: 6.5px !important; margin: 0 0 2px !important; }
     .voucher-pdf .v-fline { font-size: 6.5px !important; margin-bottom: 1px !important; }
     .voucher-pdf .v-fline svg { width: 8px !important; height: 8px !important; }
 </style>
 
-<div class="voucher-card theme-{{ $preview ? 'classic' : (($theme = $voucher?->voucher_theme ?? $settings?->voucher_theme ?? 'classic') === 'alma_premium' ? 'premium' : $theme) }} {{ $preview ? 'voucher-preview' : 'voucher-final' }} {{ $photoDisabled ? 'voucher-photo-disabled' : '' }} {{ (($voucher?->trip_type ?? "") === "round_trip") ? "is-roundtrip" : "" }}" id="printVoucher">
+<div class="voucher-card theme-{{ $preview ? 'premium' : (($theme = $voucher?->voucher_theme ?? $settings?->voucher_theme ?? 'premium') === 'alma_premium' ? 'premium' : $theme) }} {{ $preview ? 'voucher-preview' : 'voucher-final' }} {{ $photoDisabled ? 'voucher-photo-disabled' : '' }} {{ (($voucher?->trip_type ?? "") === "round_trip") ? "is-roundtrip" : "" }}" id="printVoucher">
 
     <!-- HEADER -->
     <div class="v-head">
