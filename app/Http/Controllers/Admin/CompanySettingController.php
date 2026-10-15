@@ -29,7 +29,7 @@ class CompanySettingController extends Controller
             'brand_gold' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'brand_surface_light' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'brand_surface_dark' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
-            'voucher_theme' => ['required', 'in:modern,premium,maroon,crimson,slate'],
+            'voucher_theme' => ['required', 'in:modern,premium,premiumred,maroon,crimson,slate'],
             'tagline' => ['required', 'string', 'max:120'],
             'logo' => ['nullable', 'mimes:svg,png,jpg,jpeg,webp', 'max:5120'],
         ]);
