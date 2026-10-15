@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Alma Travel Voucher Generator')</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <script>document.documentElement.setAttribute('data-js','active');document.title='JS_TEST_PASSED';window.__jsWorks=true;</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
