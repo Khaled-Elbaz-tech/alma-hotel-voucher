@@ -113,6 +113,16 @@
         --vgrad: linear-gradient(118deg, #1F2937 0%, #4B5563 55%, #6B7280 100%);
         --vbrand: #ffffff;
     }
+    .voucher-card.theme-premiumred {
+        --vp: #8B251E;
+        --vpd: #5F1812;
+        --va: #C0392B;
+        --va-soft: rgba(192, 57, 43, 0.13);
+        --va-line: rgba(192, 57, 43, 0.42);
+        --vgrad: linear-gradient(118deg, #5F1812 0%, #8B251E 55%, #B5322B 100%);
+        --vhead-bg: var(--vgrad);
+        --vbrand: #ffffff;
+    }
 
     /* ============ CARD SHELL ============ */
     .voucher-card {
@@ -602,7 +612,7 @@
             @endif
             <div>
                 <div class="v-brand-name">{{ $settings->company_name }}</div>
-                <div class="v-brand-tag">YOUR JOURNEY, OUR COMMITMENT</div>
+                <div class="v-brand-tag">MORE THAN A JOURNEY</div>
             </div>
         </div>
         <div class="v-title">
