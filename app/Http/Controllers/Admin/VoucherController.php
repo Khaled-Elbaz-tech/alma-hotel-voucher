@@ -26,13 +26,20 @@ class VoucherController extends Controller
             }))
             ->when($request->filled('from'), fn ($query) => $query->whereDate('created_at', '>=', $request->from))
             ->when($request->filled('to'), fn ($query) => $query->whereDate('created_at', '<=', $request->to))
+            ->when($request->filled('client_type'), fn ($query) => $query->where('client_type', $request->client_type))
+            ->when($request->filled('company'), fn ($query) => $query->where('client_company', 'like', '%'.$request->company.'%'))
+            ->when($request->filled('supplier'), fn ($query) => $query->where('supplier', 'like', '%'.$request->supplier.'%'))
+            ->when($request->filled('employee'), fn ($query) => $query->where('user_id', $request->employee))
             ->latest()
             ->paginate(15)
             ->withQueryString();
 
+        $employees = \App\Models\User::orderBy('name')->get(['id', 'name']);
+
         return view('admin.vouchers.index', [
             'vouchers' => $vouchers,
             'types' => Voucher::TYPES,
+            'employees' => $employees,
         ]);
     }
 
