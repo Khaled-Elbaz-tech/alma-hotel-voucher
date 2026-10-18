@@ -107,7 +107,7 @@
         --va: #94A3B8;
         --va-soft: rgba(148, 163, 184, 0.15);
         --va-line: rgba(148, 163, 184, 0.45);
-        --vgrad: linear-gradient(118deg, #475569 0%, #64748B 55%, #94A3B8 100%);
+        --vgrad: linear-gradient(118deg, #808184 0%, #A8AAAD 55%, #D0D2D3 100%);
         --vhead-bg: var(--vgrad);
         --vbrand: #ffffff;
     }
