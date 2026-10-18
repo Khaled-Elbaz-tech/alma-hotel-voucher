@@ -73,9 +73,10 @@ Route::get('/vip-meet-assist/{voucher}/email-pdf', [VipMeetAssistVoucherControll
 Route::get('/login', [AuthController::class, 'showEmployeeLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-// Legacy admin login routes (redirect to main login)
-Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login')->middleware('guest');
-Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.store');
+// No separate admin login: /admin/login goes to the normal user login.
+// Admins sign in with their own account and use the "Admin Settings" button.
+Route::get('/admin/login', fn() => redirect()->route('login'))->middleware('guest')->name('admin.login');
+Route::post('/admin/login', fn() => redirect()->route('login'))->name('admin.login.store');
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdmin::class])->group(function () {
