@@ -52,6 +52,25 @@
             <div class="stat-card"><div class="stat-num">{{ $typeCounts['vip-meet-assist'] ?? 0 }}</div><div class="stat-label">VIP</div></div>
         </div>
 
+        <form method="GET" action="{{ route('profile') }}" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center;">
+            <select name="type" class="form-select" style="max-width:180px;" onchange="this.form.submit()">
+                <option value="">All types</option>
+                <option value="hotel" {{ request('type')==='hotel'?'selected':'' }}>Hotel</option>
+                <option value="car" {{ request('type')==='car'?'selected':'' }}>Car Rental</option>
+                <option value="transfers" {{ request('type')==='transfers'?'selected':'' }}>Transfers</option>
+                <option value="vip" {{ request('type')==='vip'?'selected':'' }}>VIP</option>
+            </select>
+            <select name="client_type" class="form-select" style="max-width:150px;" onchange="this.form.submit()">
+                <option value="">Credit/Cash</option>
+                <option value="credit" {{ request('client_type')==='credit'?'selected':'' }}>Credit</option>
+                <option value="cash" {{ request('client_type')==='cash'?'selected':'' }}>Cash</option>
+            </select>
+            <input name="company" class="form-control" style="max-width:200px;" value="{{ request('company') }}" placeholder="Filter by company…">
+            <button class="btn btn-outline-dark btn-sm" type="submit">Filter</button>
+            @if(request('type')||request('client_type')||request('company'))
+                <a href="{{ route('profile') }}" class="btn btn-outline-dark btn-sm">Clear</a>
+            @endif
+        </form>
         @if($vouchers->count())
         <div class="voucher-grid">
             @foreach($vouchers as $voucher)
@@ -78,7 +97,10 @@
                     <span class="v-type {{ $voucher->voucher_type }}">{{ $typeLabel }}</span>
                     <span class="v-date">{{ $voucher->created_at->format('d M Y') }}</span>
                 </div>
-                <a class="v-link" href="{{ route($routePrefix.'.show', $voucher) }}">View voucher →</a>
+                <div style="display:flex;gap:12px;margin-top:8px;">
+                    <a class="v-link" href="{{ route($routePrefix.'.show', $voucher) }}">View voucher →</a>
+                    <a class="v-link" href="{{ route($routePrefix.'.copy', $voucher) }}" style="color:#8B251E;">⧉ Copy as new</a>
+                </div>
             </div>
             @endforeach
         </div>

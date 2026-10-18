@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
 Route::get('/', [HotelVoucherController::class, 'create'])->name('home');
 Route::get('/hotel-voucher', [HotelVoucherController::class, 'create'])->name('hotel-voucher.create');
+Route::get('/hotel-voucher/{voucher}/copy', [HotelVoucherController::class, 'copy'])->name('hotel-voucher.copy');
 Route::post('/hotel-voucher', [HotelVoucherController::class, 'store'])->name('hotel-voucher.store');
 Route::get('/hotel-voucher/{voucher}', [HotelVoucherController::class, 'show'])->name('hotel-voucher.show');
 Route::get('/hotel-voucher/{voucher}/pdf', [HotelVoucherController::class, 'downloadPdf'])->name('hotel-voucher.pdf');
@@ -28,6 +29,7 @@ Route::get('/hotel-voucher/{voucher}/email-pdf', [HotelVoucherController::class,
 
 // Car Rental Voucher
 Route::get('/car-rental', [CarRentalVoucherController::class, 'create'])->name('car-rental-voucher.create');
+Route::get('/car-rental/{voucher}/copy', [CarRentalVoucherController::class, 'copy'])->name('car-rental-voucher.copy');
 Route::post('/car-rental', [CarRentalVoucherController::class, 'store'])->name('car-rental-voucher.store');
 Route::get('/car-rental/{voucher}', [CarRentalVoucherController::class, 'show'])->name('car-rental-voucher.show');
 Route::get('/car-rental/{voucher}/pdf', [CarRentalVoucherController::class, 'downloadPdf'])->name('car-rental-voucher.pdf');
@@ -37,6 +39,7 @@ Route::get('/car-rental/{voucher}/email-pdf', [CarRentalVoucherController::class
 
 // Transfers Voucher
 Route::get('/transfers', [TransfersVoucherController::class, 'create'])->name('transfers-voucher.create');
+Route::get('/transfers/{voucher}/copy', [TransfersVoucherController::class, 'copy'])->name('transfers-voucher.copy');
 Route::post('/transfers', [TransfersVoucherController::class, 'store'])->name('transfers-voucher.store');
 Route::get('/transfers/{voucher}', [TransfersVoucherController::class, 'show'])->name('transfers-voucher.show');
 Route::get('/transfers/{voucher}/pdf', [TransfersVoucherController::class, 'downloadPdf'])->name('transfers-voucher.pdf');
@@ -46,6 +49,7 @@ Route::get('/transfers/{voucher}/email-pdf', [TransfersVoucherController::class,
 
 // VIP Meet & Assist Voucher
 Route::get('/vip-meet-assist', [VipMeetAssistVoucherController::class, 'create'])->name('vip-meet-assist-voucher.create');
+Route::get('/vip-meet-assist/{voucher}/copy', [VipMeetAssistVoucherController::class, 'copy'])->name('vip-meet-assist-voucher.copy');
 Route::post('/vip-meet-assist', [VipMeetAssistVoucherController::class, 'store'])->name('vip-meet-assist-voucher.store');
 Route::get('/vip-meet-assist/{voucher}', [VipMeetAssistVoucherController::class, 'show'])->name('vip-meet-assist-voucher.show');
 Route::get('/vip-meet-assist/{voucher}/pdf', [VipMeetAssistVoucherController::class, 'downloadPdf'])->name('vip-meet-assist-voucher.pdf');

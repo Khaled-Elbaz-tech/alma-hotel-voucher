@@ -39,6 +39,29 @@ abstract class BaseVoucherController extends Controller
         return view($this->createView, compact('settings', 'categories', 'employees'));
     }
 
+    public function copy(Voucher $voucher): RedirectResponse
+    {
+        // Only the owner (or admin) can copy a voucher
+        if ($voucher->user_id !== auth()->id() && !auth()->user()->is_admin) {
+            abort(403);
+        }
+        $routeMap = [
+            'hotel' => 'hotel-voucher.create',
+            'car-rental' => 'car-rental-voucher.create',
+            'transfers' => 'transfers-voucher.create',
+            'vip-meet-assist' => 'vip-meet-assist-voucher.create',
+        ];
+        $data = $voucher->toArray();
+        // Pre-select the company dropdown for credit vouchers
+        if ($voucher->client_type === 'credit' && $voucher->client_company) {
+            $data['company_select'] = $voucher->client_company;
+        }
+        if ($voucher->client_type === 'cash' && $voucher->client_company) {
+            $data['company_name_cash'] = $voucher->client_company;
+        }
+        return redirect()->route($routeMap[$this->voucherType] ?? 'hotel-voucher.create')->withInput($data);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate($this->getValidationRules());
