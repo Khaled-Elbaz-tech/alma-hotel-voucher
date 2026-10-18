@@ -24,6 +24,11 @@
             </nav>
             <div class="header-actions">
                 @auth
+                @if(auth()->user()?->is_admin)
+                <a class="header-btn {{ request()->is('admin*') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <span class="header-btn-icon">⚙️</span> Admin Settings
+                </a>
+                @endif
                 <a class="header-btn {{ request()->is('profile') ? 'active' : '' }}" href="{{ route('profile') }}">
                     <span class="header-btn-icon">🎫</span> My Vouchers
                 </a>
