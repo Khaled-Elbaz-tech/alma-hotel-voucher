@@ -361,3 +361,71 @@ button, input, select, textarea { font: inherit; }
 .logout-btn { background: none; border: none; color: rgba(255,255,255,.6); font-size: 16px; cursor: pointer; padding: 6px 10px; border-radius: 50%; transition: all .2s; }
 .logout-btn:hover { background: rgba(255,255,255,.12); color: #fff; }
 
+/* ============ RESPONSIVE: tablet & mobile ============ */
+
+/* --- Tablet (<= 1024px) --- */
+@media (max-width: 1024px) {
+    .site-header .container-xl { flex-wrap: wrap; }
+    .voucher-nav { order: 3; width: 100%; overflow-x: auto; padding-bottom: 4px; }
+    .voucher-nav .nav-item { white-space: nowrap; }
+    .user-info { display: none; }
+    .header-btn { font-size: 12px; padding: 7px 12px; }
+}
+
+/* --- Mobile (<= 640px) --- */
+@media (max-width: 640px) {
+    .container-xl { width: calc(100% - 24px); }
+    .site-header { padding: 10px 0; }
+    .brand-lockup img { height: 34px; }
+    .brand-lockup strong { font-size: 14px; }
+    .voucher-nav { gap: 2px; padding: 3px; }
+    .voucher-nav .nav-item { font-size: 11px; padding: 7px 10px; }
+    .header-actions { gap: 8px; }
+    .user-chip { padding: 3px; }
+    .user-avatar { width: 28px; height: 28px; font-size: 12px; }
+
+    /* Tables: horizontal scroll */
+    .admin-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .admin-table th, .admin-table td { white-space: nowrap; }
+    .admin-table td .file-tag { white-space: nowrap; }
+
+    /* Admin filter bar: full-width inputs */
+    .admin-filter .form-control, .admin-filter .form-select { flex: 1 1 45%; max-width: none !important; }
+
+    /* Generator: single column, tighter */
+    .generator-page { padding: 16px 0 32px; }
+    .form-panel { padding: 16px; }
+    .form-section h3 { font-size: 15px; }
+    .preview-panel { margin-top: 20px; }
+
+    /* Profile */
+    .profile-hero { padding: 24px 20px; }
+    .profile-hero h1 { font-size: 22px; }
+    .voucher-grid { grid-template-columns: 1fr; }
+
+    /* Auth */
+    .auth-card { margin: 16px auto; }
+
+    /* Footer */
+    .site-footer .container-xl { flex-direction: column; text-align: center; }
+
+    /* Voucher preview: allow horizontal scroll on small screens (design untouched) */
+    .result-preview { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .result-actions { margin-top: 12px; }
+    .result-actions .btn-lg { width: 100%; }
+}
+
+/* --- Small mobile (<= 400px) --- */
+@media (max-width: 400px) {
+    .voucher-nav .nav-item { font-size: 10px; padding: 6px 8px; }
+    .header-btn .header-btn-icon { display: none; }
+    .page-intro h1 { font-size: 28px !important; }
+    .btn-lg { min-height: 44px; font-size: 12px; }
+}
+
+/* --- Large screens (>= 1600px) --- */
+@media (min-width: 1600px) {
+    .container-xl { width: min(100% - 64px, 1600px); }
+    body { font-size: 15px; }
+}
+
