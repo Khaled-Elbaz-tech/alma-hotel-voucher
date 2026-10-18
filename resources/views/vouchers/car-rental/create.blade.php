@@ -38,7 +38,39 @@
 
                 <!-- Booking Details -->
                 <div class="form-section">
-                    <h3><span>01</span> Booking details</h3>
+                    <h3><span>01</span> Client &amp; supplier</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="client_type">Client type <span class="required-star">*</span></label>
+                            <select class="form-select" id="client_type" name="client_type" required>
+                                <option value="">Select client type</option>
+                                <option value="credit" {{ old('client_type', ($copy ?? null)?->client_type ?? '') === 'credit' ? 'selected' : '' }}>Credit</option>
+                                <option value="cash" {{ old('client_type', ($copy ?? null)?->client_type ?? '') === 'cash' ? 'selected' : '' }}>Cash</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6" id="company_select_wrap">
+                            <label class="form-label" for="company_select">Company <span class="required-star">*</span></label>
+                            <select class="form-select" id="company_select" name="company_select">
+                                <option value="">Select company</option>
+                                @foreach (($categories->firstWhere('slug', 'company')?->values ?? collect()) as $value)
+                                    <option value="{{ $value->value }}" {{ old('company_select') === $value->value ? 'selected' : '' }}>{{ $value->value }}</option>
+                                @endforeach
+                            </select>
+                            <input class="form-control other-field mt-2 d-none" id="company_select_other" name="company_select_other" value="{{ old('company_select_other') }}" placeholder="Specify company">
+                        </div>
+                        <div class="col-md-6 d-none" id="company_cash_wrap">
+                            <label class="form-label" for="company_name_cash">Company name <span class="required-star">*</span></label>
+                            <input class="form-control" id="company_name_cash" name="company_name_cash" value="{{ old('company_name_cash', ($copy ?? null)?->client_type === 'cash' ? ($copy->client_company ?? '') : '') }}" placeholder="e.g. DAN">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="supplier">Supplier <span class="required-star">*</span></label>
+                            <input class="form-control" id="supplier" name="supplier" value="{{ old('supplier', ($copy ?? null)?->supplier ?? '') }}" placeholder="e.g. Hotelbeds" required>
+                        </div>
+                    </div>
+                </div>
+
+<div class="form-section">
+                    <h3><span>02</span> Booking details</h3>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label" for="guest_name">Guest name <span class="required-star">*</span></label>
@@ -65,7 +97,7 @@
 
                 <!-- Pickup Details -->
                 <div class="form-section">
-                    <h3><span>02</span> Pickup details</h3>
+                    <h3><span>03</span> Pickup details</h3>
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label" for="pickup_date">Pickup date <span class="required-star">*</span></label>
@@ -88,7 +120,7 @@
 
                 <!-- Dropoff Details -->
                 <div class="form-section">
-                    <h3><span>03</span> Dropoff details</h3>
+                    <h3><span>04</span> Dropoff details</h3>
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label" for="dropoff_date">Drop-off date <span class="required-star">*</span></label>
@@ -111,7 +143,7 @@
 
                 <!-- Vehicle Details -->
                 <div class="form-section">
-                    <h3><span>04</span> Vehicle details</h3>
+                    <h3><span>05</span> Vehicle details</h3>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label" for="vehicle_type">Vehicle type <span class="required-star">*</span></label>
@@ -153,7 +185,7 @@
 
                 <!-- Flight Number -->
                 <div class="form-section">
-                    <h3><span>05</span> Flight Number</h3>
+                    <h3><span>06</span> Flight Number</h3>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label" for="flight_number">Flight number</label>
@@ -176,7 +208,7 @@
 
                 <!-- Supplier Reference -->
                 <div class="form-section">
-                    <h3><span>06</span> Supplier reference</h3>
+                    <h3><span>07</span> Supplier reference</h3>
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label" for="supplier_reference">Supplier reference</label>
@@ -187,7 +219,7 @@
 
                 <!-- Vehicle Photo -->
                 <div class="form-section">
-                    <h3><span>07</span> Vehicle photo</h3>
+                    <h3><span>08</span> Vehicle photo</h3>
                     <div class="photo-control">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="include_car_photo" name="include_car_photo" value="1" {{ old('include_car_photo') ? 'checked' : '' }}>
@@ -204,7 +236,7 @@
 
                 <!-- Important Notes -->
                 <div class="form-section">
-                    <h3><span>08</span> Important notes</h3>
+                    <h3><span>09</span> Important notes</h3>
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label" for="important_notes">Important notes</label>
@@ -215,7 +247,7 @@
 
                 <!-- Terms -->
                 <div class="form-section">
-                    <h3><span>09</span> Terms</h3>
+                    <h3><span>10</span> Terms</h3>
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label" for="terms_text">Rental terms <small class="text-muted">(pre-filled — edit or remove items as needed; shown in the voucher side panel)</small></label>
@@ -323,6 +355,21 @@
                 const input = document.getElementById(inputId);
                 if (!select || !input) return;
                 input.classList.toggle('d-none', select.value !== 'Other');
+            };
+            const updateClientType = () => {
+                const typeEl = document.getElementById('client_type');
+                if (!typeEl) return;
+                const t = typeEl.value;
+                const isCredit = t === 'credit', isCash = t === 'cash';
+                const selWrap = document.getElementById('company_select_wrap');
+                const cashWrap = document.getElementById('company_cash_wrap');
+                if (selWrap) selWrap.classList.toggle('d-none', !isCredit);
+                if (cashWrap) cashWrap.classList.toggle('d-none', !isCash);
+                const sel = document.getElementById('company_select');
+                const cashInput = document.getElementById('company_name_cash');
+                if (sel) sel.required = isCredit;
+                if (cashInput) cashInput.required = isCash;
+                if (isCredit) updateOtherField('company_select', 'company_select_other');
             };
 
             const dispatchPreview = () => {
@@ -450,8 +497,10 @@
             window.dispatchPreview = dispatchPreview;
             console.log('ATTACHING LISTENERS');
             form.addEventListener('input', () => {
+                updateClientType();
                 updateOtherField('vehicle_type', 'vehicle_type_other');
                 updateOtherField('insurance_type', 'insurance_type_other');
+                updateClientType();
                 dispatchPreview();
             });
             form.addEventListener('change', dispatchPreview);
