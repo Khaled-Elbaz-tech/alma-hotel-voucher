@@ -52,9 +52,9 @@
     .voucher-card {
         --vp: #0B3B3E;            /* primary */
         --vpd: #062A2C;           /* primary deep */
-        --va: #C8A24B;            /* gold accent */
-        --va-soft: rgba(200, 162, 75, 0.13);
-        --va-line: rgba(200, 162, 75, 0.38);
+        --va: #C0392B;            /* alma red accent */
+        --va-soft: rgba(192, 57, 43, 0.13);
+        --va-line: rgba(192, 57, 43, 0.42);
         --vline: #E8DECB;         /* hairline */
         --vpanel: #FBF9F4;        /* panel bg */
         --vpaper: #FFFFFF;
@@ -67,9 +67,9 @@
     .voucher-card.theme-modern {
         --vp: #A92D26;
         --vpd: #7A1F1A;
-        --va: #D9A441;
-        --va-soft: rgba(217, 164, 65, 0.13);
-        --va-line: rgba(217, 164, 65, 0.40);
+        --va: #C0392B;
+        --va-soft: rgba(192, 57, 43, 0.13);
+        --va-line: rgba(192, 57, 43, 0.42);
         --vgrad: linear-gradient(118deg, #7A1F1A 0%, #A92D26 55%, #C0453A 100%);
         --vhead-bg: linear-gradient(118deg, #F7F2E7 0%, #FFFFFF 55%, #EFE6D2 100%);
         --vbrand: #161310;
@@ -77,9 +77,9 @@
     .voucher-card.theme-premium {
         --vp: #8B251E;
         --vpd: #5F1812;
-        --va: #D4AF37;
-        --va-soft: rgba(212, 175, 55, 0.13);
-        --va-line: rgba(212, 175, 55, 0.42);
+        --va: #C0392B;
+        --va-soft: rgba(192, 57, 43, 0.13);
+        --va-line: rgba(192, 57, 43, 0.42);
         --vgrad: linear-gradient(118deg, #5F1812 0%, #8B251E 55%, #B5322B 100%);
         --vbrand: #ffffff;
     }
@@ -87,18 +87,18 @@
         --vhead-bg: var(--vgrad);
         --vp: #6B1A1A;
         --vpd: #3D0D0D;
-        --va: #D4AF37;
-        --va-soft: rgba(212, 175, 55, 0.13);
-        --va-line: rgba(212, 175, 55, 0.42);
+        --va: #C0392B;
+        --va-soft: rgba(192, 57, 43, 0.13);
+        --va-line: rgba(192, 57, 43, 0.42);
         --vgrad: linear-gradient(118deg, #3D0D0D 0%, #6B1A1A 55%, #8B2424 100%);
         --vbrand: #ffffff;
     }
     .voucher-card.theme-crimson {
         --vp: #A93226;
         --vpd: #7B241C;
-        --va: #CD7F32;
-        --va-soft: rgba(205, 127, 50, 0.13);
-        --va-line: rgba(205, 127, 50, 0.42);
+        --va: #C0392B;
+        --va-soft: rgba(192, 57, 43, 0.13);
+        --va-line: rgba(192, 57, 43, 0.42);
         --vgrad: linear-gradient(118deg, #7B241C 0%, #A93226 55%, #C0392B 100%);
         --vhead-bg: var(--vgrad);
         --vbrand: #ffffff;
@@ -123,12 +123,27 @@
         --vhead-bg: var(--vgrad);
         --vbrand: #ffffff;
     }
-    /* Premium Red: red icons in body only, header/footer keep gold */
+    /* Header/footer accents: white on dark backgrounds */
+    .voucher-card.theme-premium .v-head,
+    .voucher-card.theme-premium .v-foot,
     .voucher-card.theme-premiumred .v-head,
-    .voucher-card.theme-premiumred .v-foot {
-        --va: #D4AF37;
-        --va-soft: rgba(212, 175, 55, 0.13);
-        --va-line: rgba(212, 175, 55, 0.42);
+    .voucher-card.theme-premiumred .v-foot,
+    .voucher-card.theme-maroon .v-head,
+    .voucher-card.theme-maroon .v-foot,
+    .voucher-card.theme-crimson .v-head,
+    .voucher-card.theme-crimson .v-foot,
+    .voucher-card.theme-slate .v-head,
+    .voucher-card.theme-slate .v-foot {
+        --va: #FFFFFF;
+        --va-soft: rgba(255, 255, 255, 0.14);
+        --va-line: rgba(255, 255, 255, 0.45);
+    }
+    /* Modern has a light header: burgundy accents there */
+    .voucher-card.theme-modern .v-head,
+    .voucher-card.theme-modern .v-foot {
+        --va: #A93226;
+        --va-soft: rgba(169, 50, 38, 0.13);
+        --va-line: rgba(169, 50, 38, 0.42);
     }
 
     /* ============ CARD SHELL ============ */
@@ -569,7 +584,7 @@
     /* DomPDF lacks flexbox/grid + gradients: rebuild with floats/tables, solid colors, compact. */
     .voucher-pdf #printVoucher { position: static !important; max-height: none !important; overflow: visible !important; width: 100% !important; }
     .voucher-pdf .voucher-card { width: 100% !important; min-height: 0 !important; }
-    .voucher-pdf .v-head { display: table !important; width: 100% !important; min-height: 0 !important; padding: 4px 20px !important; background: #0B3B3E !important; border-bottom: 2px solid #C8A24B !important; }
+    .voucher-pdf .v-head { display: table !important; width: 100% !important; min-height: 0 !important; padding: 4px 20px !important; background: #0B3B3E !important; border-bottom: 2px solid #FFFFFF !important; }
     .voucher-pdf .voucher-card.theme-modern .v-head { background: #F7F2E7 !important; }
     .voucher-pdf .voucher-card.theme-premium .v-head { background: #8B251E !important; }
     .voucher-pdf .voucher-card.theme-maroon .v-head { background: #6B1A1A !important; }
@@ -605,7 +620,7 @@
     .voucher-pdf .v-fixed-notes { font-size: 5.5px !important; line-height: 1.25 !important; }
     .voucher-pdf .v-fixed-notes li { margin-bottom: 1px !important; }
     .voucher-pdf .v-note { padding: 4px 7px !important; font-size: 7.5px !important; margin-bottom: 5px !important; }
-    .voucher-pdf .v-foot { display: table !important; width: 100% !important; clear: both !important; padding: 4px 14px !important; background: #0B3B3E !important; border-top: 2px solid #C8A24B !important; }
+    .voucher-pdf .v-foot { display: table !important; width: 100% !important; clear: both !important; padding: 4px 14px !important; background: #0B3B3E !important; border-top: 2px solid #FFFFFF !important; }
     .voucher-pdf .voucher-card.theme-modern .v-foot, .voucher-pdf .voucher-card.theme-premium .v-foot { background: #8B251E !important; }
     .voucher-pdf .voucher-card.theme-maroon .v-foot { background: #6B1A1A !important; }
     .voucher-pdf .voucher-card.theme-crimson .v-foot { background: #A93226 !important; }
