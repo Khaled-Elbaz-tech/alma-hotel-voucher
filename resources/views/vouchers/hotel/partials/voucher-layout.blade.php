@@ -102,9 +102,9 @@
     .voucher-card.theme-premiumred {
         --vp: #8B251E;
         --vpd: #5F1812;
-        --va: #C0392B;
-        --va-soft: rgba(192, 57, 43, 0.13);
-        --va-line: rgba(192, 57, 43, 0.42);
+        --va: #94A3B8;
+        --va-soft: rgba(148, 163, 184, 0.15);
+        --va-line: rgba(148, 163, 184, 0.45);
         --vgrad: linear-gradient(118deg, #5F1812 0%, #8B251E 55%, #B5322B 100%);
         --vhead-bg: var(--vgrad);
         --vbrand: #ffffff;
@@ -112,8 +112,7 @@
     /* Header/footer accents: white on dark backgrounds */
     .voucher-card.theme-premium .v-head,
     .voucher-card.theme-premium .v-foot,
-    .voucher-card.theme-premiumred .v-head,
-    .voucher-card.theme-premiumred .v-foot,
+
     .voucher-card.theme-maroon .v-head,
     .voucher-card.theme-maroon .v-foot,
     .voucher-card.theme-crimson .v-head,
@@ -124,12 +123,23 @@
         --va-soft: rgba(255, 255, 255, 0.14);
         --va-line: rgba(255, 255, 255, 0.45);
     }
-    /* Modern has a light header: burgundy accents there */
-    .voucher-card.theme-modern .v-head,
-    .voucher-card.theme-modern .v-foot {
+    /* Modern: light header gets burgundy, dark footer gets white */
+    .voucher-card.theme-modern .v-head {
         --va: #A93226;
         --va-soft: rgba(169, 50, 38, 0.13);
         --va-line: rgba(169, 50, 38, 0.42);
+    }
+    .voucher-card.theme-modern .v-foot {
+        --va: #FFFFFF;
+        --va-soft: rgba(255, 255, 255, 0.14);
+        --va-line: rgba(255, 255, 255, 0.45);
+    }
+    /* Premium Red: silver everywhere */
+    .voucher-card.theme-premiumred .v-head,
+    .voucher-card.theme-premiumred .v-foot {
+        --va: #94A3B8;
+        --va-soft: rgba(148, 163, 184, 0.15);
+        --va-line: rgba(148, 163, 184, 0.45);
     }
 
     /* ============ CARD SHELL ============ */
