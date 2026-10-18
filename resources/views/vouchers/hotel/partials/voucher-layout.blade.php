@@ -123,6 +123,18 @@
         --va-soft: rgba(255, 255, 255, 0.14);
         --va-line: rgba(255, 255, 255, 0.45);
     }
+    /* Slate: white accents need shadow to pop on the light gray gradient */
+    .voucher-card.theme-slate .v-head .v-title .vn,
+    .voucher-card.theme-slate .v-head .v-title .vt,
+    .voucher-card.theme-slate .v-head .v-meta,
+    .voucher-card.theme-slate .v-foot {
+        text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+    }
+    .voucher-card.theme-slate .v-head .v-title .vn { font-weight: 800; }
+    .voucher-card.theme-slate .v-head svg,
+    .voucher-card.theme-slate .v-foot svg {
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));
+    }
     /* Modern: light header gets burgundy, dark footer gets white */
     .voucher-card.theme-modern .v-head {
         --va: #A93226;
