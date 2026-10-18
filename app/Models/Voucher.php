@@ -98,6 +98,9 @@ class Voucher extends Model
         'room_type',
         'cancellation_policy',
         'vip_lounge_access',
+        'client_type',
+        'client_company',
+        'supplier',
     ];
 
     protected function casts(): array

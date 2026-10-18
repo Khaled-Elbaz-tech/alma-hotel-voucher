@@ -14,6 +14,7 @@ class LookupSeeder extends Seeder
             'RoomType' => ['Standard Room', 'Deluxe Room', 'Executive Room', 'Suite', 'Connecting Rooms', 'Other'],
             'PaymentMethod' => ['Direct Bill', 'Credit Card', 'Debit Card', 'Cash', 'Bank Transfer', 'Other'],
             'CancellationPolicy' => ['Free Cancellation', 'Non-Refundable', 'Flexible', 'Partial Refund', 'Other'],
+            'Company' => ['DAN', 'Elnahdy', 'Other'],
         ];
 
         foreach ($categories as $name => $values) {

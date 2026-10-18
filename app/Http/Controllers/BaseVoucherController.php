@@ -54,6 +54,12 @@ abstract class BaseVoucherController extends Controller
 
         $voucherData = $this->prepareVoucherData($validated, $voucherNumber, $photoPath, $checkIn, $checkOut);
         $voucherData['user_id'] = $request->user()->id;
+        // Client & supplier (form-only fields, not on the voucher)
+        $voucherData['client_type'] = $validated['client_type'];
+        $voucherData['client_company'] = $validated['client_type'] === 'credit'
+            ? $this->resolveOption($validated['company_select'], $validated['company_select_other'] ?? null)
+            : $validated['company_name_cash'];
+        $voucherData['supplier'] = $validated['supplier'];
         $voucher = Voucher::create($voucherData);
 
         // Send professional HTML email (email-client friendly)
@@ -235,6 +241,11 @@ abstract class BaseVoucherController extends Controller
         return array_merge([
             'guest_name' => ['required', 'string', 'max:120'],
             'voucher_theme' => ['required', 'in:modern,premium,premiumred,maroon,crimson,slate'],
+            'client_type' => ['required', 'in:credit,cash'],
+            'company_select' => ['nullable', 'string', 'max:160', 'required_if:client_type,credit'],
+            'company_select_other' => ['nullable', 'string', 'max:160', 'required_if:company_select,Other'],
+            'company_name_cash' => ['nullable', 'string', 'max:160', 'required_if:client_type,cash'],
+            'supplier' => ['required', 'string', 'max:160'],
         ], $this->validationRules);
     }
 
