@@ -23,6 +23,9 @@
         <div><span>Booking number</span><strong>{{ $voucher->booking_number ?: '—' }}</strong></div>
         <div><span>Confirmation / PNR</span><strong>{{ $voucher->confirmation_reference ?: '—' }}</strong></div>
         <div><span>Consultant</span><strong>{{ $voucher->employee?->name ?? '—' }}</strong></div>
+        <div><span>Client type</span><strong>{{ $voucher->client_type ? ucfirst($voucher->client_type) : '—' }}</strong></div>
+        <div><span>Client company</span><strong>{{ $voucher->client_company ?: '—' }}</strong></div>
+        <div><span>Supplier</span><strong>{{ $voucher->supplier ?: '—' }}</strong></div>
     </div>
 
     @if ($voucher->voucher_type === 'hotel')
