@@ -25,6 +25,7 @@ Route::get('/hotel-voucher/{voucher}', [HotelVoucherController::class, 'show'])-
 Route::get('/hotel-voucher/{voucher}/pdf', [HotelVoucherController::class, 'downloadPdf'])->name('hotel-voucher.pdf');
 Route::post('/hotel-voucher/{voucher}/png', [HotelVoucherController::class, 'savePng'])->name('hotel-voucher.png');
 Route::post('/hotel-voucher/{voucher}/save-pdf', [HotelVoucherController::class, 'savePdf'])->name('hotel-voucher.save-pdf');
+Route::post('/hotel-voucher/{voucher}/save-png', [HotelVoucherController::class, 'savePng'])->name('hotel-voucher.save-png');
 Route::get('/hotel-voucher/{voucher}/email-pdf', [HotelVoucherController::class, 'emailPdf'])->name('hotel-voucher.email-pdf');
 
 // Car Rental Voucher
@@ -35,6 +36,7 @@ Route::get('/car-rental/{voucher}', [CarRentalVoucherController::class, 'show'])
 Route::get('/car-rental/{voucher}/pdf', [CarRentalVoucherController::class, 'downloadPdf'])->name('car-rental-voucher.pdf');
 Route::post('/car-rental/{voucher}/png', [CarRentalVoucherController::class, 'savePng'])->name('car-rental-voucher.png');
 Route::post('/car-rental/{voucher}/save-pdf', [CarRentalVoucherController::class, 'savePdf'])->name('car-rental-voucher.save-pdf');
+Route::post('/car-rental/{voucher}/save-png', [CarRentalVoucherController::class, 'savePng'])->name('car-rental-voucher.save-png');
 Route::get('/car-rental/{voucher}/email-pdf', [CarRentalVoucherController::class, 'emailPdf'])->name('car-rental-voucher.email-pdf');
 
 // Transfers Voucher
@@ -45,6 +47,7 @@ Route::get('/transfers/{voucher}', [TransfersVoucherController::class, 'show'])-
 Route::get('/transfers/{voucher}/pdf', [TransfersVoucherController::class, 'downloadPdf'])->name('transfers-voucher.pdf');
 Route::post('/transfers/{voucher}/png', [TransfersVoucherController::class, 'savePng'])->name('transfers-voucher.png');
 Route::post('/transfers/{voucher}/save-pdf', [TransfersVoucherController::class, 'savePdf'])->name('transfers-voucher.save-pdf');
+Route::post('/transfers/{voucher}/save-png', [TransfersVoucherController::class, 'savePng'])->name('transfers-voucher.save-png');
 Route::get('/transfers/{voucher}/email-pdf', [TransfersVoucherController::class, 'emailPdf'])->name('transfers-voucher.email-pdf');
 
 // VIP Meet & Assist Voucher
@@ -55,6 +58,7 @@ Route::get('/vip-meet-assist/{voucher}', [VipMeetAssistVoucherController::class,
 Route::get('/vip-meet-assist/{voucher}/pdf', [VipMeetAssistVoucherController::class, 'downloadPdf'])->name('vip-meet-assist-voucher.pdf');
 Route::post('/vip-meet-assist/{voucher}/png', [VipMeetAssistVoucherController::class, 'savePng'])->name('vip-meet-assist-voucher.png');
 Route::post('/vip-meet-assist/{voucher}/save-pdf', [VipMeetAssistVoucherController::class, 'savePdf'])->name('vip-meet-assist-voucher.save-pdf');
+Route::post('/vip-meet-assist/{voucher}/save-png', [VipMeetAssistVoucherController::class, 'savePng'])->name('vip-meet-assist-voucher.save-png');
 Route::get('/vip-meet-assist/{voucher}/email-pdf', [VipMeetAssistVoucherController::class, 'emailPdf'])->name('vip-meet-assist-voucher.email-pdf');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/test-email', function () {

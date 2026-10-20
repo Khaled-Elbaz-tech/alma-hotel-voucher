@@ -159,7 +159,7 @@ abstract class BaseVoucherController extends Controller
             return response()->json(['message' => 'Unable to decode image.'], 422);
         }
 
-        $fileName = $voucher->voucher_number.'.png';
+        $fileName = $voucher->voucher_number.(str_contains($validated['image'], 'data:image/jpeg') ? '.jpg' : '.png');
         $path = 'vouchers/pngs/'.$fileName;
         Storage::disk('public')->makeDirectory('vouchers/pngs');
         Storage::disk('public')->put($path, $decoded, 'public');
@@ -170,20 +170,21 @@ abstract class BaseVoucherController extends Controller
 
     public function savePdf(Request $request, Voucher $voucher): JsonResponse
     {
-        $validated = $request->validate([
-            'pdf' => ['required', 'string', 'max:20000000'],
-            'png' => ['nullable', 'string', 'max:30000000'],
-        ]);
-
-        if (! preg_match('/^data:application\/pdf;base64,/', $validated['pdf'])) {
-            return response()->json(['message' => 'Invalid PDF data.'], 422);
+        try {
+            $validated = $request->validate([
+                'pdf' => ['required', 'string', 'max:60000000'],
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::warning('savePdf rejected for '.$voucher->voucher_number.': '.json_encode($e->errors()).' | content-length: '.($request->header('Content-Length') ?? 'n/a'));
+            return response()->json(['message' => 'Voucher file rejected: '.collect($e->errors())->flatten()->first()], 422);
         }
 
-        $pdf = preg_replace('/^data:application\/pdf;base64,/', '', $validated['pdf']);
+        $pdf = preg_replace('/^data:application\/pdf[^,]*,/', '', $validated['pdf']);
         $decoded = base64_decode($pdf, true);
 
-        if ($decoded === false) {
-            return response()->json(['message' => 'Unable to decode PDF.'], 422);
+        if ($decoded === false || ! str_starts_with($decoded, '%PDF')) {
+            \Log::warning('savePdf invalid PDF payload for '.$voucher->voucher_number.' (len '.strlen($validated['pdf']).')');
+            return response()->json(['message' => 'Invalid PDF data.'], 422);
         }
 
         $fileName = $voucher->voucher_number.'.pdf';
@@ -191,19 +192,6 @@ abstract class BaseVoucherController extends Controller
         Storage::disk('public')->makeDirectory('vouchers/pdfs');
         Storage::disk('public')->put($path, $decoded, 'public');
         $voucher->update(['pdf_path' => $path]);
-
-        // Save the voucher screenshot too — it is what gets emailed,
-        // so the email looks exactly like the on-screen voucher.
-        if (!empty($validated['png']) && preg_match('/^data:image\/(png|jpeg);base64,/', $validated['png'], $imgMatch)) {
-            $img = preg_replace('/^data:image\/(?:png|jpeg);base64,/', '', $validated['png']);
-            $imgDecoded = base64_decode($img, true);
-            if ($imgDecoded !== false) {
-                $pngPath = 'vouchers/pngs/'.$voucher->voucher_number.'.'.($imgMatch[1] === 'jpeg' ? 'jpg' : 'png');
-                Storage::disk('public')->makeDirectory('vouchers/pngs');
-                Storage::disk('public')->put($pngPath, $imgDecoded, 'public');
-                $voucher->update(['png_path' => $pngPath]);
-            }
-        }
 
         // Send the voucher email right here, server-side, so it does not
         // depend on a second page load in the browser.
