@@ -8,12 +8,17 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VoucherController as AdminVoucherController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SharedVoucherController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\CarRentalVoucherController;
 use App\Http\Controllers\HotelVoucherController;
 use App\Http\Controllers\TransfersVoucherController;
 use App\Http\Controllers\VipMeetAssistVoucherController;
 use App\Http\Middleware\EnsureAdmin;
 use Illuminate\Support\Facades\Route;
+
+// Public voucher share link (no login, token + expiry protected)
+Route::get('/v/{token}', [SharedVoucherController::class, 'show'])->name('voucher.share');
 
 // Voucher Generator (requires login)
 Route::middleware(['auth'])->group(function () {
@@ -96,6 +101,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdmin::class])
     Route::delete('lookups/values/{value}', [LookupController::class, 'destroyValue'])->name('lookups.values.destroy');
     Route::get('settings', [CompanySettingController::class, 'edit'])->name('settings.edit');
     Route::put('settings', [CompanySettingController::class, 'update'])->name('settings.update');
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/export', [ReportController::class, 'export'])->name('reports.export');
     Route::get('vouchers', [AdminVoucherController::class, 'index'])->name('vouchers.index');
     Route::get('vouchers/{voucher}', [AdminVoucherController::class, 'show'])->name('vouchers.show');
     Route::delete('vouchers/{voucher}', [AdminVoucherController::class, 'destroy'])->name('vouchers.destroy');

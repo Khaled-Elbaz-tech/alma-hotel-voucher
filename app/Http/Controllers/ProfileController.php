@@ -18,6 +18,8 @@ class ProfileController extends Controller
             ->paginate(20)
             ->withQueryString();
 
+        $vouchers->getCollection()->each(fn (Voucher $v) => $v->ensureShareToken());
+
         return view('profile.index', compact('vouchers'));
     }
 }

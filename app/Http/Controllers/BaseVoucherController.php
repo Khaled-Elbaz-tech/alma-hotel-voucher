@@ -84,7 +84,22 @@ abstract class BaseVoucherController extends Controller
             ? $this->resolveOption($validated['company_select'], $validated['company_select_other'] ?? null)
             : $validated['company_name_cash'];
         $voucherData['supplier'] = $validated['supplier'];
+        // Duplicate guard: same guest, same type, overlapping dates
+        if (! $request->boolean('force_duplicate') && ! empty($validated['guest_name'])) {
+            $dupes = Voucher::where('voucher_type', $this->voucherType)
+                ->whereRaw('LOWER(TRIM(guest_name)) = ?', [mb_strtolower(trim($validated['guest_name']))])
+                ->whereDate('check_in_date', '<=', $validated['check_out_date'])
+                ->whereDate('check_out_date', '>=', $validated['check_in_date'])
+                ->orderByDesc('id')
+                ->limit(5)
+                ->get(['id', 'voucher_number', 'check_in_date', 'check_out_date']);
+            if ($dupes->isNotEmpty()) {
+                return back()->withInput()->with('duplicate_warning', $dupes);
+            }
+        }
+
         $voucher = Voucher::create($voucherData);
+        $voucher->ensureShareToken();
 
         // The voucher email is sent from the show page once the voucher
         // image + PDF are generated (see savePdf / emailPdf).
@@ -95,6 +110,7 @@ abstract class BaseVoucherController extends Controller
 
     public function show(Voucher $voucher): View
     {
+        $voucher->ensureShareToken();
         $settings = CompanySetting::firstOrFail();
 
         // Embed images as data URIs so the on-screen voucher never depends on
