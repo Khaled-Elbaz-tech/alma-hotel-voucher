@@ -107,7 +107,12 @@ abstract class BaseVoucherController extends Controller
     {
         $settings = CompanySetting::firstOrFail();
 
-        return view($this->showView, compact('voucher', 'settings'));
+        // Embed images as data URIs so the on-screen voucher never depends on
+        // the public/storage symlink or on uploaded asset paths being present.
+        $hotelPhotoData = $this->imageDataUri($voucher->hotel_photo_path);
+        $heroImageData = $this->publicImageDataUri('images/vouchers/'.$this->voucherType.'-hero.jpg');
+
+        return view($this->showView, compact('voucher', 'settings', 'hotelPhotoData', 'heroImageData'));
     }
 
 
@@ -127,7 +132,7 @@ abstract class BaseVoucherController extends Controller
         $logoData = $this->imageDataUri($settings->logo_path);
         $hotelPhotoData = $this->imageDataUri($voucher->hotel_photo_path);
         // Hero fallback image for PDF (when no photo uploaded)
-        $heroImageData = $this->imageDataUri('images/vouchers/'.$this->voucherType.'-hero.jpg');
+        $heroImageData = $this->publicImageDataUri('images/vouchers/'.$this->voucherType.'-hero.jpg');
         $voucherCss = file_get_contents(resource_path('css/voucher.css'));
 
         if ($voucherCss === false) {
@@ -308,6 +313,24 @@ abstract class BaseVoucherController extends Controller
 
         $mime = Storage::disk('public')->mimeType($path);
         $contents = Storage::disk('public')->get($path);
+
+        return $contents === false || ! $mime ? null : 'data:'.$mime.';base64,'.base64_encode($contents);
+    }
+
+    /**
+     * Data URI for a file that lives in the public/ web folder
+     * (e.g. images/vouchers/hotel-hero.jpg) — NOT on the public storage disk.
+     */
+    protected function publicImageDataUri(string $relativePath): ?string
+    {
+        $fullPath = public_path($relativePath);
+
+        if (! is_file($fullPath)) {
+            return null;
+        }
+
+        $mime = mime_content_type($fullPath);
+        $contents = file_get_contents($fullPath);
 
         return $contents === false || ! $mime ? null : 'data:'.$mime.';base64,'.base64_encode($contents);
     }
