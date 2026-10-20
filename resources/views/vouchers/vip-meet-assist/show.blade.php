@@ -15,6 +15,8 @@
             </div>
             <div class="col-lg-4 result-actions">
                 <button class="btn btn-alma btn-lg" id="printVoucherBtn" type="button">Print voucher</button>
+                <button class="btn btn-outline-dark btn-lg" type="button" onclick="copyShareLink(this)">🔗 Copy link</button>
+                <a class="btn btn-lg" style="background:#25D366;border-color:#25D366;color:#fff;" target="_blank" rel="noopener" href="https://wa.me/?text={{ urlencode('Alma Travel voucher '.$voucher->voucher_number.' ('.$voucher->typeLabel().') for '.$voucher->guest_name.': '.$voucher->shareUrl()) }}">💬 WhatsApp</a>
             </div>
         </div>
         <div class="result-layout">
@@ -28,6 +30,13 @@
 
 
 @section('scripts')
+<script>
+function copyShareLink(btn) {
+    var url = '{{ $voucher->shareUrl() }}';
+    if (navigator.clipboard) { navigator.clipboard.writeText(url).then(function () { btn.textContent = '\u2713 Link copied'; setTimeout(function () { btn.textContent = '\uD83D\uDD17 Copy link'; }, 2000); }); }
+}
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -35,6 +44,7 @@
         if (btn) btn.addEventListener('click', () => window.print());
         @if(session('success') && str_contains(session('success'), 'generated successfully'))
         setTimeout(function() {
+            try { localStorage.removeItem('alma-autosave-vip-meet-assist'); } catch (e) {}
             const el = document.getElementById('printVoucher');
             if (!el || typeof html2pdf === 'undefined') return;
             function mailStatus(ok, msg) {
