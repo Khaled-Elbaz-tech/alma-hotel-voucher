@@ -27,6 +27,19 @@
             </div>
             @endif
 
+            @if(session('duplicate_warning'))
+            <div class="alert alert-warning mb-3" style="grid-column: 1 / -1;">
+                <strong>⚠ Possible duplicate voucher:</strong> the same guest already has a voucher with overlapping dates:
+                <ul class="mb-0 mt-2">
+                    @foreach(session('duplicate_warning') as $dupe)
+                    <li>{{ $dupe->voucher_number }} — {{ $dupe->check_in_date->format('d M Y') }} → {{ $dupe->check_out_date->format('d M Y') }}</li>
+                    @endforeach
+                </ul>
+                <div class="mt-2">If this is a genuinely different booking, press <strong>Generate</strong> again and it will be created anyway. (If you attached a photo, please attach it again.)</div>
+            </div>
+            <input type="hidden" name="force_duplicate" value="1">
+            @endif
+
 
             @csrf
             <input type="hidden" name="voucher_theme" id="voucher_theme" value="{{ $settings->voucher_theme ?? 'premium' }}">
@@ -299,6 +312,68 @@
 @endsection
 
 @section('scripts')
+<script>
+(function () {
+    var KEY = 'alma-autosave-transfers';
+    if (window.location.pathname.indexOf('/copy') !== -1) return;
+    var form = document.getElementById('voucher-form');
+    if (!form) return;
+    function collect() {
+        var data = {};
+        form.querySelectorAll('input[name], select[name], textarea[name]').forEach(function (el) {
+            if (!el.name || el.name === '_token' || el.type === 'file' || el.name === 'force_duplicate') return;
+            if (el.type === 'checkbox' || el.type === 'radio') { data[el.name + '::' + el.value] = el.checked; }
+            else { data[el.name] = el.value; }
+        });
+        return data;
+    }
+    var saveTimer = null;
+    function scheduleSave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(function () { try { localStorage.setItem(KEY, JSON.stringify(collect())); } catch (e) {} }, 400);
+    }
+    form.addEventListener('input', scheduleSave);
+    form.addEventListener('change', scheduleSave);
+    var serverState = form.querySelector('.alert-danger') || form.querySelector('.alert-warning');
+    var raw = null;
+    try { raw = localStorage.getItem(KEY); } catch (e) {}
+    if (!serverState && raw) {
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var data;
+                try { data = JSON.parse(raw); } catch (e) { return; }
+                if (!data) return;
+                var touched = false;
+                Object.keys(data).forEach(function (k) {
+                    if (k.indexOf('::') !== -1) {
+                        var parts = k.split('::');
+                        var cb = form.querySelector('input[name="' + parts[0] + '"][value="' + parts[1] + '"]');
+                        if (cb && cb.checked !== data[k]) { cb.checked = data[k]; cb.dispatchEvent(new Event('change', { bubbles: true })); touched = true; }
+                        return;
+                    }
+                    var el = form.querySelector('[name="' + k + '"]');
+                    if (el && el.type !== 'file' && String(el.value) !== String(data[k])) {
+                        el.value = data[k];
+                        el.dispatchEvent(new Event('input', { bubbles: true }));
+                        el.dispatchEvent(new Event('change', { bubbles: true }));
+                        touched = true;
+                    }
+                });
+                if (touched) {
+                    var bar = document.createElement('div');
+                    bar.className = 'alert alert-info mb-3';
+                    bar.style.gridColumn = '1 / -1';
+                    bar.innerHTML = '\uD83D\uDCBE A saved draft was restored. <a href="#" id="alma-discard-draft" style="font-weight:700;">Discard draft</a>';
+                    form.prepend(bar);
+                    var link = document.getElementById('alma-discard-draft');
+                    if (link) link.addEventListener('click', function (ev) { ev.preventDefault(); try { localStorage.removeItem(KEY); } catch (e) {} window.location.href = window.location.pathname; });
+                }
+            }, 150);
+        });
+    }
+})();
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         try {
