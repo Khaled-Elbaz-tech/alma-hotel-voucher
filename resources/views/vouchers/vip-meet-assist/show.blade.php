@@ -68,8 +68,8 @@
                     body: JSON.stringify({image: imgData})
                 }).then(function() { postSave(pdfData); }).catch(function() { postSave(pdfData); });
             }
-            html2pdf().set({margin: 0, filename: '{{ $voucher->voucher_number }}.pdf', image: {type: 'jpeg', quality: 0.98}, html2canvas: {scale: 2, useCORS: true}, jsPDF: {unit: 'mm', format: 'a4', orientation: 'landscape'}}).from(el).output('datauristring').then(function(pdfData) {
-                html2pdf().set({html2canvas: {scale: 2, useCORS: true}}).from(el).toCanvas().then(function(canvas) {
+            html2pdf().set({margin: 0, filename: '{{ $voucher->voucher_number }}.pdf', image: {type: 'jpeg', quality: 0.98}, html2canvas: {scale: 2, useCORS: true, scrollY: -window.scrollY}, jsPDF: {unit: 'mm', format: 'a4', orientation: 'landscape'}}).from(el).output('datauristring').then(function(pdfData) {
+                html2pdf().set({html2canvas: {scale: 2, useCORS: true, scrollY: -window.scrollY}}).from(el).toCanvas().then(function(canvas) {
                     var imgData = null;
                     try { imgData = canvas.toDataURL('image/jpeg', 0.92); } catch (e) {}
                     postImageThenPdf(pdfData, imgData);
