@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Mail\VoucherGeneratedMail;
-use App\Mail\VoucherPreviewMail;
+use App\Mail\VoucherImageMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -86,13 +86,8 @@ abstract class BaseVoucherController extends Controller
         $voucherData['supplier'] = $validated['supplier'];
         $voucher = Voucher::create($voucherData);
 
-        // Email the voucher itself — same design/content as the preview
-        try {
-            \Illuminate\Support\Facades\Mail::to($request->user()->email)
-                ->send(new VoucherPreviewMail($voucher, $this->layoutView));
-        } catch (\Throwable $e) {
-            \Log::warning('Voucher email failed: '.$e->getMessage());
-        }
+        // The voucher email is sent from the show page once the voucher
+        // image + PDF are generated (see savePdf / emailPdf).
 
         return redirect()->route($this->voucherType.'-voucher.show', $voucher)
             ->with('success', 'Voucher '.$voucherNumber.' generated successfully.');
@@ -177,6 +172,7 @@ abstract class BaseVoucherController extends Controller
     {
         $validated = $request->validate([
             'pdf' => ['required', 'string', 'max:20000000'],
+            'png' => ['nullable', 'string', 'max:30000000'],
         ]);
 
         if (! preg_match('/^data:application\/pdf;base64,/', $validated['pdf'])) {
@@ -196,29 +192,26 @@ abstract class BaseVoucherController extends Controller
         Storage::disk('public')->put($path, $decoded, 'public');
         $voucher->update(['pdf_path' => $path]);
 
-        // Email the browser PDF using the voucher's user (not request user)
-        $emailResult = ['emailed' => false];
-        try {
-            $voucherUser = $voucher->user;
-            $toEmail = $voucherUser ? $voucherUser->email : null;
-            if ($toEmail) {
-                \Illuminate\Support\Facades\Mail::to($toEmail)
-                    ->send(new VoucherPreviewMail($voucher, $this->layoutView, $path));
-                $emailResult = ['emailed' => true];
-            } else {
-                $emailResult = ['emailed' => false, 'error' => 'No user email found'];
+        // Save the voucher screenshot too — it is what gets emailed,
+        // so the email looks exactly like the on-screen voucher.
+        if (!empty($validated['png']) && preg_match('/^data:image\/(?:png|jpeg);base64,/', $validated['png'])) {
+            $img = preg_replace('/^data:image\/(?:png|jpeg);base64,/', '', $validated['png']);
+            $imgDecoded = base64_decode($img, true);
+            if ($imgDecoded !== false) {
+                $pngPath = 'vouchers/pngs/'.$voucher->voucher_number.'.png';
+                Storage::disk('public')->makeDirectory('vouchers/pngs');
+                Storage::disk('public')->put($pngPath, $imgDecoded, 'public');
+                $voucher->update(['png_path' => $pngPath]);
             }
-        } catch (\Throwable $e) {
-            $emailResult = ['emailed' => false, 'error' => get_class($e).': '.($e->getMessage() ?: 'no message')];
         }
-        return response()->json(array_merge(['path' => $path, 'saved' => true], $emailResult));
+
+        return response()->json(['path' => $path, 'saved' => true]);
     }
 
     public function emailPdf(Voucher $voucher): RedirectResponse
     {
-        $pdfPath = $voucher->pdf_path;
-        if (!$pdfPath) {
-            return redirect()->back()->with('error', 'No PDF found. Please generate it first.');
+        if (!$voucher->pdf_path && !$voucher->png_path) {
+            return redirect()->back()->with('error', 'No voucher file found. Please generate it first.');
         }
         try {
             $user = $voucher->user;
@@ -227,7 +220,7 @@ abstract class BaseVoucherController extends Controller
                 return redirect()->back()->with('error', 'No recipient email.');
             }
             \Illuminate\Support\Facades\Mail::to($toEmail)
-                ->send(new VoucherPreviewMail($voucher, $this->layoutView, $pdfPath));
+                ->send(new VoucherImageMail($voucher));
             return redirect()->back()->with('success', 'Voucher emailed to '.$toEmail);
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Email failed: '.$e->getMessage());
