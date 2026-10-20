@@ -101,6 +101,8 @@ class Voucher extends Model
         'client_type',
         'client_company',
         'supplier',
+        'share_token',
+        'share_expires_at',
     ];
 
     protected function casts(): array
@@ -125,6 +127,7 @@ class Voucher extends Model
             'return_pickup_date' => 'date',
             'return_dropoff_date' => 'date',
             'return_flight_date' => 'date',
+            'share_expires_at' => 'datetime',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
@@ -141,6 +144,29 @@ class Voucher extends Model
         'transfers' => 'Transfers',
         'vip-meet-assist' => 'VIP Meet & Assist',
     ];
+
+    public function ensureShareToken(): string
+    {
+        if (! $this->share_token || ($this->share_expires_at && $this->share_expires_at->isPast())) {
+            $this->forceFill([
+                'share_token' => \Illuminate\Support\Str::random(48),
+                'share_expires_at' => now()->addDays(30),
+            ])->save();
+        }
+
+        return $this->share_token;
+    }
+
+    public function shareValid(): bool
+    {
+        return (bool) $this->share_token
+            && (! $this->share_expires_at || $this->share_expires_at->isFuture());
+    }
+
+    public function shareUrl(): string
+    {
+        return route('voucher.share', $this->ensureShareToken());
+    }
 
     public function typeLabel(): string
     {
