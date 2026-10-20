@@ -37,11 +37,24 @@
         setTimeout(function() {
             const el = document.getElementById('printVoucher');
             if (!el || typeof html2pdf === 'undefined') return;
+            function mailStatus(ok, msg) {
+                var b = document.createElement('div');
+                b.textContent = msg;
+                b.style.cssText = 'position:sticky;top:0;z-index:9999;padding:12px 16px;text-align:center;font-weight:700;font-size:14px;color:#fff;background:' + (ok ? '#1e7e34' : '#b02a20');
+                document.body.prepend(b);
+            }
             function postSave(pdfData, pngData) {
                 fetch('{{ route('transfers-voucher.save-pdf', $voucher) }}', {
                     method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                     body: JSON.stringify({pdf: pdfData, png: pngData})
-                }).then(r => r.json()).then(d => { if (d.saved) { window.location.href = '{{ route('transfers-voucher.email-pdf', $voucher) }}'; } }).catch(e => console.error(e));
+                }).then(function(r) {
+                    if (!r.ok) { mailStatus(false, '⚠ Could not save the voucher (server ' + r.status + ') — the email was not sent.'); return null; }
+                    return r.json();
+                }).then(function(d) {
+                    if (!d) return;
+                    if (d.saved && d.emailed) { mailStatus(true, '✓ Voucher saved and emailed successfully.'); }
+                    else if (d.saved) { mailStatus(false, '⚠ Voucher saved, but the email failed' + (d.error ? ': ' + d.error : '.')); }
+                }).catch(function(e) { mailStatus(false, '⚠ Could not reach the server to save the voucher — the email was not sent.'); });
             }
             html2pdf().set({margin: 0, filename: '{{ $voucher->voucher_number }}.pdf', image: {type: 'jpeg', quality: 0.98}, html2canvas: {scale: 2, useCORS: true}, jsPDF: {unit: 'mm', format: 'a4', orientation: 'landscape'}}).from(el).output('datauristring').then(function(pdfData) {
                 html2pdf().set({html2canvas: {scale: 2, useCORS: true}}).from(el).toCanvas().then(function(canvas) {

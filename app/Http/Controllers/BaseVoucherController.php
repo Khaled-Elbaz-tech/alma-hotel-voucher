@@ -205,7 +205,24 @@ abstract class BaseVoucherController extends Controller
             }
         }
 
-        return response()->json(['path' => $path, 'saved' => true]);
+        // Send the voucher email right here, server-side, so it does not
+        // depend on a second page load in the browser.
+        $emailResult = ['emailed' => false];
+        try {
+            $voucher->refresh();
+            $toEmail = $voucher->user?->email;
+            if ($toEmail) {
+                \Illuminate\Support\Facades\Mail::to($toEmail)->send(new VoucherImageMail($voucher));
+                $emailResult = ['emailed' => true];
+            } else {
+                $emailResult = ['emailed' => false, 'error' => 'No user email found'];
+            }
+        } catch (\Throwable $e) {
+            \Log::error('Voucher email failed for '.$voucher->voucher_number.': '.$e->getMessage());
+            $emailResult = ['emailed' => false, 'error' => $e->getMessage()];
+        }
+
+        return response()->json(array_merge(['path' => $path, 'saved' => true], $emailResult));
     }
 
     public function emailPdf(Voucher $voucher): RedirectResponse
