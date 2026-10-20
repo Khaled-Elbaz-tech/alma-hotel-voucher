@@ -9,7 +9,7 @@
     $dropoffTime = $preview ? '12:00' : ($voucher->dropoff_time ?? $voucher->check_out_time ?? '12:00');
     $rentalDuration = $preview ? null : $voucher->rental_duration;
     $durationText = $preview ? 'e.g. 4 Days' : ($rentalDuration ? $rentalDuration.' '.($rentalDuration == 1 ? 'Day' : 'Days') : '—');
-    $branchTiming = $preview ? 'e.g. 24 Hours' : ($_bt ? (preg_match('/hour|hr/i', $_bt) ? $_bt : $_bt.' Hours') : '—');
+    $branchTiming = $preview ? 'e.g. 24 Hours' : ($voucher->branch_timing ? (preg_match('/hour|hr/i', $voucher->branch_timing) ? $voucher->branch_timing : $voucher->branch_timing.' Hours') : '—');
     $flightNumber = $preview ? '—' : ($voucher->flight_number ?? '—');
     $flightAirport = $preview ? '—' : ($voucher->flight_airport ?? '—');
     $flightArrivalDate = $preview ? 'Select date' : ($voucher->flight_arrival_date ? $voucher->flight_arrival_date->format('d M Y') : '—');
