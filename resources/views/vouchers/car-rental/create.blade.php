@@ -379,13 +379,15 @@
 
                 const setValue = (id, value, useHtml = false) => {
                     try {
-                        const element = document.getElementById(id);
-                        if (!element) { console.warn('[preview] missing element: ' + id); return; }
-                        if (useHtml) {
-                            element.innerHTML = value;
-                        } else {
-                            element.textContent = value;
-                        }
+                        const elements = document.querySelectorAll('[id="' + id + '"]');
+                        if (!elements.length) { console.warn('[preview] missing element: ' + id); return; }
+                        elements.forEach(element => {
+                            if (useHtml) {
+                                element.innerHTML = value;
+                            } else {
+                                element.textContent = value;
+                            }
+                        });
                     } catch (err) {
                         console.error('[setValue]', id, err);
                     }
