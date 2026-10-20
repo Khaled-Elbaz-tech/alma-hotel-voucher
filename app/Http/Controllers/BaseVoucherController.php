@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Mail\VoucherGeneratedMail;
+use App\Mail\VoucherPreviewMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -85,18 +86,12 @@ abstract class BaseVoucherController extends Controller
         $voucherData['supplier'] = $validated['supplier'];
         $voucher = Voucher::create($voucherData);
 
-        // Send professional HTML email (email-client friendly)
+        // Email the voucher itself — same design/content as the preview
         try {
-            $toEmail = $request->user()->email;
-            $vNum = $voucher->voucher_number;
-            \Illuminate\Support\Facades\Mail::html(
-                view('emails.voucher-html', ['voucher' => $voucher])->render(),
-                function ($m) use ($toEmail, $vNum) {
-                    $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
-                }
-            );
+            \Illuminate\Support\Facades\Mail::to($request->user()->email)
+                ->send(new VoucherPreviewMail($voucher, $this->layoutView));
         } catch (\Throwable $e) {
-            \Log::warning('HTML voucher email failed: '.$e->getMessage());
+            \Log::warning('Voucher email failed: '.$e->getMessage());
         }
 
         return redirect()->route($this->voucherType.'-voucher.show', $voucher)
@@ -207,14 +202,8 @@ abstract class BaseVoucherController extends Controller
             $voucherUser = $voucher->user;
             $toEmail = $voucherUser ? $voucherUser->email : null;
             if ($toEmail) {
-                $vNum = $voucher->voucher_number;
-                $pdfFull = storage_path('app/public/'.$path);
-                \Illuminate\Support\Facades\Mail::raw("Your voucher $vNum is attached.", function ($m) use ($toEmail, $vNum, $pdfFull) {
-                    $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
-                    if (file_exists($pdfFull)) {
-                        $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']);
-                    }
-                });
+                \Illuminate\Support\Facades\Mail::to($toEmail)
+                    ->send(new VoucherPreviewMail($voucher, $this->layoutView, $path));
                 $emailResult = ['emailed' => true];
             } else {
                 $emailResult = ['emailed' => false, 'error' => 'No user email found'];
@@ -237,14 +226,8 @@ abstract class BaseVoucherController extends Controller
             if (!$toEmail) {
                 return redirect()->back()->with('error', 'No recipient email.');
             }
-            $vNum = $voucher->voucher_number;
-            $pdfFull = storage_path('app/public/'.$pdfPath);
-            \Illuminate\Support\Facades\Mail::raw("Your voucher $vNum is attached.", function ($m) use ($toEmail, $vNum, $pdfFull) {
-                $m->to($toEmail)->subject("Alma Travel Voucher $vNum");
-                if (file_exists($pdfFull)) {
-                    $m->attach($pdfFull, ['as' => $vNum.'.pdf', 'mime' => 'application/pdf']);
-                }
-            });
+            \Illuminate\Support\Facades\Mail::to($toEmail)
+                ->send(new VoucherPreviewMail($voucher, $this->layoutView, $pdfPath));
             return redirect()->back()->with('success', 'Voucher emailed to '.$toEmail);
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Email failed: '.$e->getMessage());
