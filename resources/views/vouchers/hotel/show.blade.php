@@ -43,12 +43,17 @@
                 b.style.cssText = 'position:sticky;top:0;z-index:9999;padding:12px 16px;text-align:center;font-weight:700;font-size:14px;color:#fff;background:' + (ok ? '#1e7e34' : '#b02a20');
                 document.body.prepend(b);
             }
-            function postSave(pdfData, pngData) {
+            function postSave(pdfData) {
                 fetch('{{ route('hotel-voucher.save-pdf', $voucher) }}', {
                     method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                    body: JSON.stringify({pdf: pdfData, png: pngData})
+                    body: JSON.stringify({pdf: pdfData})
                 }).then(function(r) {
-                    if (!r.ok) { mailStatus(false, '⚠ Could not save the voucher (server ' + r.status + ') — the email was not sent.'); return null; }
+                    if (!r.ok) {
+                        return r.json().catch(function() { return {}; }).then(function(d) {
+                            mailStatus(false, '⚠ Could not save the voucher — ' + (d.message || ('server ' + r.status)) + ' — the email was not sent.');
+                            return null;
+                        });
+                    }
                     return r.json();
                 }).then(function(d) {
                     if (!d) return;
@@ -56,12 +61,19 @@
                     else if (d.saved) { mailStatus(false, '⚠ Voucher saved, but the email failed' + (d.error ? ': ' + d.error : '.')); }
                 }).catch(function(e) { mailStatus(false, '⚠ Could not reach the server to save the voucher — the email was not sent.'); });
             }
+            function postImageThenPdf(pdfData, imgData) {
+                if (!imgData) { postSave(pdfData); return; }
+                fetch('{{ route('hotel-voucher.save-png', $voucher) }}', {
+                    method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                    body: JSON.stringify({image: imgData})
+                }).then(function() { postSave(pdfData); }).catch(function() { postSave(pdfData); });
+            }
             html2pdf().set({margin: 0, filename: '{{ $voucher->voucher_number }}.pdf', image: {type: 'jpeg', quality: 0.98}, html2canvas: {scale: 2, useCORS: true}, jsPDF: {unit: 'mm', format: 'a4', orientation: 'landscape'}}).from(el).output('datauristring').then(function(pdfData) {
                 html2pdf().set({html2canvas: {scale: 2, useCORS: true}}).from(el).toCanvas().then(function(canvas) {
-                    var pngData = null;
-                    try { pngData = canvas.toDataURL('image/jpeg', 0.92); } catch (e) {}
-                    postSave(pdfData, pngData);
-                }).catch(function() { postSave(pdfData, null); });
+                    var imgData = null;
+                    try { imgData = canvas.toDataURL('image/jpeg', 0.92); } catch (e) {}
+                    postImageThenPdf(pdfData, imgData);
+                }).catch(function() { postSave(pdfData); });
             });
         }, 2000);
         @endif
