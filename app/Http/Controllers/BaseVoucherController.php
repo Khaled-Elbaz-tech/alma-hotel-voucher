@@ -194,11 +194,11 @@ abstract class BaseVoucherController extends Controller
 
         // Save the voucher screenshot too — it is what gets emailed,
         // so the email looks exactly like the on-screen voucher.
-        if (!empty($validated['png']) && preg_match('/^data:image\/(?:png|jpeg);base64,/', $validated['png'])) {
+        if (!empty($validated['png']) && preg_match('/^data:image\/(png|jpeg);base64,/', $validated['png'], $imgMatch)) {
             $img = preg_replace('/^data:image\/(?:png|jpeg);base64,/', '', $validated['png']);
             $imgDecoded = base64_decode($img, true);
             if ($imgDecoded !== false) {
-                $pngPath = 'vouchers/pngs/'.$voucher->voucher_number.'.png';
+                $pngPath = 'vouchers/pngs/'.$voucher->voucher_number.'.'.($imgMatch[1] === 'jpeg' ? 'jpg' : 'png');
                 Storage::disk('public')->makeDirectory('vouchers/pngs');
                 Storage::disk('public')->put($pngPath, $imgDecoded, 'public');
                 $voucher->update(['png_path' => $pngPath]);

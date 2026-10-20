@@ -37,13 +37,18 @@
         setTimeout(function() {
             const el = document.getElementById('printVoucher');
             if (!el || typeof html2pdf === 'undefined') return;
-            html2canvas(el, {scale: 2, useCORS: true}).then(function(canvas) { return canvas.toDataURL('image/png'); }).catch(function() { return null; }).then(function(pngData) {
-                html2pdf().set({margin: 0, filename: '{{ $voucher->voucher_number }}.pdf', image: {type: 'jpeg', quality: 0.98}, html2canvas: {scale: 2, useCORS: true}, jsPDF: {unit: 'mm', format: 'a4', orientation: 'landscape'}}).from(el).output('datauristring').then(function(pdfData) {
-                    fetch('{{ route('vip-meet-assist-voucher.save-pdf', $voucher) }}', {
-                        method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                        body: JSON.stringify({pdf: pdfData, png: pngData})
-                    }).then(r => r.json()).then(d => { if (d.saved) { window.location.href = '{{ route('vip-meet-assist-voucher.email-pdf', $voucher) }}'; } }).catch(e => console.error(e));
-                });
+            function postSave(pdfData, pngData) {
+                fetch('{{ route('vip-meet-assist-voucher.save-pdf', $voucher) }}', {
+                    method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                    body: JSON.stringify({pdf: pdfData, png: pngData})
+                }).then(r => r.json()).then(d => { if (d.saved) { window.location.href = '{{ route('vip-meet-assist-voucher.email-pdf', $voucher) }}'; } }).catch(e => console.error(e));
+            }
+            html2pdf().set({margin: 0, filename: '{{ $voucher->voucher_number }}.pdf', image: {type: 'jpeg', quality: 0.98}, html2canvas: {scale: 2, useCORS: true}, jsPDF: {unit: 'mm', format: 'a4', orientation: 'landscape'}}).from(el).output('datauristring').then(function(pdfData) {
+                html2pdf().set({html2canvas: {scale: 2, useCORS: true}}).from(el).toCanvas().then(function(canvas) {
+                    var pngData = null;
+                    try { pngData = canvas.toDataURL('image/jpeg', 0.92); } catch (e) {}
+                    postSave(pdfData, pngData);
+                }).catch(function() { postSave(pdfData, null); });
             });
         }, 2000);
         @endif
