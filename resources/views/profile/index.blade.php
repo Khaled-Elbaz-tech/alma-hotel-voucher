@@ -100,6 +100,8 @@
                 <div style="display:flex;gap:12px;margin-top:8px;">
                     <a class="v-link" href="{{ route($routePrefix.'.show', $voucher) }}">View voucher →</a>
                     <a class="v-link" href="{{ route($routePrefix.'.copy', $voucher) }}" style="color:#8B251E;">⧉ Copy as new</a>
+                    <a class="v-link" target="_blank" rel="noopener" style="color:#1da851;" href="https://wa.me/?text={{ urlencode('Alma Travel voucher '.$voucher->voucher_number.': '.$voucher->shareUrl()) }}">💬 WhatsApp</a>
+                    <a class="v-link" href="#" onclick="event.preventDefault(); if (navigator.clipboard) { navigator.clipboard.writeText('{{ $voucher->shareUrl() }}'); } this.textContent='✓ Copied';">🔗 Copy link</a>
                 </div>
             </div>
             @endforeach

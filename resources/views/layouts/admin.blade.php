@@ -21,6 +21,7 @@
                 <a class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.edit') }}"><span>04</span> Company settings</a>
                 <a class="{{ request()->routeIs('admin.vouchers.*') ? 'active' : '' }}" href="{{ route('admin.vouchers.index') }}"><span>05</span> Voucher logs</a>
                 <a class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}"><span>06</span> Users</a>
+                <a class="{{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}"><span>07</span> Reports</a>
             </nav>
             <div class="sidebar-footer">
                 <form method="POST" action="{{ route('admin.logout') }}">
