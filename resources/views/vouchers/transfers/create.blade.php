@@ -416,6 +416,8 @@
             if (returnSection) returnSection.classList.toggle('d-none', !isRound);
             const returnBlock = document.getElementById('previewReturnBlock');
             if (returnBlock) returnBlock.classList.toggle('d-none', !isRound);
+            const pv = document.getElementById('printVoucher');
+            if (pv) pv.classList.toggle('is-roundtrip', !!isRound);
             setTripLabel();
         };
 
