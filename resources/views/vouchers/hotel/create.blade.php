@@ -27,18 +27,6 @@
             </div>
             @endif
 
-            @if(session('duplicate_warning'))
-            <div class="alert alert-warning mb-3" style="grid-column: 1 / -1;">
-                <strong>⚠ Possible duplicate voucher:</strong> the same guest already has a voucher with overlapping dates:
-                <ul class="mb-0 mt-2">
-                    @foreach(session('duplicate_warning') as $dupe)
-                    <li>{{ $dupe->voucher_number }} — {{ $dupe->check_in_date->format('d M Y') }} → {{ $dupe->check_out_date->format('d M Y') }}</li>
-                    @endforeach
-                </ul>
-                <div class="mt-2">If this is a genuinely different booking, press <strong>Generate</strong> again and it will be created anyway. (If you attached a photo, please attach it again.)</div>
-            </div>
-            <input type="hidden" name="force_duplicate" value="1">
-            @endif
 
 
             @csrf
@@ -259,7 +247,7 @@
     function collect() {
         var data = {};
         form.querySelectorAll('input[name], select[name], textarea[name]').forEach(function (el) {
-            if (!el.name || el.name === '_token' || el.type === 'file' || el.name === 'force_duplicate') return;
+            if (!el.name || el.name === '_token' || el.type === 'file') return;
             if (el.type === 'checkbox' || el.type === 'radio') { data[el.name + '::' + el.value] = el.checked; }
             else { data[el.name] = el.value; }
         });
@@ -272,7 +260,7 @@
     }
     form.addEventListener('input', scheduleSave);
     form.addEventListener('change', scheduleSave);
-    var serverState = form.querySelector('.alert-danger') || form.querySelector('.alert-warning');
+    var serverState = form.querySelector('.alert-danger');
     var raw = null;
     try { raw = localStorage.getItem(KEY); } catch (e) {}
     if (!serverState && raw) {
