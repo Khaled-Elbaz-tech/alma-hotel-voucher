@@ -78,13 +78,76 @@ function copyShareLink(btn) {
                     body: JSON.stringify({image: imgData})
                 }).then(function() { postSave(pdfData); }).catch(function() { postSave(pdfData); });
             }
-            html2pdf().set({margin: 0, filename: '{{ $voucher->voucher_number }}.pdf', image: {type: 'jpeg', quality: 0.98}, html2canvas: {scale: 2, useCORS: true, scrollY: -window.scrollY}, jsPDF: {unit: 'mm', format: 'a4', orientation: 'landscape'}}).from(el).output('datauristring').then(function(pdfData) {
-                html2pdf().set({html2canvas: {scale: 2, useCORS: true, scrollY: -window.scrollY}}).from(el).toCanvas().then(function(canvas) {
+            // PDF/email capture fix (2026-11-04): the previous code ran two
+            // separate html2pdf captures with a negative window-scroll offset, which
+            // shifted the capture down by the page scroll offset (header
+            // missing, white band below the footer) and let html2pdf slice a
+            // too-tall canvas onto a blank second page. Capture the voucher
+            // ONCE, scroll-neutral, then build both the PDF and the email
+            // image from that single canvas so they cannot diverge.
+            function resetPageScroll() {
+                try { window.scrollTo({top: 0, left: 0, behavior: 'instant'}); } catch (e) { try { window.scrollTo(0, 0); } catch (e2) {} }
+                try { document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } catch (e) {}
+            }
+            function captureOptions() {
+                // Same scroll-neutral pattern as VoucherFormPreview.jsx:
+                // fixed scroll origin + the element's own dimensions, so the
+                // capture window cannot move with the page scroll.
+                return {scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false, scrollX: 0, scrollY: 0, windowWidth: el.scrollWidth, windowHeight: el.scrollHeight};
+            }
+            function waitForCaptureReady() {
+                var fontsReady;
+                try { fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve(); } catch (e) { fontsReady = Promise.resolve(); }
+                fontsReady = Promise.resolve(fontsReady).catch(function () {});
+                var images = Array.prototype.slice.call(el.querySelectorAll('img'));
+                var imageWaits = images.map(function (img) {
+                    if (img.complete) return Promise.resolve();
+                    return new Promise(function (resolve) {
+                        img.addEventListener('load', resolve, {once: true});
+                        img.addEventListener('error', resolve, {once: true});
+                    });
+                });
+                var ready = Promise.all([fontsReady].concat(imageWaits));
+                var timeout = new Promise(function (resolve) { setTimeout(resolve, 3000); });
+                return Promise.race([ready, timeout]);
+            }
+            function buildSinglePagePdf(canvas) {
+                // jsPDF 2.3.1 is bundled inside html2pdf.bundle.min.js and
+                // exposed as window.jspdf.jsPDF (UMD global); accept a plain
+                // window.jsPDF too. Returns null when unavailable so the
+                // caller can fall back to the legacy html2pdf output path.
+                var JsPDF = (typeof window !== 'undefined' && window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : ((typeof window !== 'undefined') ? window.jsPDF : null);
+                if (typeof JsPDF !== 'function' || !canvas || !canvas.width || !canvas.height) return null;
+                try {
+                    var pdf = new JsPDF({unit: 'mm', format: 'a4', orientation: 'landscape'});
+                    var pageWidth = 297, pageHeight = 210;
+                    var imgWidth = pageWidth;
+                    var imgHeight = canvas.height * pageWidth / canvas.width;
+                    if (imgHeight > pageHeight) { imgHeight = pageHeight; imgWidth = canvas.width * pageHeight / canvas.height; }
+                    var imgData = canvas.toDataURL('image/jpeg', 0.98);
+                    pdf.addImage(imgData, 'JPEG', (pageWidth - imgWidth) / 2, 0, imgWidth, imgHeight);
+                    return pdf.output('datauristring');
+                } catch (e) { return null; }
+            }
+            function captureWithLegacyHtml2pdf(imgData) {
+                html2pdf().set({margin: 0, filename: '{{ $voucher->voucher_number }}.pdf', image: {type: 'jpeg', quality: 0.98}, html2canvas: captureOptions(), jsPDF: {unit: 'mm', format: 'a4', orientation: 'landscape'}, pagebreak: {mode: ['avoid-all']}}).from(el).output('datauristring').then(function (pdfData) {
+                    postImageThenPdf(pdfData, imgData);
+                }).catch(function () {});
+            }
+            function captureVoucher() {
+                resetPageScroll();
+                waitForCaptureReady().then(function () {
+                    resetPageScroll();
+                    return html2pdf().set({html2canvas: captureOptions()}).from(el).toCanvas();
+                }).then(function (canvas) {
                     var imgData = null;
                     try { imgData = canvas.toDataURL('image/jpeg', 0.92); } catch (e) {}
-                    postImageThenPdf(pdfData, imgData);
-                }).catch(function() { postSave(pdfData); });
-            });
+                    var pdfData = buildSinglePagePdf(canvas);
+                    if (pdfData) { postImageThenPdf(pdfData, imgData); return; }
+                    captureWithLegacyHtml2pdf(imgData);
+                }).catch(function () { captureWithLegacyHtml2pdf(null); });
+            }
+            captureVoucher();
         }, 2000);
         @endif
     });
